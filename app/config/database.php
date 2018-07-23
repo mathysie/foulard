@@ -9,7 +9,7 @@ return
 	 *
 	 * Default configuration to use.
 	 */
-	'default' => 'test',
+	'default' => 'sqlite',
 
 	/**
 	 * ---------------------------------------------------------

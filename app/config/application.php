@@ -31,7 +31,7 @@ return
 	 *
 	 * Set the default timezone used by various PHP date functions.
 	 */
-	'timezone' => 'UTC',
+	'timezone' => 'Europe/Amsterdam',
 
 	/**
 	 * ---------------------------------------------------------
@@ -49,7 +49,7 @@ return
 	 *
 	 * Default application language and locale.
 	 */
-	'default_language' => ['strings' => 'en_US', 'locale' => [LC_ALL => ['en_US.UTF-8', 'en_US.utf8', 'C'], LC_NUMERIC => 'C']],
+	'default_language' => ['strings' => 'nl_NL', 'locale' => [LC_ALL => ['nl_NL.UTF-8', 'nl_NL.utf8', 'C'], LC_NUMERIC => 'C']],
 
 	/**
 	 * ---------------------------------------------------------

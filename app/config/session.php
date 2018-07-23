@@ -90,7 +90,7 @@ return
 		'database' =>
 		[
 			'type'          => 'database',
-			'configuration' => 'test',
+			'configuration' => 'sqlite',
 			'table'         => 'mako_sessions',
 		],
 

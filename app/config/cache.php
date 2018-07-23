@@ -41,7 +41,7 @@ return
 		[
 			'type'          => 'database',
 			'prefix'        => 'mako',
-			'configuration' => 'test',
+			'configuration' => 'sqlite',
 			'table'         => 'mako_cache',
 		],
 
