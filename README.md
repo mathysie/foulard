@@ -1,2 +1,2 @@
 # foulard
-FooBar Ondersteunende Utility t.b.v. Laven, Alcohol en Reuze Drankjes
+This repo is an administration tool for the FooBar in Leiden.
