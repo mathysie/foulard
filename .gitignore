@@ -1,0 +1,23 @@
+# Swapfiles
+*.swp
+*.swo
+*.swn
+*~
+
+# Code van derden (via composer)
+/vendor
+app/packages
+
+# Andere composer-gerelateerde dingen
+composer.phar
+composer.lock
+
+# Opslag
+app/storage
+foulard.db
+
+# Cache van php-cs-fixer
+.php_cs.cache
+
+# Lokaal opgeslagen configuratie
+app/config/**/*.php.local
