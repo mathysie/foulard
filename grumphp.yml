@@ -3,8 +3,11 @@ parameters:
     bin_dir: vendor/bin
     tasks: 
       composer: ~
+      jsonlint: ~
+      make: ~
       phpcpd: ~
       phpcsfixer:
         config: '.php_cs'
       phplint: ~
       phpstan: ~
+      yamllint: ~
