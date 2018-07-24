@@ -20,8 +20,16 @@
 	"require": {
 		"php": ">=7.0.0",
 		"mako/framework": "5.5.*",
-		"bertptrs/marty": "^5.2"
+		"bertptrs/marty": "^5.2",
+		"twbs/bootstrap": "^4.1"
 	},
 	"minimum-stability": "dev",
-	"prefer-stable": true
+	"prefer-stable": true,
+	"scripts": {
+		"post-update-cmd": [
+			"ln -fs ../../../vendor/twbs/bootstrap/dist/css/bootstrap.min.css public/assets/css/bootstrap.min.css",
+			"",
+			"ln -fs ../../../vendor/twbs/bootstrap/dist/js/bootstrap.min.js public/assets/js/bootstrap.min.js"
+		]
+	}
 }
