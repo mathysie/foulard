@@ -21,15 +21,18 @@
 		"php": ">=7.0.0",
 		"mako/framework": "5.5.*",
 		"bertptrs/marty": "^5.2",
-		"twbs/bootstrap": "^4.1"
+		"twbs/bootstrap": "^4.1",
+		"components/jquery": "^3.3"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
 	"scripts": {
 		"post-update-cmd": [
 			"ln -fs ../../../vendor/twbs/bootstrap/dist/css/bootstrap.min.css public/assets/css/bootstrap.min.css",
+			"ln -fs ../../../vendor/twbs/bootstrap/dist/css/bootstrap.min.css.map public/assets/css/bootstrap.min.css.map",
 			"",
-			"ln -fs ../../../vendor/twbs/bootstrap/dist/js/bootstrap.min.js public/assets/js/bootstrap.min.js"
+			"ln -fs ../../../vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js public/assets/js/bootstrap.bundle.min.js",
+			"ln -fs ../../../vendor/components/jquery/jquery.slim.min.js public/assets/js/jquery.slim.min.js"
 		]
 	},
 	"require-dev": {
