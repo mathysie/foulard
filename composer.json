@@ -19,7 +19,8 @@
 	},
 	"require": {
 		"php": ">=7.0.0",
-		"mako/framework": "5.5.*"
+		"mako/framework": "5.5.*",
+		"bertptrs/marty": "^5.2"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true

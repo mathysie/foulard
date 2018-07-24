@@ -155,7 +155,7 @@ return
 		],
 		'web' =>
 		[
-
+			'marty\MartyPackage',
 		],
 		'cli' =>
 		[
