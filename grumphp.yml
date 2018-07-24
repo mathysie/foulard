@@ -1,0 +1,11 @@
+parameters:
+    git_dir: .
+    bin_dir: vendor/bin
+    tasks: 
+      composer_require_checker: ~
+      phpcpd: ~
+      phpcsfixer:
+        config: '.php_cs'
+      phplint: ~
+      phpmnd: ~
+      phpstan: ~
