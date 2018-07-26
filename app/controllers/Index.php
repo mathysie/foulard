@@ -7,7 +7,7 @@ use mako\http\routing\Controller;
 /**
  * Welcome controller.
  */
-class Index extends Controller
+class Index extends BaseController
 {
     /**
      * Welcome route.
