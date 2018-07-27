@@ -112,7 +112,7 @@ return
 			'mako\application\services\HTTPService',
 			'mako\application\services\LoggerService',
 			'mako\application\services\ViewFactoryService',
-			//'mako\application\services\SessionService',
+			'mako\application\services\SessionService',
 			//'mako\application\services\DatabaseService',
 			//'mako\application\services\RedisService',
 			//'mako\application\services\I18nService',
