@@ -9,21 +9,21 @@ use mako\reactor\Command;
  */
 class Greeting extends Command
 {
-	/**
-	 * Command information.
-	 *
-	 * @var array
-	 */
-	protected $commandInformation =
-	[
-		'description' => 'Greets the user.',
-	];
+    /**
+     * Command information.
+     *
+     * @var array
+     */
+    protected $commandInformation =
+    [
+        'description' => 'Greets the user.',
+    ];
 
-	/**
-	 * Prints a greeting.
-	 */
-	public function execute()
-	{
-		$this->write('<blue>Hello, world!</blue>');
-	}
+    /**
+     * Prints a greeting.
+     */
+    public function execute()
+    {
+        $this->write('<blue>Hello, world!</blue>');
+    }
 }
