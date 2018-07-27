@@ -8,5 +8,6 @@ parameters:
       phpcsfixer:
         config: '.php_cs'
       phplint: ~
+      phpmnd: ~
       phpstan: ~
       yamllint: ~
