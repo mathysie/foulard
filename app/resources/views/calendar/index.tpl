@@ -1,5 +1,7 @@
 {extends file='base.tpl'}
 
+{block active}calendar{/block}
+
 {block content prepend}<h1>Calendar</h1>{/block}
 
 {block content append}
