@@ -14,7 +14,8 @@
 	],
 	"autoload": {
 		"psr-4": {
-			"app\\": "app"
+			"app\\": "app",
+			"foulard\\": "foulard"
 		}
 	},
 	"require": {
@@ -22,7 +23,8 @@
 		"mako/framework": "5.5.*",
 		"bertptrs/marty": "^5.2",
 		"twbs/bootstrap": "^4.1",
-		"components/jquery": "^3.3"
+		"components/jquery": "^3.3",
+		"google/apiclient": "^2.0"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
