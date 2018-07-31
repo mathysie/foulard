@@ -2,20 +2,12 @@
 
 namespace app\controllers;
 
-use mako\http\routing\Controller;
+use mako\http\response\senders\Redirect;
 
-/**
- * Welcome controller.
- */
 class Index extends BaseController
 {
-    /**
-     * Welcome route.
-     *
-     * @return string
-     */
-    public function welcome(): string
+    public function welcome(): Redirect
     {
-        return $this->view->render('base');
+        return $this->redirectResponse('calendar.index');
     }
 }

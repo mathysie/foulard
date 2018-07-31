@@ -18,7 +18,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarDropdown">
                     <div class="navbar-nav">
-                        <a class="nav-item nav-link {if $smarty.capture.active=='calendar'}active{/if}" href="#">Calendar</a>
+                        <a class="nav-item nav-link {if $smarty.capture.active=='calendar'}active{/if}" href="/calendar">Calendar</a>
                     </div>
                 </div>
             </nav>
