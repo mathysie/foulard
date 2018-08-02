@@ -4,6 +4,8 @@ namespace foulard\google;
 
 use Google_Client;
 use Google_Service_Calendar;
+use Google_Service_Calendar_Calendar;
+use mako\config\Config;
 
 class CalendarHelper
 {
@@ -13,45 +15,52 @@ class CalendarHelper
     /** @var Google_Service_Calendar */
     protected $service;
 
-    public function __construct()
+    /** @var string */
+    protected $calendar_id;
+
+    /** @var Config */
+    protected $config;
+
+    public function __construct(Config $config)
     {
-        $this->client = $this->getClient();
-        $this->service = $this->getService();
+        $this->config = $config;
+
+        $this->client = $this->createClient();
+        $this->service = new Google_Service_Calendar($this->client);
+        $this->calendar_id = $this->config->get('calendar.calendarID');
     }
 
-    public function getEvents()
+    public function getEvents(): array
     {
         // Print the next 10 events on the user's calendar.
-        $calendarId = 'primary';
         $optParams = [
-          'maxResults' => 10,
+          'maxResults' => 20,
           'orderBy' => 'startTime',
           'singleEvents' => true,
           'timeMin' => date('c'),
         ];
-        $results = $this->service->events->listEvents($calendarId, $optParams);
+        $results = $this->service->events->listEvents($this->calendar_id, $optParams);
         $events = $results->getItems();
 
-        if (empty($events)) {
-            echo "No upcoming events found.\n";
-        } else {
-            echo "Upcoming events:\n";
-            foreach ($events as $event) {
-                $start = $event->start->dateTime;
-                if (empty($start)) {
-                    $start = $event->start->date;
-                }
-                printf("%s (%s)\n", $event->getSummary(), $start);
-            }
-        }
+        return $events ?? [];
     }
 
-    protected function getService(): Google_Service_Calendar
+    public function getService(): Google_Service_Calendar
     {
-        return new Google_Service_Calendar($this->client);
+        return $this->service;
     }
 
-    protected function getClient(): Google_Client
+    public function getClient(): Google_Client
+    {
+        return $this->client;
+    }
+
+    public function getCalendar(): Google_Service_Calendar_Calendar
+    {
+        return $this->service->calendars->get($this->calendar_id);
+    }
+
+    protected function createClient(): Google_Client
     {
         $client = new Google_Client();
         $client->setApplicationName('Foulard');
