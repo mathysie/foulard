@@ -56,6 +56,7 @@ class CalendarHelper
         $client = new Google_Client();
         $client->setApplicationName('Foulard');
         $client->setScopes(Google_Service_Calendar::CALENDAR);
+        $client->setAuthConfig(__DIR__ . '/credentials.json');
         $client->setAccessType('offline');
 
         // Load previously authorized credentials from a file.
