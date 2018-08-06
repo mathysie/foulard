@@ -2,20 +2,52 @@
 
 namespace app\controllers;
 
+use DateInterval;
 use DateTime;
 
 class Calendar extends BaseController
 {
     public function getOverzicht(): string
     {
+        $start = $this->getStart($offset);
+        $end = $this->getEnd($start);
+
+        $events = $this->calendarHelper->getEvents($start, $end);
+        $events = $this->calendarParser->parseEvents($events);
+        $tapmail = $this->maakTapMail($events, $start);
+        $rows = substr_count($tapmail, "\n") + 1;
+
         $view = $this->view->create('calendar.overzicht');
 
-        $events = $this->calendarHelper->getEvents();
-        $events = $this->calendarParser->parseEvents($events);
-
-        $view->assign('tapmail', $this->maakTapMail($events));
+        $view->assign('start', strftime('%e %B', $start->getTimestamp()));
+        $view->assign('end', strftime('%e %B', $end->getTimestamp()));
+        $view->assign('tapmail', $tapmail);
+        $view->assign('rows', $rows);
 
         return $view->render();
+    }
+
+    protected function getStart(int $offset): DateTime
+    {
+        $start = new DateTime('next Monday');
+
+        if ($offset > 0) {
+            $start->add(new DateInterval("P{$offset}W"));
+        } elseif ($offset < 0) {
+            $offset = abs($offset);
+            $start->sub(new DateInterval("P{$offset}W"));
+        }
+
+        return $start;
+    }
+
+    protected function getEnd(DateTime $start): DateTime
+    {
+        return new DateTime(sprintf(
+            '%d Sundays after %s',
+            $this->config->get('foulard.tapmail.weken'),
+            $start->format('Y-m-d')
+        ));
     }
 
     protected function insertSchoonmaak(string &$schoonmakers): string
@@ -77,10 +109,8 @@ class Calendar extends BaseController
         return $tekst;
     }
 
-    protected function maakTapOverzicht(array $events): string
+    protected function maakTapOverzicht(array $events, DateTime $start): string
     {
-        $start = new DateTime('2018-08-06');
-
         $overzicht = '';
         $weeknummer = $start->format('W');
         $schoonmakers = '';
@@ -101,7 +131,7 @@ class Calendar extends BaseController
         return $overzicht;
     }
 
-    protected function maakTapMail(array $events): string
+    protected function maakTapMail(array $events, DateTime $start): string
     {
         $tapmail = sprintf(
             "%s\n\n%s\n\n%s\n\n%s\n\n",
@@ -111,7 +141,7 @@ class Calendar extends BaseController
             $this->config->get('foulard.tapmail.secretaris')
         );
 
-        $tapmail .= $this->maakTapOverzicht($events);
+        $tapmail .= $this->maakTapOverzicht($events, $start);
 
         return $tapmail;
     }

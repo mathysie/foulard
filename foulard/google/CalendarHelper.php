@@ -2,6 +2,7 @@
 
 namespace foulard\google;
 
+use DateTime;
 use Google_Client;
 use Google_Service_Calendar;
 use Google_Service_Calendar_Calendar;
@@ -30,14 +31,14 @@ class CalendarHelper
         $this->calendar_id = $this->config->get('calendar.calendarID');
     }
 
-    public function getEvents(): array
+    public function getEvents(DateTime $start, DateTime $end): array
     {
         // Print the next 10 events on the user's calendar.
         $optParams = [
-          'maxResults'   => 20,
           'orderBy'      => 'startTime',
           'singleEvents' => true,
-          'timeMin'      => date('c'),
+          'timeMin'      => $start->format(DateTime::RFC3339),
+          'timeMax'      => $end->format(DateTime::RFC3339),
         ];
         $results = $this->service->events->listEvents($this->calendar_id, $optParams);
         $events = $results->getItems();
