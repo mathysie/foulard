@@ -9,5 +9,4 @@ parameters:
         config: '.php_cs'
       phplint: ~
       phpmnd: ~
-      phpstan: ~
       yamllint: ~
