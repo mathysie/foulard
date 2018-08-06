@@ -21,6 +21,8 @@ class Calendar extends BaseController
 
         $view->assign('start', strftime('%e %B', $start->getTimestamp()));
         $view->assign('end', strftime('%e %B', $end->getTimestamp()));
+        $view->assign('eerder', $offset - 1);
+        $view->assign('later', $offset + 1);
         $view->assign('tapmail', $tapmail);
         $view->assign('rows', $rows);
 
