@@ -6,11 +6,11 @@
 
 return
 [
-    'yesterday' => 'gisteren',
-    'today' => 'vandaag',
-    'tomorrow' => 'morgen',
-    'minute_ago' => 'een minuut geleden',
+    'yesterday'   => 'gisteren',
+    'today'       => 'vandaag',
+    'tomorrow'    => 'morgen',
+    'minute_ago'  => 'een minuut geleden',
     'minutes_ago' => '%u minuten geleden',
-    'in_minute' => 'in een minuut',
-    'in_minutes' => 'in %u minuten',
+    'in_minute'   => 'in een minuut',
+    'in_minutes'  => 'in %u minuten',
 ];

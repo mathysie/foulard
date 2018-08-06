@@ -26,27 +26,27 @@ return
      */
     'configurations' => [
         'localhost' => [
-            'host' => 'localhost',
-            'port' => 6379,
+            'host'       => 'localhost',
+            'port'       => 6379,
             'persistent' => false,
-            'password' => '',
-            'database' => 0,
+            'password'   => '',
+            'database'   => 0,
         ],
 
         'cache' => [
-            'host' => 'localhost',
-            'port' => 6379,
+            'host'       => 'localhost',
+            'port'       => 6379,
             'persistent' => false,
-            'password' => '',
-            'database' => 1,
+            'password'   => '',
+            'database'   => 1,
         ],
 
         'session' => [
-            'host' => 'localhost',
-            'port' => 6379,
+            'host'       => 'localhost',
+            'port'       => 6379,
             'persistent' => false,
-            'password' => '',
-            'database' => 2,
+            'password'   => '',
+            'database'   => 2,
         ],
     ],
 ];

@@ -12,30 +12,30 @@ return
         // Plural noun forms
 
         'plural' => [
-            '/^(.*)ao$/i' => '$1oes',
-            '/^(.*)ão$/i' => '$1ões',
-            '/^(.*)(r|s|z)$/i' => '$1$2es',
+            '/^(.*)ao$/i'         => '$1oes',
+            '/^(.*)ão$/i'         => '$1ões',
+            '/^(.*)(r|s|z)$/i'    => '$1$2es',
             '/^(.*)(a|e|o|u)l$/i' => '$1$2is',
-            '/^(.*)il$/i' => '$1is',
-            '/^(.*)(m|n)$/i' => '$1ns',
-            '/^(.*)$/i' => '$1s',
+            '/^(.*)il$/i'         => '$1is',
+            '/^(.*)(m|n)$/i'      => '$1ns',
+            '/^(.*)$/i'           => '$1s',
         ],
 
         // Irregular words
 
         'irregular' => [
-            'status' => 'status',
-            'alias' => 'aliases',
-            'onibus' => 'onibus',
-            'virus' => 'virus',
-            'lapis' => 'lapis',
-            'pais' => 'pais',
-            'alemão' => 'alemães',
-            'cão' => 'cães',
-            'pão' => 'pães',
+            'status'  => 'status',
+            'alias'   => 'aliases',
+            'onibus'  => 'onibus',
+            'virus'   => 'virus',
+            'lapis'   => 'lapis',
+            'pais'    => 'pais',
+            'alemão'  => 'alemães',
+            'cão'     => 'cães',
+            'pão'     => 'pães',
             'cidadão' => 'pães',
             'abdomen' => 'abdomens',
-            'as' => 'ases',
+            'as'      => 'ases',
         ],
     ],
 

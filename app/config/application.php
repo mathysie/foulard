@@ -192,7 +192,7 @@ return
      * display_errors: Set to true to display errors caught by the mako error handlers.
      */
     'error_handler' => [
-        'log_errors' => true,
+        'log_errors'     => true,
         'display_errors' => true, // It is recommended to set this value to false when you are in production.
     ],
 

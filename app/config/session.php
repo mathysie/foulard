@@ -30,7 +30,7 @@ return
      * expire at the end of the session (when the browser closes).
      */
     'ttl' => [
-        'data' => 1800,
+        'data'   => 1800,
         'cookie' => 0,
     ],
 
@@ -85,9 +85,9 @@ return
      */
     'configurations' => [
         'database' => [
-            'type' => 'database',
+            'type'          => 'database',
             'configuration' => 'sqlite',
-            'table' => 'mako_sessions',
+            'table'         => 'mako_sessions',
         ],
 
         'file' => [
@@ -100,7 +100,7 @@ return
         ],
 
         'redis' => [
-            'type' => 'redis',
+            'type'          => 'redis',
             'configuration' => 'session',
         ],
     ],

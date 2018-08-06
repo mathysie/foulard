@@ -10,7 +10,7 @@ $routes->group(
 $routes->group(
     [
         'namespace' => 'app\controllers',
-        'prefix' => '/calendar',
+        'prefix'    => '/calendar',
     ],
     function ($routes) {
         $routes->get('/', 'Calendar::getOverzicht', 'calendar.overzicht');

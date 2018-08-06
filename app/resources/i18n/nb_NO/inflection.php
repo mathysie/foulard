@@ -13,27 +13,27 @@ return
 
         'plural' => [
             '/er$/i' => 'ere',
-            '/e$/i' => 'er',
-            '/$/' => 'er',
+            '/e$/i'  => 'er',
+            '/$/'    => 'er',
         ],
 
         // Irregular words
 
         'irregular' => [
-            'and' => 'ender',
-            'barn' => 'barn',
-            'bok' => 'bøker',
+            'and'   => 'ender',
+            'barn'  => 'barn',
+            'bok'   => 'bøker',
             'bonde' => 'bønder',
-            'felt' => 'felt',
-            'fisk' => 'fisk',
-            'fot' => 'føtter',
-            'gås' => 'gjess',
-            'hus' => 'hus',
-            'land' => 'land',
-            'tann' => 'tenner',
-            'tre' => 'trær',
-            'tå' => 'tær',
-            'vann' => 'vann',
+            'felt'  => 'felt',
+            'fisk'  => 'fisk',
+            'fot'   => 'føtter',
+            'gås'   => 'gjess',
+            'hus'   => 'hus',
+            'land'  => 'land',
+            'tann'  => 'tenner',
+            'tre'   => 'trær',
+            'tå'    => 'tær',
+            'vann'  => 'vann',
         ],
     ],
 

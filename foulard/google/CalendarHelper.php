@@ -34,10 +34,10 @@ class CalendarHelper
     {
         // Print the next 10 events on the user's calendar.
         $optParams = [
-          'maxResults' => 20,
-          'orderBy' => 'startTime',
+          'maxResults'   => 20,
+          'orderBy'      => 'startTime',
           'singleEvents' => true,
-          'timeMin' => date('c'),
+          'timeMin'      => date('c'),
         ];
         $results = $this->service->events->listEvents($this->calendar_id, $optParams);
         $events = $results->getItems();

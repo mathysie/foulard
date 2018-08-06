@@ -31,47 +31,47 @@ return
      */
     'configurations' => [
         'apcu' => [
-            'type' => 'apcu',
+            'type'   => 'apcu',
             'prefix' => 'mako',
         ],
 
         'database' => [
-            'type' => 'database',
-            'prefix' => 'mako',
+            'type'          => 'database',
+            'prefix'        => 'mako',
             'configuration' => 'sqlite',
-            'table' => 'mako_cache',
+            'table'         => 'mako_cache',
         ],
 
         'file' => [
-            'type' => 'file',
+            'type'   => 'file',
             'prefix' => 'mako',
-            'path' => MAKO_APPLICATION_PATH . '/storage/cache',
+            'path'   => MAKO_APPLICATION_PATH . '/storage/cache',
         ],
 
         'memcache' => [
-            'type' => 'memcache',
-            'prefix' => 'mako',
+            'type'          => 'memcache',
+            'prefix'        => 'mako',
             'compress_data' => false,
-            'timeout' => 1,
-            'servers' => [
+            'timeout'       => 1,
+            'servers'       => [
                 'server_1' => [
-                    'server' => 'localhost',
-                    'port' => '11211',
+                    'server'                => 'localhost',
+                    'port'                  => '11211',
                     'persistent_connection' => false,
-                    'weight' => 1,
+                    'weight'                => 1,
                 ],
             ],
         ],
 
         'memcached' => [
-            'type' => 'memcached',
-            'prefix' => 'mako',
+            'type'          => 'memcached',
+            'prefix'        => 'mako',
             'compress_data' => false,
-            'timeout' => 1,
-            'servers' => [
+            'timeout'       => 1,
+            'servers'       => [
                 'server_1' => [
                     'server' => 'localhost',
-                    'port' => '11211',
+                    'port'   => '11211',
                     'weight' => 1,
                 ],
             ],
@@ -86,23 +86,23 @@ return
         ],
 
         'redis' => [
-            'type' => 'redis',
-            'prefix' => 'mako',
+            'type'          => 'redis',
+            'prefix'        => 'mako',
             'configuration' => 'cache',
         ],
 
         'wincache' => [
-            'type' => 'wincache',
+            'type'   => 'wincache',
             'prefix' => 'mako',
         ],
 
         'zenddisk' => [
-            'type' => 'zenddisk',
+            'type'   => 'zenddisk',
             'prefix' => 'mako',
         ],
 
         'zendmemory' => [
-            'type' => 'zendmemory',
+            'type'   => 'zendmemory',
             'prefix' => 'mako',
         ],
     ],

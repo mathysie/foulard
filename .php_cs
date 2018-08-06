@@ -29,5 +29,10 @@ return PhpCsFixer\Config::create()
         'ordered_imports'                   => true,
         'ordered_class_elements'            => true,
         'trailing_comma_in_multiline_array' => true,
+        'binary_operator_spaces'            => [
+            'operators' => [
+                '=>' => 'align',
+            ]
+        ],
         // 'declare_strict_types' => true, // Pas bij PHP 7.2
     ]);
