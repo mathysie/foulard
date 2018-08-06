@@ -2,9 +2,12 @@
 
 {block active}calendar{/block}
 
-{block content prepend}<h1>Calendar</h1>{/block}
+{block title}Tapoverzicht{/block}
+
+{block content prepend}<h1>Tapoverzicht</h1>{/block}
 
 {block content append}
-<p>Asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf</p>
-{var_dump($smarty.capture.active)}
+<textarea class="w-100" rows="42" readonly>
+	{$tapmail|escape}
+</textarea>
 {/block}
