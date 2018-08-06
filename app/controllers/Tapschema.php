@@ -19,8 +19,8 @@ class Tapschema extends BaseController
 
         $view = $this->view->create('calendar.overzicht');
 
-        $view->assign('start', strftime('%e %B', $start->getTimestamp()));
-        $view->assign('end', strftime('%e %B', $end->getTimestamp()));
+        $view->assign('start', strftime('%-e %B', $start->getTimestamp()));
+        $view->assign('end', strftime('%-e %B', $end->getTimestamp()));
         $view->assign('eerder', $offset - 1);
         $view->assign('later', $offset + 1);
         $view->assign('tapmail', $tapmail);
@@ -102,7 +102,7 @@ class Tapschema extends BaseController
         if (!empty($aanvragenlijst)) {
             $tekst = sprintf(
                 "%s: %s - %s\n\n",
-                strftime('%a %e %b', $datum->getTimestamp()),
+                strftime('%a %-e %b', $datum->getTimestamp()),
                 implode(' + ', $aanvragenlijst),
                 !empty($tappers) ? $tappers : 'wie?'
             );
