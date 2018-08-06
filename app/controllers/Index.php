@@ -6,8 +6,8 @@ use mako\http\response\senders\Redirect;
 
 class Index extends BaseController
 {
-    public function welcome(): Redirect
+    public function getIndex(): Redirect
     {
-        return $this->redirectResponse('calendar.overzicht');
+        return $this->redirectResponse('calendar.tapmail');
     }
 }

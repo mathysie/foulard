@@ -7,7 +7,7 @@ use DateTime;
 
 class Calendar extends BaseController
 {
-    public function getOverzicht(): string
+    public function getTapmail(int $offset = 0): string
     {
         $start = $this->getStart($offset);
         $end = $this->getEnd($start);

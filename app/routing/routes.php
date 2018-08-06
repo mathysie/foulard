@@ -3,7 +3,7 @@
 $routes->group(
     ['namespace' => 'app\controllers'],
     function ($routes) {
-        $routes->get('/', 'Index::welcome');
+        $routes->get('/', 'Index::getIndex');
     }
 );
 
@@ -13,6 +13,6 @@ $routes->group(
         'prefix'    => '/calendar',
     ],
     function ($routes) {
-        $routes->get('/', 'Calendar::getOverzicht', 'calendar.overzicht');
+        $routes->get('/tapmail/{offset}?', 'Calendar::getTapmail', 'calendar.tapmail');
     }
 );
