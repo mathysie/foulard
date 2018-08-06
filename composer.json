@@ -32,6 +32,8 @@
 		"post-update-cmd": [
 			"ln -fs ../../../vendor/twbs/bootstrap/dist/css/bootstrap.min.css public/assets/css/bootstrap.min.css",
 			"ln -fs ../../../vendor/twbs/bootstrap/dist/css/bootstrap.min.css.map public/assets/css/bootstrap.min.css.map",
+			"ln -fs ../../../vendor/twbs/bootstrap/dist/css/bootstrap.css public/assets/css/bootstrap.css",
+			"ln -fs ../../../vendor/twbs/bootstrap/dist/css/bootstrap.css.map public/assets/css/bootstrap.css.map",
 			"",
 			"ln -fs ../../../vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js public/assets/js/bootstrap.bundle.min.js",
 			"ln -fs ../../../vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js.map public/assets/js/bootstrap.bundle.min.js.map",
