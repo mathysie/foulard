@@ -10,9 +10,9 @@ $routes->group(
 $routes->group(
     [
         'namespace' => 'app\controllers',
-        'prefix'    => '/calendar',
+        'prefix'    => '/tapschema',
     ],
     function ($routes) {
-        $routes->get('/tapmail/{offset}?', 'Calendar::getTapmail', 'calendar.tapmail');
+        $routes->get('/{offset}?', 'Tapschema::getTapmail', 'tapschema.tapmail');
     }
 );

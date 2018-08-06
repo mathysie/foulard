@@ -8,6 +8,6 @@ class Index extends BaseController
 {
     public function getIndex(): Redirect
     {
-        return $this->redirectResponse('calendar.tapmail');
+        return $this->redirectResponse('tapschema.tapmail');
     }
 }

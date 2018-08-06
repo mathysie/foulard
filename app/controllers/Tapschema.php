@@ -5,7 +5,7 @@ namespace app\controllers;
 use DateInterval;
 use DateTime;
 
-class Calendar extends BaseController
+class Tapschema extends BaseController
 {
     public function getTapmail(int $offset = 0): string
     {
