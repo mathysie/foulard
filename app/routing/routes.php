@@ -13,6 +13,6 @@ $routes->group(
         'prefix' => '/calendar',
     ],
     function ($routes) {
-        $routes->get('/', 'Calendar::getIndex', 'calendar.index');
+        $routes->get('/', 'Calendar::getOverzicht', 'calendar.overzicht');
     }
 );

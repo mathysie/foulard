@@ -8,6 +8,6 @@ class Index extends BaseController
 {
     public function welcome(): Redirect
     {
-        return $this->redirectResponse('calendar.index');
+        return $this->redirectResponse('calendar.overzicht');
     }
 }

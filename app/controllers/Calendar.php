@@ -4,9 +4,9 @@ namespace app\controllers;
 
 class Calendar extends BaseController
 {
-    public function getIndex(): string
+    public function getOverzicht(): string
     {
-        $view = $this->view->create('calendar.index');
+        $view = $this->view->create('calendar.overzicht');
 
         return $view->render();
     }
