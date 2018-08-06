@@ -31,16 +31,19 @@ class Calendar extends BaseController
         return sprintf("%s\n\n", $this->config->get('foulard.tapmail.scheiding'));
     }
 
-    protected function parseAanvragen(DateTime $datum, array $aanvragen, string &$schoonmakers): string
-    {
+    protected function parseAanvragen(
+        DateTime $datum,
+        array $eventlijst,
+        string &$schoonmakers
+    ): string {
         $tekst = '';
         $aanvragenlijst = [];
         $tappers = '';
 
-        foreach ($aanvragen as $aanvraag) {
-            switch ($aanvraag->type) {
+        foreach ($eventlijst as $event) {
+            switch ($event->type) {
                 case 'aanvraag':
-                    $summary = explode(' - ', $aanvraag->event->summary, 2);
+                    $summary = explode(' - ', $event->event->summary, 2);
                     array_unshift($aanvragenlijst, $summary[0]);
                     if (isset($summary[1])) {
                         $tappers = $summary[1];
@@ -49,11 +52,11 @@ class Calendar extends BaseController
 
                 case 'aegir':
                 case 'tappersbedank':
-                    $aanvragenlijst[] = $aanvraag->event->summary;
+                    $aanvragenlijst[] = $event->event->summary;
                     break;
 
                 case 'schoonmaak':
-                    $schoonmakers = explode('S: ', $aanvraag->event->summary, 2)[1];
+                    $schoonmakers = explode('S: ', $event->event->summary, 2)[1];
                     break;
 
                 case 'overig':
@@ -83,7 +86,7 @@ class Calendar extends BaseController
         $schoonmakers = '';
 
         $overzicht .= $this->insertScheiding();
-        foreach ($events as $datum => $aanvragen) {
+        foreach ($events as $datum => $eventlijst) {
             $datum = new DateTime($datum);
             if ($datum->format('W') !== $weeknummer) {
                 $overzicht .= $this->insertSchoonmaak($schoonmakers);
@@ -91,7 +94,7 @@ class Calendar extends BaseController
                 $weeknummer = $datum->format('W');
             }
 
-            $overzicht .= $this->parseAanvragen($datum, $aanvragen, $schoonmakers);
+            $overzicht .= $this->parseAanvragen($datum, $eventlijst, $schoonmakers);
         }
         $overzicht .= $this->insertSchoonmaak($schoonmakers);
 
