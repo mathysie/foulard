@@ -8,6 +8,7 @@ use foulard\calendar\events\OverigEvent;
 use foulard\calendar\events\SchoonmaakEvent;
 use foulard\calendar\events\TappersbedankborrelEvent;
 use foulard\calendar\events\VergaderingEvent;
+use foulard\google\GoogleDateTime;
 use Google_Service_Calendar_Event;
 
 class CalendarParser
@@ -26,14 +27,16 @@ class CalendarParser
      *
      * @param array $events An array of Google_Service_Calendar_Event
      *
-     * @return array an array of Event
+     * @return array An array with event date as key and the Events of that day
      */
     public function parseEvents(array $events): array
     {
         $res = [];
 
         foreach ($events as $event) {
-            $res[] = $this->parseEvent($event);
+            $parsed_event = $this->parseEvent($event);
+            $date = (string) (new GoogleDateTime($event->getStart()));
+            $res[$date][] = $parsed_event;
         }
 
         return $res;
