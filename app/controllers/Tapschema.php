@@ -81,7 +81,7 @@ class Tapschema extends BaseController
         $tekst = '';
         $aanvragenlijst = [];
         $overige_borrels = [];
-        $tappers = '';
+        $tappers = [];
 
         foreach ($eventlijst as $event) {
             switch (true) {
@@ -93,17 +93,13 @@ class Tapschema extends BaseController
                 case $event instanceof RegulierBorrel:
                     $summary = explode(' - ', $event->event->summary, 2);
                     array_unshift($aanvragenlijst, $summary[0]);
-                    if (isset($summary[1])) {
-                        $tappers = $summary[1];
-                    }
+                    $tappers = array_merge($tappers, $event->tappers);
                     break;
 
                 case $event instanceof AanvraagEvent:
                     $summary = explode(' - ', $event->event->summary, 2);
                     $aanvragenlijst[] = $summary[0];
-                    if (isset($summary[1])) {
-                        $tappers = $summary[1];
-                    }
+                    $tappers = array_merge($tappers, $event->tappers);
                     break;
 
                 case $event instanceof SchoonmaakEvent:
@@ -120,7 +116,7 @@ class Tapschema extends BaseController
                 "%s: %s - %s\n\n",
                 $datum->formatTapmail(),
                 implode(' + ', $aanvragenlijst),
-                !empty($tappers) ? $tappers : 'wie?'
+                !empty($tappers) ? implode(', ', $tappers) : 'wie?'
             );
         }
 
