@@ -3,10 +3,20 @@
 namespace foulard\calendar;
 
 use foulard\calendar\events\AanvraagEvent;
-use foulard\calendar\events\AegirborrelEvent;
+use foulard\calendar\events\aanvragen\borrels\AegirBorrel;
+use foulard\calendar\events\aanvragen\borrels\RegulierBorrel;
+use foulard\calendar\events\aanvragen\borrels\TappersBedankBorrel;
+use foulard\calendar\events\aanvragen\DLFAanvraag;
+use foulard\calendar\events\aanvragen\FooBarAanvraag;
+use foulard\calendar\events\aanvragen\ISSCAanvraag;
+use foulard\calendar\events\aanvragen\LIACSAanvraag;
+use foulard\calendar\events\aanvragen\MIAanvraag;
+use foulard\calendar\events\aanvragen\OverigeAanvraag;
+use foulard\calendar\events\aanvragen\PersoonlijkAanvraag;
+use foulard\calendar\events\aanvragen\RINOAanvraag;
+use foulard\calendar\events\aanvragen\SBBAanvraag;
 use foulard\calendar\events\OverigEvent;
 use foulard\calendar\events\SchoonmaakEvent;
-use foulard\calendar\events\TappersbedankborrelEvent;
 use foulard\calendar\events\VergaderingEvent;
 use foulard\datetime\GoogleDateTime;
 use Google_Service_Calendar_Event;
@@ -60,7 +70,7 @@ class CalendarParser
 
         switch ($match[1]) {
             case 'Ægirborrel':
-                return new AegirborrelEvent($event);
+                return new AegirBorrel($event);
 
             case 'FooBarvergadering':
                 return new VergaderingEvent($event);
@@ -72,7 +82,7 @@ class CalendarParser
                 return new SchoonmaakEvent($event);
 
             case 'Tappersbedankborrel':
-                return new TappersbedankborrelEvent($event);
+                return new TappersBedankBorrel($event);
         }
     }
 }
