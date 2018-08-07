@@ -22,6 +22,12 @@ class CalendarHelper
     /** @var Config */
     protected $config;
 
+    /** @var array */
+    protected $optParams = [
+          'orderBy'      => 'startTime',
+          'singleEvents' => true,
+    ];
+
     public function __construct(Config $config)
     {
         $this->config = $config;
@@ -31,16 +37,14 @@ class CalendarHelper
         $this->calendar_id = $this->config->get('calendar.calendarID');
     }
 
-    public function getEvents(DateTime $start, DateTime $end): array
+    public function getEvents(DateTime $start, DateTime $end, array $params): array
     {
         // Print the next 10 events on the user's calendar.
-        $optParams = [
-          'orderBy'      => 'startTime',
-          'singleEvents' => true,
-          'timeMin'      => $start->format(DateTime::RFC3339),
-          'timeMax'      => $end->format(DateTime::RFC3339),
-        ];
-        $results = $this->service->events->listEvents($this->calendar_id, $optParams);
+        $this->optParams = array_merge($this->optParams, $params);
+        $results = $this->service->events->listEvents(
+            $this->calendar_id,
+            $this->optParams
+        );
         $events = $results->getItems();
 
         return $events ?? [];
@@ -66,7 +70,7 @@ class CalendarHelper
         $client = new Google_Client();
         $client->setApplicationName('Foulard');
         $client->setScopes(Google_Service_Calendar::CALENDAR);
-        $client->setAuthConfig(__DIR__ . '/credentials.json');
+        $client->setAuthConfig('foulard/google/credentials.json');
         $client->setAccessType('offline');
 
         // Load previously authorized credentials from a file.
@@ -77,7 +81,10 @@ class CalendarHelper
         // Refresh the token if it's expired.
         if ($client->isAccessTokenExpired()) {
             $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
-            file_put_contents($credentialsPath, json_encode($client->getAccessToken()));
+            file_put_contents(
+                $credentialsPath,
+                json_encode($client->getAccessToken())
+            );
         }
 
         return $client;
