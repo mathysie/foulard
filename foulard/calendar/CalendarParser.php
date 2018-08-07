@@ -26,14 +26,15 @@ class CalendarParser
     protected $event_hints = [
         'Ægirborrel',
         'FooBarvergadering',
+        'O: ',
+        'Regulier',
         'S: ',
         'Tappersbedankborrel',
-        'O: ',
     ];
 
     /**
      * Parses an array of Google_Service_Calendar_Event
-     * to an array of Event.
+     * to an array of Event, grouped by date.
      *
      * @param array $events An array of Google_Service_Calendar_Event
      *
@@ -64,11 +65,7 @@ class CalendarParser
         $pattern = '/(' . implode('|', $this->event_hints) . ')/A';
         preg_match($pattern, $event->summary, $match);
 
-        if (empty($match)) {
-            return new AanvraagEvent($event);
-        }
-
-        switch ($match[1]) {
+        switch ($match[1] ?? '') {
             case 'Ægirborrel':
                 return new AegirBorrel($event);
 
@@ -78,11 +75,17 @@ class CalendarParser
             case 'O: ':
                 return new OverigEvent($event);
 
+            case 'Regulier':
+                return new RegulierBorrel($event);
+
             case 'S: ':
                 return new SchoonmaakEvent($event);
 
             case 'Tappersbedankborrel':
                 return new TappersBedankBorrel($event);
+
+            default:
+                return $this->parseAanvraag($event);
         }
     }
 }

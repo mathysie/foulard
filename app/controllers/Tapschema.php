@@ -3,6 +3,10 @@
 namespace app\controllers;
 
 use DateInterval;
+use foulard\calendar\events\AanvraagEvent;
+use foulard\calendar\events\aanvragen\borrels\AegirBorrel;
+use foulard\calendar\events\aanvragen\borrels\TappersBedankBorrel;
+use foulard\calendar\events\SchoonmaakEvent;
 use foulard\datetime\FoulardDateTime;
 
 class Tapschema extends BaseController
@@ -76,11 +80,17 @@ class Tapschema extends BaseController
     ): string {
         $tekst = '';
         $aanvragenlijst = [];
+        $overige_borrels = [];
         $tappers = '';
 
         foreach ($eventlijst as $event) {
-            switch ($event->type) {
-                case 'aanvraag':
+            switch (true) {
+                case $event instanceof AegirBorrel:
+                case $event instanceof TappersBedankBorrel:
+                    $overige_borrels[] = $event->event->summary;
+                    break;
+
+                case $event instanceof RegulierBorrel:
                     $summary = explode(' - ', $event->event->summary, 2);
                     array_unshift($aanvragenlijst, $summary[0]);
                     if (isset($summary[1])) {
@@ -88,17 +98,19 @@ class Tapschema extends BaseController
                     }
                     break;
 
-                case 'aegir':
-                case 'tappersbedank':
-                    $aanvragenlijst[] = $event->event->summary;
+                case $event instanceof AanvraagEvent:
+                    $summary = explode(' - ', $event->event->summary, 2);
+                    $aanvragenlijst[] = $summary[0];
+                    if (isset($summary[1])) {
+                        $tappers = $summary[1];
+                    }
                     break;
 
-                case 'schoonmaak':
+                case $event instanceof SchoonmaakEvent:
                     $schoonmakers = explode('S: ', $event->event->summary, 2)[1];
                     break;
 
-                case 'overig':
-                case 'vergadering':
+                default:
                     break;
             }
         }
