@@ -1,23 +1,44 @@
-{extends file='base.tpl'}
+{extends 'calendar/base.tpl'}
 
-{block active}tapschema{/block}
-
-{block title}Tapschema{/block}
-
-{block content prepend}<h1>Tapschema</h1>{/block}
+{block pagetitle}<h1>Calendar</h1>{/block}
 
 {block content append}
-<p class="lead">Tapschema van {$start|escape} t/m {$end|escape}.</p>
-<div class="btn-group" role="group" aria-label="Navigatie">
-    <a class="btn btn-success" href="{route route='tapschema.tapmail' offset=$eerder}">
-        <span class="oi oi-arrow-circle-left"></span>&nbsp;Eén week eerder
-    </a>
-    <a class="btn btn-success" href="{route route='tapschema.tapmail' offset=$later}">
-    <span class="oi oi-arrow-circle-right"></span>&nbsp;Eén week later
-    </a>
-</div>
-<h2>Onderwerp</h2>
-<textarea class="w-100" rows="1" readonly>Tapschema t/m {$end|escape}.</textarea>
-<h2>Inhoud</h2>
-<textarea class="w-100" rows="{$rows}" readonly>{$tapmail|escape}</textarea>
+
+<form method="get" role="form">
+	<div class="form-row">
+		<div class="form-group col-sm">
+			<label for="start">Startdatum</label>
+			<input type="date" name="start" id="start" class="form-control" placeholder="startdatum" value="{$start->formatYMD()}">
+		</div>
+		<div class="form-group col-sm">
+			<label for="einde">Einddatum</label>
+			<input type="date" name="einde" id="einde" class="form-control" placeholder="einddatum" value="{$einde->formatYMD()}">
+		</div>
+	</div>
+	<button class="btn btn-success mb-2" type="submit">Zoeken</button>
+</form>
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th scope="col">Datum</th>
+			<th scope="col">Aanvraag</th>
+			<th></th>
+			<th scope="col">KWN</th>
+			<th scope="col"># pers.</th>
+		</tr>
+	</thead>
+	<tbody>
+		{foreach $events as $date => $eventlist}
+		{foreach $eventlist as $event}
+		<tr>
+			<td>{$date|escape}</td>
+			<td>{$event->event->summary|escape}</td>
+			<td><span class="badge btn-success">{$event::AANVRAGER}</span></td>
+			<td>{if $event->kwn}Ja{/if}</td>
+			<td>{if !empty($event->pers)}{$event->pers}{/if}</td>
+		</tr>
+		{/foreach}
+		{/foreach}
+	</tbody>
+</table>
 {/block}

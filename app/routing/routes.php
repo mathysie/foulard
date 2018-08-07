@@ -16,3 +16,13 @@ $routes->group(
         $routes->get('/{offset}?', 'Tapschema::getTapmail', 'tapschema.tapmail');
     }
 );
+
+$routes->group(
+    [
+        'namespace' => 'app\controllers',
+        'prefix'    => '/calendar',
+    ],
+    function ($routes) {
+        $routes->get('/', 'Calendar::getOverzicht', 'calendar.overzicht');
+    }
+);

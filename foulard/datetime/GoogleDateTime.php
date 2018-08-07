@@ -1,12 +1,11 @@
 <?php
 
-namespace foulard\google;
+namespace foulard\datetime;
 
-use DateTime;
 use DateTimeZone;
 use Google_Service_Calendar_EventDateTime;
 
-class GoogleDateTime extends DateTime
+class GoogleDateTime extends FoulardDateTime
 {
     public function __construct(Google_Service_Calendar_EventDateTime $datetime)
     {
@@ -19,10 +18,5 @@ class GoogleDateTime extends DateTime
             $timeZone = $datetime->timeZone ?? 'Europe/Amsterdam';
             $this->setTimezone(new DateTimeZone($timeZone));
         }
-    }
-
-    public function __toString()
-    {
-        return $this->format('Y-m-d');
     }
 }

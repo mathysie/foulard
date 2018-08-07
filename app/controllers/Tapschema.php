@@ -3,7 +3,11 @@
 namespace app\controllers;
 
 use DateInterval;
-use DateTime;
+use foulard\calendar\events\AanvraagEvent;
+use foulard\calendar\events\aanvragen\borrels\AegirBorrel;
+use foulard\calendar\events\aanvragen\borrels\TappersBedankBorrel;
+use foulard\calendar\events\SchoonmaakEvent;
+use foulard\datetime\FoulardDateTime;
 
 class Tapschema extends BaseController
 {
@@ -11,16 +15,20 @@ class Tapschema extends BaseController
     {
         $start = $this->getStart($offset);
         $end = $this->getEnd($start);
+        $params = [
+            'timeMin' => $start->formatGoogle(),
+            'timeMax' => $end->formatGoogle(),
+        ];
 
-        $events = $this->calendarHelper->getEvents($start, $end);
+        $events = $this->calendarHelper->getEvents($start, $end, $params);
         $events = $this->calendarParser->parseEvents($events);
         $tapmail = $this->maakTapMail($events, $start);
         $rows = substr_count($tapmail, "\n") + 1;
 
-        $view = $this->view->create('calendar.overzicht');
+        $view = $this->view->create('tapschema.overzicht');
 
-        $view->assign('start', strftime('%-e %B', $start->getTimestamp()));
-        $view->assign('end', strftime('%-e %B', $end->getTimestamp()));
+        $view->assign('start', $start);
+        $view->assign('end', $end);
         $view->assign('eerder', $offset - 1);
         $view->assign('later', $offset + 1);
         $view->assign('tapmail', $tapmail);
@@ -29,9 +37,9 @@ class Tapschema extends BaseController
         return $view->render();
     }
 
-    protected function getStart(int $offset): DateTime
+    protected function getStart(int $offset): FoulardDateTime
     {
-        $start = new DateTime('next Monday');
+        $start = new FoulardDateTime('next Monday');
 
         if ($offset > 0) {
             $start->add(new DateInterval("P{$offset}W"));
@@ -43,12 +51,12 @@ class Tapschema extends BaseController
         return $start;
     }
 
-    protected function getEnd(DateTime $start): DateTime
+    protected function getEnd(FoulardDateTime $start): FoulardDateTime
     {
-        return new DateTime(sprintf(
+        return new FoulardDateTime(sprintf(
             '%d Sundays after %s',
             $this->config->get('foulard.tapmail.weken'),
-            $start->format('Y-m-d')
+            $start->formatYMD()
         ));
     }
 
@@ -66,17 +74,23 @@ class Tapschema extends BaseController
     }
 
     protected function parseAanvragen(
-        DateTime $datum,
+        FoulardDateTime $datum,
         array $eventlijst,
         string &$schoonmakers
     ): string {
         $tekst = '';
         $aanvragenlijst = [];
+        $overige_borrels = [];
         $tappers = '';
 
         foreach ($eventlijst as $event) {
-            switch ($event->type) {
-                case 'aanvraag':
+            switch (true) {
+                case $event instanceof AegirBorrel:
+                case $event instanceof TappersBedankBorrel:
+                    $overige_borrels[] = $event->event->summary;
+                    break;
+
+                case $event instanceof RegulierBorrel:
                     $summary = explode(' - ', $event->event->summary, 2);
                     array_unshift($aanvragenlijst, $summary[0]);
                     if (isset($summary[1])) {
@@ -84,17 +98,19 @@ class Tapschema extends BaseController
                     }
                     break;
 
-                case 'aegir':
-                case 'tappersbedank':
-                    $aanvragenlijst[] = $event->event->summary;
+                case $event instanceof AanvraagEvent:
+                    $summary = explode(' - ', $event->event->summary, 2);
+                    $aanvragenlijst[] = $summary[0];
+                    if (isset($summary[1])) {
+                        $tappers = $summary[1];
+                    }
                     break;
 
-                case 'schoonmaak':
+                case $event instanceof SchoonmaakEvent:
                     $schoonmakers = explode('S: ', $event->event->summary, 2)[1];
                     break;
 
-                case 'overig':
-                case 'vergadering':
+                default:
                     break;
             }
         }
@@ -102,7 +118,7 @@ class Tapschema extends BaseController
         if (!empty($aanvragenlijst)) {
             $tekst = sprintf(
                 "%s: %s - %s\n\n",
-                strftime('%a %-e %b', $datum->getTimestamp()),
+                $datum->formatTapmail(),
                 implode(' + ', $aanvragenlijst),
                 !empty($tappers) ? $tappers : 'wie?'
             );
@@ -111,19 +127,19 @@ class Tapschema extends BaseController
         return $tekst;
     }
 
-    protected function maakTapOverzicht(array $events, DateTime $start): string
+    protected function maakTapOverzicht(array $events, FoulardDateTime $start): string
     {
         $overzicht = '';
-        $weeknummer = $start->format('W');
+        $weeknummer = $start->formatWeek();
         $schoonmakers = '';
 
         $overzicht .= $this->insertScheiding();
         foreach ($events as $datum => $eventlijst) {
-            $datum = new DateTime($datum);
-            if ($datum->format('W') !== $weeknummer) {
+            $datum = new FoulardDateTime($datum);
+            if ($datum->formatWeek() !== $weeknummer) {
                 $overzicht .= $this->insertSchoonmaak($schoonmakers);
                 $overzicht .= $this->insertScheiding();
-                $weeknummer = $datum->format('W');
+                $weeknummer = $datum->formatWeek();
             }
 
             $overzicht .= $this->parseAanvragen($datum, $eventlijst, $schoonmakers);
@@ -133,7 +149,7 @@ class Tapschema extends BaseController
         return $overzicht;
     }
 
-    protected function maakTapMail(array $events, DateTime $start): string
+    protected function maakTapMail(array $events, FoulardDateTime $start): string
     {
         $tapmail = sprintf(
             "%s\n\n%s\n\n%s\n\n%s\n\n",
