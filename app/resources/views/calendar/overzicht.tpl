@@ -33,7 +33,7 @@
 		<tr>
 			<td>{$date|escape}</td>
 			<td>{$event->event->summary|escape}</td>
-			<td><span class="badge btn-success">{$event::AANVRAGER}</span></td>
+			<td><span class="badge badge-pill btn-success">{$event::AANVRAGER}</span></td>
 			<td>{if $event->kwn}Ja{/if}</td>
 			<td>{if !empty($event->pers)}{$event->pers}{/if}</td>
 		</tr>

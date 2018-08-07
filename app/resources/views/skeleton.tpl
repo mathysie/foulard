@@ -15,7 +15,7 @@
                     &nbsp;Foulard
                 </a>
                 {if getenv('FOULARD_PROD') !== '1'}
-                <button class="btn btn-danger" type="button">Debug</button>
+                <span class="badge badge-pill badge-danger mr-2 px-2 py-1">Debug</span>
                 {/if}
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarDropdown" aria-controls="navbarDropdown" aria-expanded="false">
                     <span class="navbar-toggler-icon"></span>
