@@ -46,11 +46,12 @@ class CalendarParser
      * Parses an array of Google_Service_Calendar_Event
      * to an array of Event, grouped by date.
      *
-     * @param array $events An array of Google_Service_Calendar_Event
+     * @param array $events      An array of Google_Service_Calendar_Event
+     * @param array $event_class Events of only class $event_class get parsed
      *
      * @return array An array with event date as key and the Events of that day
      */
-    public function parseEvents(array $events): array
+    public function parseEvents(array $events, $event_class = ''): array
     {
         $res = [];
 
@@ -59,7 +60,11 @@ class CalendarParser
             $date = (string) (new GoogleDateTime($event->getStart()));
 
             foreach ($events_to_parse as $event_to_parse) {
-                $res[$date][] = $this->parseEvent($event_to_parse);
+                $parsed_event = $this->parseEvent($event_to_parse);
+                if ('' === $event_class ||
+                        is_subclass_of($parsed_event, $event_class)) {
+                    $res[$date][] = $parsed_event;
+                }
             }
         }
 
