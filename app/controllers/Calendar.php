@@ -2,17 +2,17 @@
 
 namespace app\controllers;
 
-use DateTime;
+use foulard\datetime\FoulardDateTime;
 
 class Calendar extends BaseController
 {
     public function getOverzicht()
     {
-        $start = new DateTime($_GET['start'] ?? null);
-        $end = new DateTime($_GET['end'] ?? '5 years');
+        $start = new FoulardDateTime($_GET['start'] ?? null);
+        $end = new FoulardDateTime($_GET['end'] ?? '5 years');
         $params = [
-            'timeMin' => $start->format(DateTime::RFC3339),
-            'timeMax' => $end->format(DateTime::RFC3339),
+            'timeMin' => $start->formatGoogle(),
+            'timeMax' => $end->formatGoogle(),
         ];
         $view = $this->view->create('calendar.overzicht');
 

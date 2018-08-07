@@ -8,7 +8,7 @@ use foulard\calendar\events\OverigEvent;
 use foulard\calendar\events\SchoonmaakEvent;
 use foulard\calendar\events\TappersbedankborrelEvent;
 use foulard\calendar\events\VergaderingEvent;
-use foulard\google\GoogleDateTime;
+use foulard\datetime\GoogleDateTime;
 use Google_Service_Calendar_Event;
 
 class CalendarParser

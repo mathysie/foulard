@@ -2,7 +2,7 @@
 
 namespace foulard\google;
 
-use DateTime;
+use foulard\datetime\FoulardDateTime;
 use Google_Client;
 use Google_Service_Calendar;
 use Google_Service_Calendar_Calendar;
@@ -37,7 +37,7 @@ class CalendarHelper
         $this->calendar_id = $this->config->get('calendar.calendarID');
     }
 
-    public function getEvents(DateTime $start, DateTime $end, array $params): array
+    public function getEvents(FoulardDateTime $start, FoulardDateTime $end, array $params): array
     {
         // Print the next 10 events on the user's calendar.
         $this->optParams = array_merge($this->optParams, $params);
