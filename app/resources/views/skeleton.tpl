@@ -14,6 +14,9 @@
                     <img src="/assets/img/logo.svg" width="30" height="30">
                     &nbsp;Foulard
                 </a>
+                {if getenv('FOULARD_PROD') !== '1'}
+                <button class="btn btn-danger" type="button">Debug</button>
+                {/if}
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarDropdown" aria-controls="navbarDropdown" aria-expanded="false">
                     <span class="navbar-toggler-icon"></span>
                 </button>
