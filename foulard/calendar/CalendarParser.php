@@ -97,28 +97,28 @@ class CalendarParser
         }
 
         switch (strtolower($match[1] ?? '')) {
-            case DLFAanvraag::AANVRAGER:
+            case strtolower(DLFAanvraag::AANVRAGER):
                 return new DLFAanvraag($event);
 
-            case FooBarAanvraag::AANVRAGER:
+            case strtolower(FooBarAanvraag::AANVRAGER):
                 return new FooBarAanvraag($event);
 
-            case ISSCAanvraag::AANVRAGER:
+            case strtolower(ISSCAanvraag::AANVRAGER):
                 return new ISSCAanvraag($event);
 
-            case LIACSAanvraag::AANVRAGER:
+            case strtolower(LIACSAanvraag::AANVRAGER):
                 return new LIACSAanvraag($event);
 
-            case MIAanvraag::AANVRAGER:
+            case strtolower(MIAanvraag::AANVRAGER):
                 return new MIAanvraag($event);
 
-            case PersoonlijkAanvraag::AANVRAGER:
+            case strtolower(PersoonlijkAanvraag::AANVRAGER):
                 return new PersoonlijkAanvraag($event);
 
-            case RINOAanvraag::AANVRAGER:
+            case strtolower(RINOAanvraag::AANVRAGER):
                 return new RINOAanvraag($event);
 
-            case SBBAanvraag::AANVRAGER:
+            case strtolower(SBBAanvraag::AANVRAGER):
                 return new SBBAanvraag($event);
 
             default:

@@ -6,5 +6,5 @@ use foulard\calendar\events\AanvraagEvent;
 
 class SBBAanvraag extends AanvraagEvent
 {
-    const AANVRAGER = 'sbb';
+    const AANVRAGER = 'SBB';
 }

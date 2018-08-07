@@ -22,6 +22,7 @@
 		<tr>
 			<th scope="col">Datum</th>
 			<th scope="col">Aanvraag</th>
+			<th></th>
 			<th scope="col">KWN</th>
 			<th scope="col"># pers.</th>
 		</tr>
@@ -32,7 +33,8 @@
 		<tr>
 			<td>{$date|escape}</td>
 			<td>{$event->event->summary|escape}</td>
-			<td>{$event->kwn}</td>
+			<td><span class="badge btn-success">{$event::AANVRAGER}</span></td>
+			<td>{if $event->kwn}Ja{/if}</td>
 			<td>{if !empty($event->pers)}{$event->pers}{/if}</td>
 		</tr>
 		{/foreach}

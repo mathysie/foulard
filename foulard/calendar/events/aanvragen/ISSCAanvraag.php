@@ -6,5 +6,5 @@ use foulard\calendar\events\AanvraagEvent;
 
 class ISSCAanvraag extends AanvraagEvent
 {
-    const AANVRAGER = 'issc';
+    const AANVRAGER = 'ISSC';
 }

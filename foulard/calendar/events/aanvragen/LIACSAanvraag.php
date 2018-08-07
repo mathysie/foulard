@@ -6,5 +6,5 @@ use foulard\calendar\events\AanvraagEvent;
 
 class LIACSAanvraag extends AanvraagEvent
 {
-    const AANVRAGER = 'liacs';
+    const AANVRAGER = 'LIACS';
 }

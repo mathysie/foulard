@@ -6,5 +6,5 @@ use foulard\calendar\events\AanvraagEvent;
 
 class RINOAanvraag extends AanvraagEvent
 {
-    const AANVRAGER = 'rino';
+    const AANVRAGER = 'RINO';
 }

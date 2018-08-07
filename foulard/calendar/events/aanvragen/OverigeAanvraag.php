@@ -6,5 +6,5 @@ use foulard\calendar\events\AanvraagEvent;
 
 class OverigeAanvraag extends AanvraagEvent
 {
-    const AANVRAGER = '';
+    const AANVRAGER = 'Overig';
 }
