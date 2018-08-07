@@ -32,6 +32,16 @@ class CalendarParser
         'Tappersbedankborrel',
     ];
 
+    protected $aanvraag_hints = [
+        DLFAanvraag::AANVRAGER,
+        FooBarAanvraag::AANVRAGER,
+        ISSCAanvraag::AANVRAGER,
+        LIACSAanvraag::AANVRAGER,
+        MIAanvraag::AANVRAGER,
+        RINOAanvraag::AANVRAGER,
+        SBBAanvraag::AANVRAGER,
+    ];
+
     /**
      * Parses an array of Google_Service_Calendar_Event
      * to an array of Event, grouped by date.
@@ -45,12 +55,70 @@ class CalendarParser
         $res = [];
 
         foreach ($events as $event) {
-            $parsed_event = $this->parseEvent($event);
+            $events_to_parse = $this->prepareEvents($event);
             $date = (string) (new GoogleDateTime($event->getStart()));
-            $res[$date][] = $parsed_event;
+
+            foreach ($events_to_parse as $event_to_parse) {
+                $res[$date][] = $this->parseEvent($event_to_parse);
+            }
         }
 
         return $res;
+    }
+
+    protected function prepareEvents(Google_Service_Calendar_Event $event): array
+    {
+        $new_events = [];
+
+        $aanvragen = explode(' + ', $event->summary);
+        foreach ($aanvragen as $aanvraag) {
+            $new_event = clone $event;
+            $new_event->setSummary($aanvraag);
+            $new_events[] = $new_event;
+        }
+
+        return $new_events;
+    }
+
+    protected function parseAanvraag(
+        Google_Service_Calendar_Event $event
+    ): AanvraagEvent {
+        $pattern = '/(' . implode('|', $this->aanvraag_hints) . ')/i';
+        preg_match($pattern, $event->summary, $match);
+
+        if (empty($match)) {
+            $pattern = '/^(' . PersoonlijkAanvraag::AANVRAGER . ')/i';
+            preg_match($pattern, $event->description, $match);
+        }
+
+        switch (strtolower($match[1] ?? '')) {
+            case DLFAanvraag::AANVRAGER:
+                return new DLFAanvraag($event);
+
+            case FooBarAanvraag::AANVRAGER:
+                return new FooBarAanvraag($event);
+
+            case ISSCAanvraag::AANVRAGER:
+                return new ISSCAanvraag($event);
+
+            case LIACSAanvraag::AANVRAGER:
+                return new LIACSAanvraag($event);
+
+            case MIAanvraag::AANVRAGER:
+                return new MIAanvraag($event);
+
+            case PersoonlijkAanvraag::AANVRAGER:
+                return new PersoonlijkAanvraag($event);
+
+            case RINOAanvraag::AANVRAGER:
+                return new RINOAanvraag($event);
+
+            case SBBAanvraag::AANVRAGER:
+                return new SBBAanvraag($event);
+
+            default:
+                return new OverigeAanvraag($event);
+        }
     }
 
     /**
