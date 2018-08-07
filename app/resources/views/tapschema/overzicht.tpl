@@ -4,7 +4,7 @@
 
 {block title}Tapschema{/block}
 
-{block content prepend}<h1>Tapschema</h1>{/block}
+{block pagetitle}<h1>Tapschema</h1>{/block}
 
 {block content append}
 <p class="lead">Tapschema van {$start|escape} t/m {$end|escape}.</p>
