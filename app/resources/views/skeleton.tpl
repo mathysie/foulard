@@ -23,6 +23,7 @@
                 <div class="collapse navbar-collapse" id="navbarDropdown">
                     <div class="navbar-nav">
                         <a class="nav-item nav-link {if $smarty.capture.active=='tapschema'}active{/if}" href="{route route='tapschema.tapmail'}">Tapschema</a>
+                        <a class="nav-item nav-link {if $smarty.capture.active=='calendar'}active{/if}" href="{route route='calendar.overzicht'}">Calendar</a>
                     </div>
                 </div>
             </nav>
