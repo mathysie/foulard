@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace app\console\commands;
 
 use mako\reactor\Command;

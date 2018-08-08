@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 //---------------------------------------------
 // Language file used by mako\utility\Humanizer
 //---------------------------------------------

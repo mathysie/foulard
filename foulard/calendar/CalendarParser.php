@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace foulard\calendar;
 
 use foulard\calendar\events\AanvraagEvent;
@@ -93,7 +95,7 @@ class CalendarParser
 
         if (empty($match)) {
             $pattern = '/^(' . PersoonlijkAanvraag::AANVRAGER . ')/i';
-            preg_match($pattern, $event->description, $match);
+            preg_match($pattern, $event->description ?? '', $match);
         }
 
         switch (strtolower($match[1] ?? '')) {

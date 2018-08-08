@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 $routes->group(
     ['namespace' => 'app\controllers'],
     function ($routes) {

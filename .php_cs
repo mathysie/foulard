@@ -15,6 +15,7 @@ $finder = PhpCsFixer\Finder::create()
 return PhpCsFixer\Config::create()
     ->setUsingCache(true)
     ->setFinder($finder)
+    ->setRiskyAllowed(true)
     ->setRules([
         '@PSR1'        => true,
         '@PSR2'        => true,
@@ -34,5 +35,5 @@ return PhpCsFixer\Config::create()
                 '=>' => 'align',
             ]
         ],
-        // 'declare_strict_types' => true, // Pas bij PHP 7.2
+        'declare_strict_types' => true,
     ]);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace foulard\calendar;
 
 use Google_Service_Calendar_Event;

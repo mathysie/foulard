@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     // Calendar ID's are no secret, the credentials to reach and edit them are.
     'calendarID' => '1' === getenv('FOULARD_PROD')
