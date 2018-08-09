@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace foulard\calendar\events;
 
+use foulard\calendar\aanvragen\borrels\AegirBorrel;
+use foulard\calendar\aanvragen\borrels\RegulierBorrel;
+use foulard\calendar\aanvragen\borrels\TappersBedankBorrel;
 use foulard\calendar\Event;
+use foulard\datetime\GoogleDateTime;
 use Google_Service_Calendar_Event;
 
 class AanvraagEvent extends Event
@@ -12,27 +16,51 @@ class AanvraagEvent extends Event
     /** @var array */
     public $tappers = [];
 
-    /** @var bool */
-    public $kwn = false;
-
-    /** @var int|null */
-    public $pers = null;
-
     /** @var GoogleDateTime */
     public $start;
 
     /** @var array */
     public $aanvragen = [];
 
-    public function __construct(Google_Service_Calendar_Event $event)
-    {
+    protected $borrels = [
+        'Ægirborrel'          => AegirBorrel::class,
+        'Regulier'            => RegulierBorrel::class,
+        'Tappersbedankborrel' => TappersBedankBorrel::class,
+    ];
+
+    public function __construct(
+        Google_Service_Calendar_Event $event
+    ) {
         parent::__construct($event);
 
         $this->type = 'aanvraag';
         $this->tappers = $this->setTappers($event->summary);
-        $this->kwn = $this->setKWN($event->summary);
-        $this->pers = $this->setPers($event->summary);
-        $this->event->setSummary($this->setSummary($event->summary));
+        $this->start = new GoogleDateTime($event->getStart());
+
+        $aanvragen_lijst = $this->getAanvragenLijst($event->summary);
+        foreach (explode(' + ', $aanvragen_lijst) as $aanvraag) {
+            $pattern = '/(' . implode('|', array_keys($this->borrels)) . ')/A';
+            preg_match($pattern, $aanvraag, $match);
+            switch ($match[1] ?? '') {
+                case 'Ægirborrel':
+                    $this->aanvragen[] = new AegirBorrel($aanvraag);
+                    break;
+
+                case 'Regulier':
+                    $this->aanvragen[] = new RegulierBorrel($aanvraag);
+                    break;
+
+                case 'Tappersbedankborrel':
+                    $this->aanvragen[] = new TappersBedankBorrel($aanvraag);
+                    break;
+
+                default:
+                    $this->aanvragen[] = $this->calendarParser->parseAanvraag(
+                        $aanvraag,
+                        $event->description
+                    );
+            }
+        }
     }
 
     protected function setTappers(string $summary): array
@@ -45,27 +73,8 @@ class AanvraagEvent extends Event
         }
     }
 
-    protected function setKWN(string $summary): bool
+    protected function getAanvragenLijst(string $summary): string
     {
-        return false !== strpos($summary, 'incl. KWN');
-    }
-
-    protected function setPers(string $summary): int
-    {
-        preg_match('/(\d+) pers/', $summary, $match);
-        if (isset($match[1]) && !empty($match[1])) {
-            return (int) $match[1];
-        } else {
-            return 0;
-        }
-    }
-
-    protected function setSummary(string $summary): string
-    {
-        $summary = explode(' - ', $summary, 2)[0];
-        $summary = preg_split('/\s*incl\. KWN/', $summary)[0];
-        $summary = preg_split('/\s*\(\d+ pers\./', $summary)[0];
-
-        return $summary;
+        return explode(' - ', $summary, 2)[0];
     }
 }

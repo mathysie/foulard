@@ -4,19 +4,17 @@ declare(strict_types=1);
 
 namespace foulard\calendar;
 
+use foulard\calendar\aanvragen\Aanvraag;
+use foulard\calendar\aanvragen\DLFAanvraag;
+use foulard\calendar\aanvragen\FooBarAanvraag;
+use foulard\calendar\aanvragen\ISSCAanvraag;
+use foulard\calendar\aanvragen\LIACSAanvraag;
+use foulard\calendar\aanvragen\MIAanvraag;
+use foulard\calendar\aanvragen\OverigeAanvraag;
+use foulard\calendar\aanvragen\PersoonlijkAanvraag;
+use foulard\calendar\aanvragen\RINOAanvraag;
+use foulard\calendar\aanvragen\SBBAanvraag;
 use foulard\calendar\events\AanvraagEvent;
-use foulard\calendar\events\aanvragen\borrels\AegirBorrel;
-use foulard\calendar\events\aanvragen\borrels\RegulierBorrel;
-use foulard\calendar\events\aanvragen\borrels\TappersBedankBorrel;
-use foulard\calendar\events\aanvragen\DLFAanvraag;
-use foulard\calendar\events\aanvragen\FooBarAanvraag;
-use foulard\calendar\events\aanvragen\ISSCAanvraag;
-use foulard\calendar\events\aanvragen\LIACSAanvraag;
-use foulard\calendar\events\aanvragen\MIAanvraag;
-use foulard\calendar\events\aanvragen\OverigeAanvraag;
-use foulard\calendar\events\aanvragen\PersoonlijkAanvraag;
-use foulard\calendar\events\aanvragen\RINOAanvraag;
-use foulard\calendar\events\aanvragen\SBBAanvraag;
 use foulard\calendar\events\OverigEvent;
 use foulard\calendar\events\SchoonmaakEvent;
 use foulard\calendar\events\VergaderingEvent;
@@ -26,12 +24,9 @@ use Google_Service_Calendar_Event;
 class CalendarParser
 {
     protected $event_hints = [
-        'Ægirborrel',
         'FooBarvergadering',
         'O: ',
-        'Regulier',
         'S: ',
-        'Tappersbedankborrel',
     ];
 
     protected $aanvraag_hints = [
@@ -53,78 +48,61 @@ class CalendarParser
      *
      * @return array An array with event date as key and the Events of that day
      */
-    public function parseEvents(array $events, $event_class = ''): array
+    public function parseEvents(array $events, string $event_class = ''): array
     {
         $res = [];
 
         foreach ($events as $event) {
-            $events_to_parse = $this->prepareEvents($event);
             $date = (string) (new GoogleDateTime($event->getStart()));
-
-            foreach ($events_to_parse as $event_to_parse) {
-                $parsed_event = $this->parseEvent($event_to_parse);
-                if ('' === $event_class ||
-                        is_subclass_of($parsed_event, $event_class)) {
-                    $res[$date][] = $parsed_event;
-                }
+            $parsed_event = $this->parseEvent($event);
+            if (empty($event_class) ||
+                    is_a($parsed_event, $event_class)) {
+                $res[$date][] = $parsed_event;
             }
         }
 
         return $res;
     }
 
-    protected function prepareEvents(Google_Service_Calendar_Event $event): array
-    {
-        $new_events = [];
-
-        $aanvragen = explode(' + ', $event->summary);
-        foreach ($aanvragen as $aanvraag) {
-            $new_event = clone $event;
-            $new_event->setSummary($aanvraag);
-            $new_events[] = $new_event;
-        }
-
-        return $new_events;
-    }
-
-    protected function parseAanvraag(
-        $event
-    ): AanvraagEvent {
+    public function parseAanvraag(
+        string $aanvraag,
+        ?string $description
+    ): Aanvraag {
         $pattern = '/(' . implode('|', $this->aanvraag_hints) . ')/i';
-        preg_match($pattern, $event->summary, $match);
+        preg_match($pattern, $aanvraag, $match);
 
         if (empty($match)) {
             $pattern = '/^(' . PersoonlijkAanvraag::AANVRAGER . ')/i';
-            preg_match($pattern, $event->description ?? '', $match);
+            preg_match($pattern, $description ?? '', $match);
         }
 
         switch (strtolower($match[1] ?? '')) {
             case strtolower(DLFAanvraag::AANVRAGER):
-                return new DLFAanvraag($event);
+                return new DLFAanvraag($aanvraag);
 
             case strtolower(FooBarAanvraag::AANVRAGER):
-                return new FooBarAanvraag($event);
+                return new FooBarAanvraag($aanvraag);
 
             case strtolower(ISSCAanvraag::AANVRAGER):
-                return new ISSCAanvraag($event);
+                return new ISSCAanvraag($aanvraag);
 
             case strtolower(LIACSAanvraag::AANVRAGER):
-                return new LIACSAanvraag($event);
+                return new LIACSAanvraag($aanvraag);
 
             case strtolower(MIAanvraag::AANVRAGER):
-                return new MIAanvraag($event);
+                return new MIAanvraag($aanvraag);
 
             case strtolower(PersoonlijkAanvraag::AANVRAGER):
-                return new PersoonlijkAanvraag($event);
+                return new PersoonlijkAanvraag($aanvraag);
 
             case strtolower(RINOAanvraag::AANVRAGER):
-                return new RINOAanvraag($event);
+                return new RINOAanvraag($aanvraag);
 
             case strtolower(SBBAanvraag::AANVRAGER):
-                return new SBBAanvraag($event);
+                return new SBBAanvraag($aanvraag);
 
             default:
-                return new OverigeAanvraag($event);
+                return new OverigeAanvraag($aanvraag);
         }
     }
 
@@ -141,26 +119,17 @@ class CalendarParser
         preg_match($pattern, $event->summary, $match);
 
         switch ($match[1] ?? '') {
-            case 'Ægirborrel':
-                return new AegirBorrel($event);
-
             case 'FooBarvergadering':
                 return new VergaderingEvent($event);
 
             case 'O: ':
                 return new OverigEvent($event);
 
-            case 'Regulier':
-                return new RegulierBorrel($event);
-
             case 'S: ':
                 return new SchoonmaakEvent($event);
 
-            case 'Tappersbedankborrel':
-                return new TappersBedankBorrel($event);
-
             default:
-                return $this->parseAanvraag($event);
+                return new AanvraagEvent($event);
         }
     }
 }

@@ -9,5 +9,5 @@ use foulard\calendar\aanvragen\FooBarAanvraag;
 class RegulierBorrel extends FooBarAanvraag
 {
     /** @var string */
-    public $type = 'aegir';
+    public $type = 'regulier';
 }
