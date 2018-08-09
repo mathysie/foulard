@@ -86,30 +86,15 @@ class Tapschema extends BaseController
         $tappers = [];
 
         foreach ($eventlijst as $event) {
-            switch (true) {
-                case $event instanceof AegirBorrel:
-                case $event instanceof TappersBedankBorrel:
-                    $overige_borrels[] = $event->event->summary;
-                    break;
-
-                case $event instanceof RegulierBorrel:
-                    $summary = explode(' - ', $event->event->summary, 2);
-                    array_unshift($aanvragenlijst, $summary[0]);
-                    $tappers = array_merge($tappers, $event->tappers);
-                    break;
-
-                case $event instanceof AanvraagEvent:
-                    $summary = explode(' - ', $event->event->summary, 2);
-                    $aanvragenlijst[] = $summary[0];
-                    $tappers = array_merge($tappers, $event->tappers);
-                    break;
-
-                case $event instanceof SchoonmaakEvent:
-                    $schoonmakers = explode('S: ', $event->event->summary, 2)[1];
-                    break;
-
-                default:
-                    break;
+            if ($event instanceof AanvraagEvent) {
+                $tappers = array_merge($tappers, $event->tappers);
+                $this->editAanvragenLijst(
+                    $aanvragenlijst,
+                    $overige_borrels,
+                    $event
+                );
+            } elseif ($event instanceof SchoonmaakEvent) {
+                $schoonmakers = explode('S: ', $event->event->summary, 2)[1];
             }
         }
 
@@ -123,6 +108,22 @@ class Tapschema extends BaseController
         }
 
         return $tekst;
+    }
+
+    protected function editAanvragenLijst(
+        array &$aanvragenlijst,
+        array &$overige_borrels,
+        AanvraagEvent $event
+    ): void {
+        foreach ($event->aanvragen as $aanvraag) {
+            if ($aanvraag instanceof AegirBorrel || $aanvraag instanceof TappersBedankBorrel) {
+                $overige_borrels[] = $aanvraag->getTitel();
+            } elseif ($aanvraag instanceof RegulierBorrel) {
+                array_push($aanvragenlijst, $aanvraag->getTitel());
+            } else {
+                $aanvragenlijst[] = $aanvraag->getTitel();
+            }
+        }
     }
 
     protected function maakTapOverzicht(array $events, FoulardDateTime $start): string
