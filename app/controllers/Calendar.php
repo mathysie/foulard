@@ -9,7 +9,7 @@ use foulard\datetime\FoulardDateTime;
 
 class Calendar extends BaseController
 {
-    public function getOverzicht()
+    public function getOverzicht(): string
     {
         $start = $this->getStart();
         $einde = $this->getEinde($start);

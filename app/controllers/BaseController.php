@@ -8,7 +8,7 @@ use mako\http\routing\Controller;
 
 abstract class BaseController extends Controller
 {
-    protected function passFieldErrors(array $errors = [])
+    protected function passFieldErrors(array $errors = []): void
     {
         $this->session->putFlash('errors', $errors);
     }
