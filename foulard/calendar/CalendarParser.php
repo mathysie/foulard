@@ -88,7 +88,7 @@ class CalendarParser
     }
 
     protected function parseAanvraag(
-        Google_Service_Calendar_Event $event
+        $event
     ): AanvraagEvent {
         $pattern = '/(' . implode('|', $this->aanvraag_hints) . ')/i';
         preg_match($pattern, $event->summary, $match);

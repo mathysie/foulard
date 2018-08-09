@@ -7,10 +7,8 @@ namespace foulard\calendar\events;
 use foulard\calendar\Event;
 use Google_Service_Calendar_Event;
 
-abstract class AanvraagEvent extends Event
+class AanvraagEvent extends Event
 {
-    const AANVRAGER = self::AANVRAGER;
-
     /** @var array */
     public $tappers = [];
 
@@ -19,6 +17,12 @@ abstract class AanvraagEvent extends Event
 
     /** @var int|null */
     public $pers = null;
+
+    /** @var GoogleDateTime */
+    public $start;
+
+    /** @var array */
+    public $aanvragen = [];
 
     public function __construct(Google_Service_Calendar_Event $event)
     {
