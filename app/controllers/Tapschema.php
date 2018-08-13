@@ -17,12 +17,8 @@ class Tapschema extends BaseController
     {
         $start = $this->getStart($offset);
         $end = $this->getEnd($start);
-        $params = [
-            'timeMin' => $start->formatGoogle(),
-            'timeMax' => $end->formatGoogle(),
-        ];
 
-        $events = $this->calendarHelper->getEvents($start, $end, $params);
+        $events = $this->calendarHelper->getEvents($start, $end);
         $events = $this->calendarParser->parseEvents($events);
         $tapmail = $this->maakTapMail($events, $start);
         $rows = substr_count($tapmail, "\n") + 1;

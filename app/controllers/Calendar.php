@@ -13,11 +13,7 @@ class Calendar extends BaseController
     {
         $start = $this->getStart();
         $einde = $this->getEinde($start);
-        $params = [
-            'timeMin' => $start->formatGoogle(),
-            'timeMax' => $einde->formatGoogle(),
-        ];
-        $events = $this->calendarHelper->getEvents($start, $einde, $params);
+        $events = $this->calendarHelper->getEvents($start, $einde);
         $events = $this->calendarParser->parseEvents($events, AanvraagEvent::class);
         $view = $this->view->create('calendar.overzicht');
 
