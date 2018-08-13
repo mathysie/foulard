@@ -23,7 +23,7 @@
 			<th scope="col">Aanvraag</th>
 			<th class="d-none d-md-table-cell"></th>
 			<th class="d-none d-lg-table-cell" scope="col">KWN</th>
-			<th class="d-none d-lg-table-cell" scope="col"># pers.</th>
+			<th class="d-none d-lg-table-cell" scope="col">#&nbsp;pers.</th>
 			<th class="d-none d-lg-table-cell" scope="col">Tapp.</th>
 			<th></th>
 		</tr>
