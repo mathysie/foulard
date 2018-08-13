@@ -12,6 +12,9 @@ abstract class Aanvraag
     public $kwn = false;
 
     /** @var int|null */
+    public $kwn_port = null;
+
+    /** @var int|null */
     public $pers = null;
 
     /** @var string */
@@ -19,7 +22,7 @@ abstract class Aanvraag
 
     public function __construct(string $summary)
     {
-        $this->kwn = $this->setKWN($summary);
+        $this->setKWN($summary);
         $this->pers = $this->setPers($summary);
         $this->summary = $this->setSummary($summary);
     }
@@ -37,9 +40,14 @@ abstract class Aanvraag
         return $titel;
     }
 
-    protected function setKWN(string $summary): bool
+    protected function setKWN(string $summary): void
     {
-        return false !== strpos($summary, 'incl. KWN');
+        preg_match('/incl\. (?:(\d)x )?KWN/', $summary, $match);
+
+        $this->kwn = !empty($match);
+        if (isset($match[1])) {
+            $this->kwn_port = (int) $match[1];
+        }
     }
 
     protected function setPers(string $summary): ?int
@@ -55,7 +63,7 @@ abstract class Aanvraag
     protected function setSummary(string $summary): string
     {
         $summary = explode(' - ', $summary, 2)[0];
-        $summary = preg_split('/\s*incl\. KWN/', $summary)[0];
+        $summary = preg_split('/\s*incl\. (?:(\d)x )?KWN/', $summary)[0];
         $summary = preg_split('/\s*\(\d+ pers\./', $summary)[0];
 
         return $summary;
