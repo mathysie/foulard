@@ -13,8 +13,12 @@ class Calendar extends BaseController
     {
         $start = $this->getStart();
         $einde = $this->getEinde($start);
-        $events = $this->calendarHelper->getEvents($start, $einde);
-        $events = $this->calendarParser->parseEvents($events, AanvraagEvent::class);
+        $events = $this->calendarHelper->getEvents(
+            $start,
+            $einde,
+            [],
+            AanvraagEvent::class
+        );
         $view = $this->view->create('calendar.overzicht');
 
         $view->assign('start', $start);

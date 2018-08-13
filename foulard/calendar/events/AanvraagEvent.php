@@ -7,6 +7,7 @@ namespace foulard\calendar\events;
 use foulard\calendar\aanvragen\borrels\AegirBorrel;
 use foulard\calendar\aanvragen\borrels\RegulierBorrel;
 use foulard\calendar\aanvragen\borrels\TappersBedankBorrel;
+use foulard\calendar\CalendarParser;
 use foulard\calendar\Event;
 use foulard\datetime\GoogleDateTime;
 use Google_Service_Calendar_Event;
@@ -55,7 +56,7 @@ class AanvraagEvent extends Event
                     break;
 
                 default:
-                    $this->aanvragen[] = $this->calendarParser->parseAanvraag(
+                    $this->aanvragen[] = (new CalendarParser())->parseAanvraag(
                         $aanvraag,
                         $event->description
                     );

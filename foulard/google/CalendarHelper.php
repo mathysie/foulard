@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace foulard\google;
 
+use foulard\calendar\CalendarParser;
+use foulard\calendar\events\AanvraagEvent;
 use foulard\datetime\FoulardDateTime;
 use Google_Client;
 use Google_Service_Calendar;
-use Google_Service_Calendar_Calendar;
+use Google_Service_Calendar_Event;
 use Google_Service_Exception;
 use mako\config\Config;
 use mako\http\exceptions\RequestException;
@@ -23,6 +25,9 @@ class CalendarHelper
     /** @var string */
     protected $calendar_id;
 
+    /** @var CalendarParser */
+    protected $calendarParser;
+
     /** @var Config */
     protected $config;
 
@@ -35,13 +40,14 @@ class CalendarHelper
     public function __construct(Config $config)
     {
         $this->config = $config;
+        $this->calendarParser = new CalendarParser();
 
         $this->client = $this->createClient();
         $this->service = new Google_Service_Calendar($this->client);
         $this->calendar_id = $this->config->get('calendar.calendarID');
     }
 
-    public function getEvent(string $id)
+    protected function getEvent(string $id): Google_Service_Calendar_Event
     {
         try {
             $event = $this->service->events->get($this->calendar_id, $id);
@@ -56,8 +62,12 @@ class CalendarHelper
         return $event;
     }
 
-    public function getEvents(FoulardDateTime $start, FoulardDateTime $end, array $params = []): array
-    {
+    public function getEvents(
+        FoulardDateTime $start,
+        FoulardDateTime $end,
+        array $params = [],
+        string $event_class = ''
+    ): array {
         // Print the next 10 events on the user's calendar.
         $this->optParams = array_merge(
             $this->optParams,
@@ -73,7 +83,10 @@ class CalendarHelper
         );
         $events = $results->getItems();
 
-        return $events ?? [];
+        return $this->calendarParser->parseEvents(
+            $events ?? [],
+            $event_class
+        );
     }
 
     public function getService(): Google_Service_Calendar

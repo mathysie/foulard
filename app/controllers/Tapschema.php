@@ -19,7 +19,6 @@ class Tapschema extends BaseController
         $end = $this->getEnd($start);
 
         $events = $this->calendarHelper->getEvents($start, $end);
-        $events = $this->calendarParser->parseEvents($events);
         $tapmail = $this->maakTapMail($events, $start);
         $rows = substr_count($tapmail, "\n") + 1;
 
