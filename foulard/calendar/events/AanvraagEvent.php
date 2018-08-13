@@ -34,7 +34,7 @@ class AanvraagEvent extends Event
         parent::__construct($event);
 
         $this->type = 'aanvraag';
-        $this->tappers = $this->setTappers($event->summary);
+        $this->setTappers($event->summary);
         $this->start = new GoogleDateTime($event->getStart());
 
         $aanvragen_lijst = $this->getAanvragenLijst($event->summary);
@@ -63,14 +63,10 @@ class AanvraagEvent extends Event
         }
     }
 
-    protected function setTappers(string $summary): array
+    protected function setTappers(string $summary): void
     {
         $tappers = explode(' - ', $summary, 2);
-        if (count($tappers) > 1) {
-            return explode(', ', $tappers[1]);
-        } else {
-            return [];
-        }
+        $this->tappers = count($tappers) > 1 ? explode(', ', $tappers[1]) : [];
     }
 
     protected function getAanvragenLijst(string $summary): string

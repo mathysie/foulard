@@ -23,8 +23,8 @@ abstract class Aanvraag
     public function __construct(string $summary)
     {
         $this->setKWN($summary);
-        $this->pers = $this->setPers($summary);
-        $this->summary = $this->setSummary($summary);
+        $this->setPers($summary);
+        $this->setSummary($summary);
     }
 
     public function getTitel(): string
@@ -50,22 +50,20 @@ abstract class Aanvraag
         }
     }
 
-    protected function setPers(string $summary): ?int
+    protected function setPers(string $summary): void
     {
         preg_match('/(\d+) pers/', $summary, $match);
         if (isset($match[1]) && !empty($match[1])) {
-            return (int) $match[1];
-        } else {
-            return null;
+            $this->pers = (int) $match[1];
         }
     }
 
-    protected function setSummary(string $summary): string
+    protected function setSummary(string $summary): void
     {
         $summary = explode(' - ', $summary, 2)[0];
         $summary = preg_split('/\s*incl\. (?:(\d)x )?KWN/', $summary)[0];
         $summary = preg_split('/\s*\(\d+ pers\./', $summary)[0];
 
-        return $summary;
+        $this->summary = $summary;
     }
 }
