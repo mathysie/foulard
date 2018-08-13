@@ -28,6 +28,13 @@ class Calendar extends BaseController
         return $view->render();
     }
 
+    public function bewerkAanvraag(string $id): string
+    {
+        $view = $this->view->create('calendar.bewerk');
+
+        return $view->render();
+    }
+
     protected function getStart(): FoulardDateTime
     {
         if (isset($_GET['start'])) {

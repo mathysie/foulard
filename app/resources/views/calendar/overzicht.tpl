@@ -3,7 +3,6 @@
 {block pagetitle}<h1>Calendar</h1>{/block}
 
 {block content append}
-
 <form method="get" role="form">
 	<div class="form-row">
 		<div class="form-group col-sm">
@@ -26,6 +25,7 @@
 			<th class="d-none d-lg-table-cell" scope="col">KWN</th>
 			<th class="d-none d-lg-table-cell" scope="col"># pers.</th>
 			<th class="d-none d-lg-table-cell" scope="col">Tapp.</th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -41,6 +41,9 @@
 			{if $smarty.foreach.foo.index == 0}
 			<td class="align-middle d-none d-lg-table-cell {if count($aanvraag_event->tappers) > 1}table-success{else}table-danger{/if}" rowspan="{count($aanvraag_event->aanvragen)}">
 				{implode(', ', $aanvraag_event->tappers)|escape}
+			</td>
+			<td class="align-middle" rowspan="{count($aanvraag_event->aanvragen)}">
+				<a class="btn btn-outline-primary" href="{route route='calendar.bewerk.aanvraag' id=$aanvraag_event->event->id}"><i class="far fa-edit"></i>&nbsp;Bewerk</a>
 			</td>
 			{/if}
 		</tr>

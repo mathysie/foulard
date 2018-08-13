@@ -1,0 +1,1 @@
+{extends 'calendar/base.tpl'}
