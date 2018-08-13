@@ -9,7 +9,7 @@
 <h2>Geen credentials</h2>
 <p>Heb je de credentials nog niet gedownload? Zorg er eerst voor dat je toegang hebt tot een test-agenda. Doe dan het volgende:</p>
 <ul>
-	<li>Volg de <a href="https://developers.google.com/calendar/quickstart/php" target="_blank">instructies van Google</a>. Log in bij Google met een account dat toegang heeft tot de FooTest-agenda.</li>
-	<li>Plaats de bestanden <code>credentials.json</code> en <code>token.json</code> in de map <code>foulard/google/</code>.</li>
+    <li>Volg de <a href="https://developers.google.com/calendar/quickstart/php" target="_blank">instructies van Google</a>. Log in bij Google met een account dat toegang heeft tot de FooTest-agenda.</li>
+    <li>Plaats de bestanden <code>credentials.json</code> en <code>token.json</code> in de map <code>foulard/google/</code>.</li>
 </ul>
 {/block}
