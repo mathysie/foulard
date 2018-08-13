@@ -17,7 +17,7 @@
     </a>
 </div>
 <h2>Onderwerp</h2>
-<textarea class="w-100" rows="1" readonly>Tapschema t/m {$end->formatOnderwerp()|escape}.</textarea>
+<textarea class="w-100" rows="1" readonly>Tapschema t/m {$end->formatOnderwerp()|escape}</textarea>
 <h2>Inhoud</h2>
 <textarea class="w-100" rows="{$rows}" readonly>{$tapmail|escape}</textarea>
 {/block}
