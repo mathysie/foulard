@@ -47,19 +47,16 @@ class CalendarHelper
         $this->calendar_id = $this->config->get('calendar.calendarID');
     }
 
-    protected function getEvent(string $id): Google_Service_Calendar_Event
+    public function getAanvraagEvent(string $id): AanvraagEvent
     {
-        try {
-            $event = $this->service->events->get($this->calendar_id, $id);
-        } catch (Google_Service_Exception $e) {
-            throw new RequestException(
-                $e->getCode(),
-                $e->getMessage(),
-                $e->getPrevious()
-            );
-        }
+        $event = $this->getEvent($id);
+        $aanvraag = $this->calendarParser->parseEvent($event);
 
-        return $event;
+        if (is_a($aanvraag, AanvraagEvent::class)) {
+            return $aanvraag;
+        } else {
+            throw new RequestException(400, 'Event is geen AanvraagEvent');
+        }
     }
 
     public function getEvents(
@@ -89,19 +86,19 @@ class CalendarHelper
         );
     }
 
-    public function getService(): Google_Service_Calendar
+    protected function getEvent(string $id): Google_Service_Calendar_Event
     {
-        return $this->service;
-    }
+        try {
+            $event = $this->service->events->get($this->calendar_id, $id);
+        } catch (Google_Service_Exception $e) {
+            throw new RequestException(
+                $e->getCode(),
+                $e->getMessage(),
+                $e->getPrevious()
+            );
+        }
 
-    public function getClient(): Google_Client
-    {
-        return $this->client;
-    }
-
-    public function getCalendar(): Google_Service_Calendar_Calendar
-    {
-        return $this->service->calendars->get($this->calendar_id);
+        return $event;
     }
 
     protected function createClient(): Google_Client
