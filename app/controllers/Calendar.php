@@ -30,7 +30,10 @@ class Calendar extends BaseController
 
     public function bewerkAanvraag(string $id): string
     {
+        $aanvraag_event = $this->calendarHelper->getAanvraagEvent($id);
+
         $view = $this->view->create('calendar.bewerk');
+        $view->assign('aanvraag_event', $aanvraag_event);
 
         return $view->render();
     }

@@ -12,6 +12,7 @@ class FoulardDateTime extends DateTime
     const FORMAT_YMD = 'Y-m-d';
     const FORMAT_WEEK = 'W';
     const FORMAT_WEERGAVE = 'd-m-Y';
+    const FORMAT_TIME = 'H:i';
 
     public function __toString()
     {
@@ -41,5 +42,10 @@ class FoulardDateTime extends DateTime
     public function formatTapmail()
     {
         return strftime('%a %-e %b', $this->getTimestamp());
+    }
+
+    public function formatTime()
+    {
+        return $this->format(self::FORMAT_TIME);
     }
 }

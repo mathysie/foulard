@@ -113,7 +113,7 @@ class CalendarParser
      *
      * @return Event
      */
-    protected function parseEvent(Google_Service_Calendar_Event $event): Event
+    public function parseEvent(Google_Service_Calendar_Event $event): Event
     {
         $pattern = '/(' . implode('|', $this->event_hints) . ')/A';
         preg_match($pattern, $event->summary, $match);

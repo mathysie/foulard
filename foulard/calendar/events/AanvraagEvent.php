@@ -20,6 +20,9 @@ class AanvraagEvent extends Event
     /** @var GoogleDateTime */
     public $start;
 
+    /** @var GoogleDateTime */
+    public $eind;
+
     /** @var array */
     public $aanvragen = [];
 
@@ -37,8 +40,9 @@ class AanvraagEvent extends Event
         $this->type = 'aanvraag';
         $this->tappers = $this->setTappers($event->summary);
         $this->start = new GoogleDateTime($event->getStart());
+        $this->eind = new GoogleDateTime($event->getEnd());
 
-        $aanvragen_lijst = $this->getAanvragenLijst($event->summary);
+        $aanvragen_lijst = $this->getAanvragenLijst();
         foreach (explode(' + ', $aanvragen_lijst) as $aanvraag) {
             $pattern = '/(' . implode('|', array_keys($this->borrels)) . ')/A';
             preg_match($pattern, $aanvraag, $match);
@@ -64,6 +68,16 @@ class AanvraagEvent extends Event
         }
     }
 
+    public function getAanvragenLijst(): string
+    {
+        return explode(' - ', $this->event->summary, 2)[0];
+    }
+
+    public function getTappers(): string
+    {
+        return implode(', ', $this->tappers);
+    }
+
     protected function setTappers(string $summary): array
     {
         $tappers = explode(' - ', $summary, 2);
@@ -72,10 +86,5 @@ class AanvraagEvent extends Event
         } else {
             return [];
         }
-    }
-
-    protected function getAanvragenLijst(string $summary): string
-    {
-        return explode(' - ', $summary, 2)[0];
     }
 }

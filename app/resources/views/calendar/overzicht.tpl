@@ -40,7 +40,7 @@
 			<td class="d-none d-lg-table-cell">{if !empty($aanvraag->pers)}{$aanvraag->pers}{/if}</td>
 			{if $smarty.foreach.foo.index == 0}
 			<td class="align-middle d-none d-lg-table-cell {if count($aanvraag_event->tappers) > 1}table-success{else}table-danger{/if}" rowspan="{count($aanvraag_event->aanvragen)}">
-				{implode(', ', $aanvraag_event->tappers)|escape}
+				{$aanvraag_event->getTappers()|escape}
 			</td>
 			<td class="align-middle" rowspan="{count($aanvraag_event->aanvragen)}">
 				<a class="btn btn-outline-primary" href="{route route='calendar.bewerk.aanvraag' id=$aanvraag_event->event->id}"><i class="far fa-edit"></i>&nbsp;Bewerk</a>
