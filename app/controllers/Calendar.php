@@ -42,7 +42,7 @@ class Calendar extends BaseController
         if (isset($_GET['einde'])) {
             return new FoulardDateTime($_GET['einde']);
         } else {
-            return new FoulardDateTime("{$start} + 1 year");
+            return new FoulardDateTime("{$start} + 2 months");
         }
     }
 }
