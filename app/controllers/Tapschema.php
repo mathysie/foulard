@@ -27,7 +27,7 @@ class Tapschema extends BaseController
         $tapmail = $this->maakTapMail($events, $start);
         $rows = substr_count($tapmail, "\n") + 1;
 
-        $view = $this->view->create('tapschema.overzicht');
+        $view = $this->view->create('tapschema.tapmail');
 
         $view->assign('start', $start);
         $view->assign('end', $end);
