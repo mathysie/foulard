@@ -78,6 +78,11 @@ class CalendarHelper
         // Load previously authorized credentials from a file.
         $credentialsPath = 'foulard/google/token.json';
         $accessToken = json_decode(file_get_contents($credentialsPath), true);
+        if (file_exists($credentialsPath)) {
+            $accessToken = json_decode(file_get_contents($credentialsPath), true);
+        } else {
+            throw new GoogleAuthenticationException();
+        }
         $client->setAccessToken($accessToken);
 
         // Refresh the token if it's expired.
