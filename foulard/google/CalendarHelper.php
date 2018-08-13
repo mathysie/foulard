@@ -8,7 +8,9 @@ use foulard\datetime\FoulardDateTime;
 use Google_Client;
 use Google_Service_Calendar;
 use Google_Service_Calendar_Calendar;
+use Google_Service_Exception;
 use mako\config\Config;
+use mako\http\exceptions\RequestException;
 
 class CalendarHelper
 {
@@ -37,6 +39,21 @@ class CalendarHelper
         $this->client = $this->createClient();
         $this->service = new Google_Service_Calendar($this->client);
         $this->calendar_id = $this->config->get('calendar.calendarID');
+    }
+
+    public function getEvent(string $id)
+    {
+        try {
+            $event = $this->service->events->get($this->calendar_id, $id);
+        } catch (Google_Service_Exception $e) {
+            throw new RequestException(
+                $e->getCode(),
+                $e->getMessage(),
+                $e->getPrevious()
+            );
+        }
+
+        return $event;
     }
 
     public function getEvents(FoulardDateTime $start, FoulardDateTime $end, array $params = []): array
