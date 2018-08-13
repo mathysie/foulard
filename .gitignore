@@ -6,6 +6,7 @@
 
 # Code van derden (via composer)
 /vendor
+/node_modules
 app/packages
 
 # Andere composer-gerelateerde dingen

@@ -30,6 +30,9 @@
 	"prefer-stable": true,
 	"scripts": {
 		"post-update-cmd": [
+			"npm update",
+			"",
+			"ln -fs ../../../node_modules/@fortawesome/fontawesome-free/css/all.min.css public/assets/css/all.min.css",
 			"ln -fs ../../../vendor/twbs/bootstrap/dist/css/bootstrap.min.css public/assets/css/bootstrap.min.css",
 			"ln -fs ../../../vendor/twbs/bootstrap/dist/css/bootstrap.min.css.map public/assets/css/bootstrap.min.css.map",
 			"ln -fs ../../../vendor/twbs/bootstrap/dist/css/bootstrap.css public/assets/css/bootstrap.css",
@@ -38,7 +41,9 @@
 			"ln -fs ../../../vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js public/assets/js/bootstrap.bundle.min.js",
 			"ln -fs ../../../vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js.map public/assets/js/bootstrap.bundle.min.js.map",
 			"ln -fs ../../../vendor/components/jquery/jquery.slim.min.js public/assets/js/jquery.slim.min.js",
-			"ln -fs ../../../vendor/components/jquery/jquery.slim.min.map public/assets/js/jquery.slim.min.map"
+			"ln -fs ../../../vendor/components/jquery/jquery.slim.min.map public/assets/js/jquery.slim.min.map",
+			"",
+			"ln -fs ../../node_modules/@fortawesome/fontawesome-free/webfonts public/assets/webfonts"
 		]
 	},
 	"require-dev": {

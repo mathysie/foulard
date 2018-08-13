@@ -15,7 +15,7 @@
 			<input type="date" name="einde" id="einde" class="form-control" placeholder="einddatum" value="{$einde->formatYMD()}">
 		</div>
 	</div>
-	<button class="btn btn-success mb-2" type="submit">Zoeken</button>
+	<button class="btn btn-success mb-2" type="submit"><i class="fas fa-search"></i>&nbsp;Zoeken</button>
 </form>
 <table class="table">
 	<thead>

@@ -10,10 +10,10 @@
 <p class="lead">Tapschema van {$start|escape} t/m {$end|escape}.</p>
 <div class="btn-group" role="group" aria-label="Navigatie">
     <a class="btn btn-success" href="{route route='tapschema.tapmail' offset=$eerder}">
-        <span class="oi oi-arrow-circle-left"></span>&nbsp;Eén week eerder
+        <span class="far fa-arrow-alt-circle-left"></span>&nbsp;Eén week eerder
     </a>
     <a class="btn btn-success" href="{route route='tapschema.tapmail' offset=$later}">
-    <span class="oi oi-arrow-circle-right"></span>&nbsp;Eén week later
+    <span class="far fa-arrow-alt-circle-right"></span>&nbsp;Eén week later
     </a>
 </div>
 <h2>Onderwerp</h2>
