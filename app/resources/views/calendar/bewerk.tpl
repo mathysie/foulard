@@ -95,7 +95,7 @@
                     <div class="col-sm">
                         <div class="form-group">
                             <label for="kwn-port-{$index}">Aantal porties KWN</label>
-                            <input type="number" class="form-control" id="kwn-port-{$index}" name="kwn-port-{$index}" value="" placeholder="# porties">
+                            <input type="number" class="form-control" id="kwn-port-{$index}" name="kwn-port-{$index}" value="{$aanvraag->kwn_port}" placeholder="# porties">
                         </div>
                     </div>
                 </div>
