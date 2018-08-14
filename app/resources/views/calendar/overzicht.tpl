@@ -33,17 +33,17 @@
         {foreach $aanvraag_event_lijst as $aanvraag_event}
         {assign var="count" value=count($aanvraag_event->aanvragen)}
         <tr>
-            <td {if $count > 1}class="align-middle" rowspan="{$count}"{/if}>{$date|escape}</td>
+            <td class="{if $count > 1}align-middle{/if}" rowspan="{$count}">{$date|escape}</td>
         {foreach $aanvraag_event->aanvragen as $aanvraag name=foo}
             <td>{$aanvraag->summary|escape}</td>
             <td class="d-none d-md-table-cell"><span class="badge badge-pill badge-success">{$aanvraag::AANVRAGER}</span></td>
             <td class="d-none d-lg-table-cell">{if $aanvraag->kwn}Ja{/if}</td>
             <td class="d-none d-lg-table-cell">{if !empty($aanvraag->pers)}{$aanvraag->pers}{/if}</td>
             {if $smarty.foreach.foo.index == 0}
-            <td class="align-middle d-none d-lg-table-cell {if count($aanvraag_event->tappers) >= $aanvraag_event->tap_min}table-success{else}table-danger{/if}" rowspan="{$count}">
+            <td class="{if $count > 1}align-middle{/if} d-none d-lg-table-cell {if count($aanvraag_event->tappers) >= $aanvraag_event->tap_min}table-success{else}table-danger{/if}" rowspan="{$count}">
                 {$aanvraag_event->getTappers()|escape}
             </td>
-            <td class="align-middle" rowspan="{$count}">
+            <td class="{if $count > 1}align-middle{/if}" rowspan="{$count}">
                 <a class="btn btn-outline-primary" href="{route route='calendar.bewerk.aanvraag' id=$aanvraag_event->event->id}"><i class="far fa-edit"></i>&nbsp;Bewerk</a>
             </td>
             {/if}
