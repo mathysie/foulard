@@ -7,7 +7,6 @@ namespace foulard\calendar\events;
 use foulard\calendar\aanvragen\borrels\AegirBorrel;
 use foulard\calendar\aanvragen\borrels\RegulierBorrel;
 use foulard\calendar\aanvragen\borrels\TappersBedankBorrel;
-use foulard\calendar\CalendarParser;
 use foulard\calendar\Event;
 use foulard\datetime\GoogleDateTime;
 use Google_Service_Calendar_Event;
@@ -44,27 +43,7 @@ class AanvraagEvent extends Event
 
         $aanvragen_lijst = $this->getAanvragenLijst();
         foreach (explode(' + ', $aanvragen_lijst) as $aanvraag) {
-            $pattern = '/(' . implode('|', array_keys($this->borrels)) . ')/A';
-            preg_match($pattern, $aanvraag, $match);
-            switch ($match[1] ?? '') {
-                case 'Ægirborrel':
-                    $this->aanvragen[] = new AegirBorrel($aanvraag);
-                    break;
-
-                case 'Regulier':
-                    $this->aanvragen[] = new RegulierBorrel($aanvraag);
-                    break;
-
-                case 'Tappersbedankborrel':
-                    $this->aanvragen[] = new TappersBedankBorrel($aanvraag);
-                    break;
-
-                default:
-                    $this->aanvragen[] = (new CalendarParser())->parseAanvraag(
-                        $aanvraag,
-                        $event->description
-                    );
-            }
+            $this->setAanvraag($aanvraag);
         }
     }
 
@@ -82,5 +61,60 @@ class AanvraagEvent extends Event
     {
         $tappers = explode(' - ', $summary, 2);
         $this->tappers = count($tappers) > 1 ? explode(', ', $tappers[1]) : [];
+    }
+
+    protected function setAanvraag(string $aanvraag): void
+    {
+        $pattern = '/(' . implode('|', array_keys($this->borrels)) . ')/A';
+        preg_match($pattern, $aanvraag, $match);
+        $description = $this->parseEventDescription(
+            $this->event->description,
+            $aanvraag
+        );
+
+        switch ($match[1] ?? '') {
+            case 'Ægirborrel':
+                $this->aanvragen[] = new AegirBorrel(
+                    $aanvraag,
+                    $description,
+                    true
+                );
+                break;
+
+            case 'Regulier':
+                $this->aanvragen[] = new RegulierBorrel(
+                    $aanvraag,
+                    $description,
+                    true
+                );
+                break;
+
+            case 'Tappersbedankborrel':
+                $this->aanvragen[] = new TappersBedankBorrel(
+                    $aanvraag,
+                    $description,
+                    true
+                );
+                break;
+
+            default:
+                $this->aanvragen[] = $this->calendarParser->parseAanvraag(
+                    $aanvraag,
+                    $description,
+                    true
+                );
+        }
+    }
+
+    protected function parseEventDescription(?string $description, string $aanvraag): string
+    {
+        $pattern = '/[\s\r\n]*Borrel \'?(.*)\'?:[\s\r\n]+/mi';
+        preg_match_all($pattern, $description ?? '', $matches);
+
+        foreach ($matches[1] as $key => $match) {
+            if (preg_match("/{$match}/i", $aanvraag)) {
+                return preg_split($pattern, $description)[$key + 1];
+            }
+        }
     }
 }

@@ -66,43 +66,44 @@ class CalendarParser
 
     public function parseAanvraag(
         string $aanvraag,
-        ?string $description
+        string $description,
+        bool $parse
     ): Aanvraag {
         $pattern = '/(' . implode('|', $this->aanvraag_hints) . ')/i';
         preg_match($pattern, $aanvraag, $match);
 
         if (empty($match)) {
-            $pattern = '/^(' . PersoonlijkAanvraag::AANVRAGER . ')/i';
+            $pattern = '/(' . PersoonlijkAanvraag::AANVRAGER . ')/i';
             preg_match($pattern, $description ?? '', $match);
         }
 
         switch (strtolower($match[1] ?? '')) {
             case strtolower(DLFAanvraag::AANVRAGER):
-                return new DLFAanvraag($aanvraag);
+                return new DLFAanvraag($aanvraag, $description, $parse);
 
             case strtolower(FooBarAanvraag::AANVRAGER):
-                return new FooBarAanvraag($aanvraag);
+                return new FooBarAanvraag($aanvraag, $description, $parse);
 
             case strtolower(ISSCAanvraag::AANVRAGER):
-                return new ISSCAanvraag($aanvraag);
+                return new ISSCAanvraag($aanvraag, $description, $parse);
 
             case strtolower(LIACSAanvraag::AANVRAGER):
-                return new LIACSAanvraag($aanvraag);
+                return new LIACSAanvraag($aanvraag, $description, $parse);
 
             case strtolower(MIAanvraag::AANVRAGER):
-                return new MIAanvraag($aanvraag);
+                return new MIAanvraag($aanvraag, $description, $parse);
 
             case strtolower(PersoonlijkAanvraag::AANVRAGER):
-                return new PersoonlijkAanvraag($aanvraag);
+                return new PersoonlijkAanvraag($aanvraag, $description, $parse);
 
             case strtolower(RINOAanvraag::AANVRAGER):
-                return new RINOAanvraag($aanvraag);
+                return new RINOAanvraag($aanvraag, $description, $parse);
 
             case strtolower(SBBAanvraag::AANVRAGER):
-                return new SBBAanvraag($aanvraag);
+                return new SBBAanvraag($aanvraag, $description, $parse);
 
             default:
-                return new OverigeAanvraag($aanvraag);
+                return new OverigeAanvraag($aanvraag, $description, $parse);
         }
     }
 
