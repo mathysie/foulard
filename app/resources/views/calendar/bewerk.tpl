@@ -42,12 +42,12 @@
                 </div>
                 <div class="col-auto">
                     <label for="tap-min">Minimum</label>
-                    <input type="number" class="form-control" id="tap-min" name="tap_min" value="">
+                    <input type="number" class="form-control" id="tap-min" name="tap_min" value="{$aanvraag_event->tap_min}">
                 </div>
             </div>
 
             {foreach $aanvraag_event->aanvragen as $aanvraag name=foo}
-            {assign var="index" value=($smarty.foreach.foo.index + 1)}
+            {assign var="index" value=$smarty.foreach.foo.index}
             <div class="form-group">
                 <h2 id="aanvraag-{$index}">Aanvraag '{$aanvraag->summary}'</h2>
                 <div class="form-group">
@@ -61,25 +61,25 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="contact-{$index}">Contactpersoon</label>
-                    <input type="text" class="form-control" id="contact-{$index}" name="contact-{$index}" value="" placeholder="contactpersoon">
+                    <label for="contactpersoon-{$index}">Contactpersoon</label>
+                    <input type="text" class="form-control" id="contactpersoon-{$index}" name="contactpersoon-{$index}" value="{$aanvraag->contactpersoon}" placeholder="contactpersoon">
                 </div>
                 <div class="form-group">
                     <label for="sap-{$index}">SAP-nummer</label>
-                    <input type="number" class="form-control" id="sap-{$index}" name="sap-{$index}" value="" placeholder="SAP-nummer">
+                    <input type="number" class="form-control" id="sap-{$index}" name="sap-{$index}" value="{$aanvraag->sap}" placeholder="SAP-nummer">
                 </div>
                 <div class="form-row">
                     <div class="col-sm">
                         <div class="form-group">
                             <label for="kwn-{$index}">Met KWN</label>
                             <div class="form-check">
-                                <input type="radio" class="form-check-input" id="kwn-{$index}-ja" name="kwn-{$index}" {if $aanvraag->kwn}checked{/if}>
+                                <input type="radio" class="form-check-input" id="kwn-{$index}-ja" name="kwn-{$index}" value="1" {if $aanvraag->kwn}checked{/if}>
                                 <label class="form-check-label" for="kwn-{$index}-ja">
                                     Ja
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input type="radio" class="form-check-input" id="kwn-{$index}-nee" name="kwn-{$index}" {if !$aanvraag->kwn}checked{/if}>
+                                <input type="radio" class="form-check-input" id="kwn-{$index}-nee" name="kwn-{$index}" value="0" {if !$aanvraag->kwn}checked{/if}>
                                 <label class="form-check-label" for="kwn-{$index}-nee">
                                     Nee
                                 </label>
@@ -100,8 +100,9 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="description-{$index}">Details</label>
-                    <textarea class="form-control" name="description-{$index}" id="description-{$index}" value="" placeholder="Bijzonderheden"></textarea>
+                    <label for="description-{$index}">Bijzonderheden</label>
+                    <textarea class="form-control" name="description-{$index}" id="description-{$index}" placeholder="Bijzonderheden" aria-describedby="bijzonderhedenHelp">{$aanvraag->description|escape}</textarea>
+                    <small class="form-text" id="bijzonderhedenHelp">Zet 'Persoonlijk' op de bovenste regel als de aanvraag een persoonlijke aanvraag moet zijn.</small>
                 </div>
             </div>
             {/foreach}

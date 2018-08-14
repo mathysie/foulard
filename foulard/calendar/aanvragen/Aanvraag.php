@@ -23,6 +23,12 @@ abstract class Aanvraag
     /** @var string */
     public $description = '';
 
+    /** @var string */
+    public $contactpersoon = '';
+
+    /** @var int|null */
+    public $sap;
+
     public function __construct(string $summary, string $description, bool $parse)
     {
         $this->setKWN($summary);
@@ -42,6 +48,12 @@ abstract class Aanvraag
         }
 
         return $titel;
+    }
+
+    public function setSAP(string $sap): void
+    {
+        $sap = (int) preg_replace('/\D/', '', $sap);
+        $this->sap = !empty($sap) ? $sap : null;
     }
 
     protected function setKWN(string $summary): void

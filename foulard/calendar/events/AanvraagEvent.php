@@ -16,11 +16,26 @@ class AanvraagEvent extends Event
     /** @var array */
     public $tappers = [];
 
+    /** @var int */
+    public $tap_min = 2;
+
     /** @var GoogleDateTime */
     public $start;
 
+    /** @var string */
+    public $startdatum;
+
+    /** @var string */
+    public $starttijd;
+
     /** @var GoogleDateTime */
     public $eind;
+
+    /** @var string */
+    public $einddatum;
+
+    /** @var string */
+    public $eindtijd;
 
     /** @var array */
     public $aanvragen = [];
@@ -38,8 +53,13 @@ class AanvraagEvent extends Event
 
         $this->type = 'aanvraag';
         $this->setTappers($event->summary);
+        $this->setTapMin($event->description);
         $this->start = new GoogleDateTime($event->getStart());
+        $this->startdatum = $this->start->formatYMD();
+        $this->starttijd = $this->start->formatTime();
         $this->eind = new GoogleDateTime($event->getEnd());
+        $this->einddatum = $this->eind->formatYMD();
+        $this->eindtijd = $this->eind->formatTime();
 
         $aanvragen_lijst = $this->getAanvragenLijst();
         foreach (explode(' + ', $aanvragen_lijst) as $aanvraag) {
@@ -103,6 +123,14 @@ class AanvraagEvent extends Event
                     $description,
                     true
                 );
+        }
+    }
+
+    protected function setTapMin(?string $description): void
+    {
+        $pattern = '/^Minimum aantal tappers: (\d+)[\s\r\n]*/mi';
+        if (preg_match($pattern, $description ?? '', $match)) {
+            $this->tap_min = $match[1];
         }
     }
 
