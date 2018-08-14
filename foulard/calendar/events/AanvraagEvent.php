@@ -182,6 +182,8 @@ class AanvraagEvent extends Event
                 return preg_split($pattern, $description)[$key + 1];
             }
         }
+
+        return $description ?? '';
     }
 
     protected function toArray(): array
