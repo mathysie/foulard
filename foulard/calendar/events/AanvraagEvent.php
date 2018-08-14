@@ -51,13 +51,13 @@ class AanvraagEvent extends Event
 
     /** @var array */
     protected $rules = [
-        'tappers.*'  => ['alpha_unicode'],
         'tap_min'    => ['integer'],
         'startdatum' => ['required', 'date("Y-m-d")'],
         'starttijd'  => ['required', 'date("H:i")'],
         'einddatum'  => ['required', 'date("Y-m-d")'],
         'eindtijd'   => ['required', 'date("H:i")'],
         'start'      => ['required'],
+        'eind'       => ['required'],
     ];
 
     public function __construct(
@@ -98,11 +98,19 @@ class AanvraagEvent extends Event
         $validator->addRulesIf('aanvragen', ['required'], function () {
             return 0 === count($this->aanvragen);
         });
-        $validator->addRules('eind', ['required', Validator::rule(
-            'after',
-            FoulardDateTime::FORMAT_YMD_TIME,
-            $this->start->formatYMDTime()
-        )]);
+        $validator->addRulesIf(
+            'eind',
+            [
+                Validator::rule(
+                    'after',
+                    FoulardDateTime::FORMAT_YMD_TIME,
+                    $this->start->formatYMDTime()
+                ),
+            ],
+            function () {
+                return $this->eind < $this->start;
+            }
+        );
 
         return $validator->isValid($errors);
     }

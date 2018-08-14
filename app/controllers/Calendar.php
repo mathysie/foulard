@@ -53,6 +53,21 @@ class Calendar extends BaseController
         $aanvraag_event->tappers = explode(', ', $_POST['tappers']);
         $aanvraag_event->tap_min = (int) $_POST['tap_min'];
 
+        if (!empty($_POST['startdatum']) && !empty($_POST['starttijd'])) {
+            $aanvraag_event->start = new FoulardDateTime(
+                sprintf('%s %s', $_POST['startdatum'], $_POST['starttijd'])
+            );
+        } else {
+            $aanvraag_event->start = null;
+        }
+        if (!empty($_POST['einddatum']) && !empty($_POST['eindtijd'])) {
+            $aanvraag_event->eind = new FoulardDateTime(
+                sprintf('%s %s', $_POST['einddatum'], $_POST['eindtijd'])
+            );
+        } else {
+            $aanvraag_event->eind = null;
+        }
+
         for ($i = 0; $i < count($aanvraag_event->aanvragen); ++$i) {
             $aanvraag = $aanvraag_event->aanvragen[$i];
 
@@ -74,7 +89,16 @@ class Calendar extends BaseController
             $aanvraag_event->aanvragen[$i] = $aanvraag;
         }
 
-        if (!$aanvraag_event->isValid($this->validator, $errors)) {
+        $aanvraag_event->isValid($this->validator, $errors);
+        foreach ($aanvraag_event->aanvragen as $key => $aanvraag) {
+            $errors_aanvraag = [];
+            $aanvraag->isValid($this->validator, $errors_aanvraag);
+            if (!empty($errors_aanvraag)) {
+                $errors[$key] = $errors_aanvraag;
+            }
+        }
+
+        if (!empty($errors)) {
             $this->passFieldErrors($errors);
 
             return $this->redirectResponse(

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace foulard\calendar\aanvragen;
 
+use mako\validator\ValidatorFactory;
+
 abstract class Aanvraag
 {
     const AANVRAGER = self::AANVRAGER;
@@ -28,6 +30,13 @@ abstract class Aanvraag
 
     /** @var int|null */
     public $sap;
+
+    protected $rules = [
+        'summary'  => ['required'],
+        'kwn_port' => ['integer'],
+        'pers'     => ['integer'],
+        'sap'      => ['integer'],
+    ];
 
     public function __construct(string $summary, string $description, bool $parse)
     {
@@ -54,6 +63,13 @@ abstract class Aanvraag
     {
         $sap = (int) preg_replace('/\D/', '', $sap);
         $this->sap = !empty($sap) ? $sap : null;
+    }
+
+    public function isValid(ValidatorFactory $validatorFactory, ?array &$errors = []): bool
+    {
+        $validator = $validatorFactory->create($this->toArray(), $this->rules);
+
+        return $validator->isValid($errors);
     }
 
     protected function setKWN(string $summary): void
@@ -116,5 +132,10 @@ abstract class Aanvraag
         } else {
             $this->description = $description;
         }
+    }
+
+    protected function toArray(): array
+    {
+        return get_object_vars($this);
     }
 }
