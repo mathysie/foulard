@@ -27,5 +27,6 @@ $routes->group(
     function ($routes) {
         $routes->get('/', 'Calendar::getOverzicht', 'calendar.overzicht');
         $routes->get('/bewerk/{id}', 'Calendar::bewerkAanvraag', 'calendar.bewerk.aanvraag');
+        $routes->post('/bewerk/{id}', 'Calendar::updateAanvraag', 'calendar.update.aanvraag');
     }
 );
