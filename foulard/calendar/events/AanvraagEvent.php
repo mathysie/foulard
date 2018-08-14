@@ -8,8 +8,11 @@ use foulard\calendar\aanvragen\borrels\AegirBorrel;
 use foulard\calendar\aanvragen\borrels\RegulierBorrel;
 use foulard\calendar\aanvragen\borrels\TappersBedankBorrel;
 use foulard\calendar\Event;
+use foulard\datetime\FoulardDateTime;
 use foulard\datetime\GoogleDateTime;
 use Google_Service_Calendar_Event;
+use mako\validator\Validator;
+use mako\validator\ValidatorFactory;
 
 class AanvraagEvent extends Event
 {
@@ -46,6 +49,17 @@ class AanvraagEvent extends Event
         'Tappersbedankborrel' => TappersBedankBorrel::class,
     ];
 
+    /** @var array */
+    protected $rules = [
+        'tappers.*'  => ['alpha_unicode'],
+        'tap_min'    => ['integer'],
+        'startdatum' => ['required', 'date("Y-m-d")'],
+        'starttijd'  => ['required', 'date("H:i")'],
+        'einddatum'  => ['required', 'date("Y-m-d")'],
+        'eindtijd'   => ['required', 'date("H:i")'],
+        'start'      => ['required'],
+    ];
+
     public function __construct(
         Google_Service_Calendar_Event $event
     ) {
@@ -75,6 +89,22 @@ class AanvraagEvent extends Event
     public function getTappers(): string
     {
         return implode(', ', $this->tappers);
+    }
+
+    public function isValid(ValidatorFactory $validatorFactory, ?array &$errors = []): bool
+    {
+        $validator = $validatorFactory->create($this->toArray(), $this->rules);
+
+        $validator->addRulesIf('aanvragen', ['required'], function () {
+            return 0 === count($this->aanvragen);
+        });
+        $validator->addRules('eind', ['required', Validator::rule(
+            'after',
+            FoulardDateTime::FORMAT_YMD_TIME,
+            $this->start->formatYMDTime()
+        )]);
+
+        return $validator->isValid($errors);
     }
 
     protected function setTappers(string $summary): void
@@ -144,5 +174,10 @@ class AanvraagEvent extends Event
                 return preg_split($pattern, $description)[$key + 1];
             }
         }
+    }
+
+    protected function toArray(): array
+    {
+        return get_object_vars($this);
     }
 }

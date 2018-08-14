@@ -13,6 +13,7 @@ class FoulardDateTime extends DateTime
     const FORMAT_WEEK = 'W';
     const FORMAT_WEERGAVE = 'd-m-Y';
     const FORMAT_TIME = 'H:i';
+    const FORMAT_YMD_TIME = 'Y-m-d H:i';
 
     public function __toString()
     {
@@ -47,5 +48,10 @@ class FoulardDateTime extends DateTime
     public function formatTime()
     {
         return $this->format(self::FORMAT_TIME);
+    }
+
+    public function formatYMDTime()
+    {
+        return $this->format(self::FORMAT_YMD_TIME);
     }
 }

@@ -37,6 +37,8 @@ class Calendar extends BaseController
         $view = $this->view->create('calendar.bewerk');
         $view->assign('aanvraag_event', $aanvraag_event);
 
+        $this->getFieldErrors($view);
+
         return $view->render();
     }
 
@@ -70,6 +72,15 @@ class Calendar extends BaseController
             $aanvraag->setSAP($_POST["sap-{$i}"]);
 
             $aanvraag_event->aanvragen[$i] = $aanvraag;
+        }
+
+        if (!$aanvraag_event->isValid($this->validator, $errors)) {
+            $this->passFieldErrors($errors);
+
+            return $this->redirectResponse(
+                'calendar.bewerk.aanvraag',
+                ['id' => $id]
+            );
         }
 
         return $this->redirectResponse(
