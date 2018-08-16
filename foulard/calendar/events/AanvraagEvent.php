@@ -81,6 +81,16 @@ class AanvraagEvent extends Event
         }
     }
 
+    public function update()
+    {
+        $this->event->setStart($this->start->getGoogleDateTime());
+        $this->event->setEnd($this->eind->getGoogleDateTime());
+        $this->event->setSummary($this->createSummary());
+        $this->event->setDescription($this->createDescription());
+
+        $this->calendarHelper->updateEvent($this->event);
+    }
+
     public function getAanvragenLijst(): string
     {
         return explode(' - ', $this->event->summary, 2)[0];

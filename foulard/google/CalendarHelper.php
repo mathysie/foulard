@@ -86,6 +86,15 @@ class CalendarHelper
         );
     }
 
+    public function updateEvent(Google_Service_Calendar_Event $event): void
+    {
+        $this->service->events->update(
+            $this->calendar_id,
+            $event->id,
+            $event
+        );
+    }
+
     protected function getEvent(string $id): Google_Service_Calendar_Event
     {
         try {
@@ -111,7 +120,6 @@ class CalendarHelper
 
         // Load previously authorized credentials from a file.
         $credentialsPath = 'foulard/google/token.json';
-        $accessToken = json_decode(file_get_contents($credentialsPath), true);
         if (file_exists($credentialsPath)) {
             $accessToken = json_decode(file_get_contents($credentialsPath), true);
         } else {
