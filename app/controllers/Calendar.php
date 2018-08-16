@@ -38,6 +38,7 @@ class Calendar extends BaseController
         $view->assign('aanvraag_event', $aanvraag_event);
 
         $this->getFieldErrors($view);
+        $this->getSuccess($view);
 
         return $view->render();
     }
@@ -109,6 +110,8 @@ class Calendar extends BaseController
         }
 
         $aanvraag_event->update();
+
+        $this->passSuccess();
 
         return $this->redirectResponse(
             'calendar.bewerk.aanvraag',

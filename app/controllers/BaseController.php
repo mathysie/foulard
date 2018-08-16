@@ -34,4 +34,15 @@ abstract class BaseController extends Controller
         $errors = $this->session->getFlash('errors', []);
         $view->assign('errors', $errors);
     }
+
+    protected function passSuccess(): void
+    {
+        $this->session->putFlash('success', true);
+    }
+
+    protected function getSuccess(View &$view): void
+    {
+        $success = $this->session->getFlash('success', false);
+        $view->assign('success', $success);
+    }
 }
