@@ -101,8 +101,10 @@ class AanvraagEvent extends Event
         return implode(', ', $this->tappers);
     }
 
-    public function isValid(ValidatorFactory $validatorFactory, ?array &$errors = []): bool
-    {
+    public function isValid(
+        ValidatorFactory $validatorFactory,
+        ?array &$errors = []
+    ): bool {
         $validator = $validatorFactory->create($this->toArray(), $this->rules);
 
         $validator->addRulesIf('aanvragen', ['required'], function () {

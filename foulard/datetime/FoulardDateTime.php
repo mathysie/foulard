@@ -16,42 +16,42 @@ class FoulardDateTime extends DateTime
     const FORMAT_TIME = 'H:i';
     const FORMAT_YMD_TIME = 'Y-m-d H:i';
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->format(self::FORMAT_WEERGAVE);
     }
 
-    public function formatGoogle()
+    public function formatGoogle(): string
     {
         return $this->format(self::FORMAT_GOOGLE);
     }
 
-    public function formatYMD()
+    public function formatYMD(): string
     {
         return $this->format(self::FORMAT_YMD);
     }
 
-    public function formatWeek()
+    public function formatWeek(): string
     {
         return $this->format('W');
     }
 
-    public function formatOnderwerp()
+    public function formatOnderwerp(): string
     {
         return strftime('%-e %B', $this->getTimestamp());
     }
 
-    public function formatTapmail()
+    public function formatTapmail(): string
     {
         return strftime('%a %-e %b', $this->getTimestamp());
     }
 
-    public function formatTime()
+    public function formatTime(): string
     {
         return $this->format(self::FORMAT_TIME);
     }
 
-    public function formatYMDTime()
+    public function formatYMDTime(): string
     {
         return $this->format(self::FORMAT_YMD_TIME);
     }
