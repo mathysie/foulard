@@ -85,6 +85,7 @@ class Calendar extends BaseController
             $aanvraag->kwn_port = (int) $_POST["kwn-port-{$i}"];
             $aanvraag->contactpersoon = $_POST["contactpersoon-{$i}"];
             $aanvraag->setSAP($_POST["sap-{$i}"]);
+            $aanvraag->pers = (int) $_POST["pers-{$i}"];
 
             $aanvraag_event->aanvragen[$i] = $aanvraag;
         }
@@ -106,6 +107,8 @@ class Calendar extends BaseController
                 ['id' => $id]
             );
         }
+
+        $aanvraag_event->update();
 
         return $this->redirectResponse(
             'calendar.bewerk.aanvraag',
