@@ -20,9 +20,9 @@ class AanvraagEvent extends Event
     public $tappers = [];
 
     /** @var int */
-    public $tap_min = 2;
+    public $tap_min;
 
-    /** @var GoogleDateTime */
+    /** @var FoulardDateTime */
     public $start;
 
     /** @var string */
@@ -31,7 +31,7 @@ class AanvraagEvent extends Event
     /** @var string */
     public $starttijd;
 
-    /** @var GoogleDateTime */
+    /** @var FoulardDateTime */
     public $eind;
 
     /** @var string */
@@ -115,6 +115,84 @@ class AanvraagEvent extends Event
         return $validator->isValid($errors);
     }
 
+    protected function createSummary(): string
+    {
+        $summary = '';
+        $aanvragen_summary = [];
+
+        foreach ($this->aanvragen as $key => $aanvraag) {
+            $aanvragen_summary[$key] = trim($aanvraag->summary);
+            if ($aanvraag->kwn) {
+                $aanvragen_summary[$key] .= ' incl. ';
+                if ($aanvraag->kwn_port > 0) {
+                    $aanvragen_summary[$key] .= "{$aanvraag->kwn_port}x ";
+                }
+                $aanvragen_summary[$key] .= 'KWN';
+            }
+
+            if ($aanvraag->pers > 0) {
+                $aanvragen_summary[$key] .= " ({$aanvraag->pers} pers.)";
+            }
+        }
+
+        $summary .= implode(' + ', $aanvragen_summary);
+
+        if (!empty($this->tappers)) {
+            $summary .= ' - ' . implode(', ', $this->tappers);
+        }
+
+        return trim($summary);
+    }
+
+    protected function createDescription(): string
+    {
+        $description = '';
+        $aanvragen_description = [];
+
+        if ($this->tap_min != $this->config->get('aanvraag.default.tap-min')) {
+            $description .= sprintf("Minimum aantal tappers: %d\n\n", $this->tap_min);
+        }
+
+        foreach ($this->aanvragen as $key => $aanvraag) {
+            if ($aanvraag->hasDescription()) {
+                $aanvragen_description[$key] = sprintf(
+                    "Borrel '%s':\n",
+                    $aanvraag->summary
+                );
+
+                if ($aanvraag instanceof PersoonlijkAanvraag) {
+                    $aanvragen_description[$key] .= "Persoonlijk\n";
+                }
+
+                if (!empty($aanvraag->contactpersoon)) {
+                    $aanvragen_description[$key] .= sprintf(
+                        "Contactpersoon: %s\n",
+                        $aanvraag->contactpersoon
+                    );
+                }
+
+                if (!is_null($aanvraag->sap)) {
+                    var_dump($aanvraag->sap);
+                    $aanvragen_description[$key] .= sprintf(
+                        "SAP-nummer: %d\n",
+                        $aanvraag->sap
+                    );
+                }
+
+                if (!empty($aanvraag->description)) {
+                    $aanvragen_description[$key] .= sprintf(
+                        "Bijzonderheden:\n%s",
+                        $aanvraag->description
+                    );
+                }
+            }
+        }
+
+        $description .= implode("\n\n", $aanvragen_description);
+
+        return trim($description);
+    }
+
     protected function setTappers(string $summary): void
     {
         $tappers = explode(' - ', $summary, 2);
@@ -169,6 +247,8 @@ class AanvraagEvent extends Event
         $pattern = '/^Minimum aantal tappers: (\d+)[\s\r\n]*/mi';
         if (preg_match($pattern, $description ?? '', $match)) {
             $this->tap_min = $match[1];
+        } else {
+            $this->tap_min = $this->config->get('aanvraag.default.tap-min');
         }
     }
 

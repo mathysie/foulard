@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace foulard\datetime;
 
 use DateTime;
+use Google_Service_Calendar_EventDateTime;
 
 class FoulardDateTime extends DateTime
 {
@@ -53,5 +54,14 @@ class FoulardDateTime extends DateTime
     public function formatYMDTime()
     {
         return $this->format(self::FORMAT_YMD_TIME);
+    }
+
+    public function getGoogleDateTime(): Google_Service_Calendar_EventDateTime
+    {
+        $datetime = new Google_Service_Calendar_EventDateTime();
+        $datetime->setDateTime($this->formatGoogle());
+        $datetime->setTimeZone($this->getTimezone()->getName());
+
+        return $datetime;
     }
 }

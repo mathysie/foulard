@@ -72,6 +72,13 @@ abstract class Aanvraag
         return $validator->isValid($errors);
     }
 
+    public function hasDescription(): bool
+    {
+        return !is_null($this->sap)
+            || !empty($this->description)
+            || !empty($this->contactpersoon);
+    }
+
     protected function setKWN(string $summary): void
     {
         preg_match('/incl\. (?:(\d)x )?KWN/', $summary, $match);
@@ -105,7 +112,7 @@ abstract class Aanvraag
         $description = count($description) > 1
                                 ? $description[1] : $description[0];
 
-        preg_match('/Contactpersoon: (.*)[\s\r\n]*/mi', $description, $match);
+        preg_match('/Contactpersoon: (.*)[\r\n]*/mi', $description, $match);
         if (isset($match[1])) {
             $this->contactpersoon = $match[1];
         }
@@ -116,7 +123,7 @@ abstract class Aanvraag
         }
 
         preg_match(
-            '/Bijzonderheden:[\s\r\n]*(.*)[\s\r\n]*/mi',
+            '/Bijzonderheden:[\s\r\n]*(.*)[\s\r\n]*$/mis',
             $description,
             $match
         );
