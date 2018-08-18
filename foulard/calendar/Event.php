@@ -41,7 +41,7 @@ abstract class Event
         $this->event = $event;
 
         $container = Application::instance()->getContainer();
-        $this->calendarParser = new CalendarParser();
+        $this->calendarParser = $container->get(CalendarParser::class);
         $this->calendarHelper = $container->get(CalendarHelper::class);
         $this->config = $container->get(Config::class);
     }

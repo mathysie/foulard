@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace app\controllers;
 
-use foulard\calendar\CalendarParser;
 use foulard\calendar\events\AanvraagEvent;
 use foulard\datetime\FoulardDateTime;
 use mako\http\response\senders\Redirect;
@@ -76,7 +75,7 @@ class Calendar extends BaseController
             // aanvraag anders zijn.
             if ($aanvraag->summary != $_POST["summary-{$i}"]
                 || $aanvraag->description != $_POST["description-{$i}"]) {
-                $aanvraag = (new CalendarParser())->parseAanvraag(
+                $aanvraag = $this->calendarParser->parseAanvraag(
                     $_POST["summary-{$i}"],
                     $_POST["description-{$i}"],
                     false

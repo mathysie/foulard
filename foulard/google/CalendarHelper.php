@@ -37,10 +37,10 @@ class CalendarHelper
           'singleEvents' => true,
     ];
 
-    public function __construct(Config $config)
+    public function __construct(Config $config, CalendarParser $calendarParser)
     {
         $this->config = $config;
-        $this->calendarParser = new CalendarParser();
+        $this->calendarParser = $calendarParser;
 
         $this->client = $this->createClient();
         $this->service = new Google_Service_Calendar($this->client);
