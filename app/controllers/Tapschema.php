@@ -79,10 +79,12 @@ class Tapschema extends BaseController
         $aanvragenlijst = [];
         $overige_borrels = [];
         $tappers = [];
+        $tap_min = null;
 
         foreach ($eventlijst as $event) {
             if ($event instanceof AanvraagEvent) {
                 $tappers = array_merge($tappers, $event->tappers);
+                $tap_min = $event->tap_min;
                 $this->editAanvragenLijst(
                     $aanvragenlijst,
                     $overige_borrels,
@@ -94,11 +96,14 @@ class Tapschema extends BaseController
         }
 
         if (!empty($aanvragenlijst)) {
+            if (count($tappers) < $tap_min) {
+                $tappers[] = 'wie?';
+            }
             $tekst = sprintf(
                 "%s: %s - %s\n\n",
                 $datum->formatTapmail(),
                 implode(' + ', $aanvragenlijst),
-                !empty($tappers) ? implode(', ', $tappers) : 'wie?'
+                implode(', ', $tappers)
             );
         }
 
