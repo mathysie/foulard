@@ -1,9 +1,10 @@
-RegEx parser maken om agenda-afspraken uit te lezen.
-Automatische baroverzichten maken.
-Enkel inloggen door DB
+Footer maken bij bewerken baraanvraag.
+Breadcrumbs een ding maken.
+Baraanvragen invoegen.
+Enkel inloggen door DB.
 
 Nodige uitbreidingen:
-Baraanvragen invoegen en bijwerken
+
 
 Leuke uitbreidingen:
 Herinnerings SMS sturen.
