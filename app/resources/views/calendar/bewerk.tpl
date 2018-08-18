@@ -6,6 +6,10 @@
 <script type="text/javascript" src="/assets/js/calendar/bewerk.js"></script>
 {/block}
 
+{block title}
+{$aanvraag_event->event->summary|escape} bewerken
+{/block}
+
 {block content append}
 <div class="row">
     <div class="col-12 col-lg-8">
