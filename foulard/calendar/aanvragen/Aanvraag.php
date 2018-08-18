@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace foulard\calendar\aanvragen;
 
+use mako\validator\ValidatorFactory;
+
 abstract class Aanvraag
 {
     const AANVRAGER = self::AANVRAGER;
@@ -20,11 +22,28 @@ abstract class Aanvraag
     /** @var string */
     public $summary;
 
-    public function __construct(string $summary)
+    /** @var string */
+    public $description = '';
+
+    /** @var string */
+    public $contactpersoon = '';
+
+    /** @var int|null */
+    public $sap;
+
+    protected $rules = [
+        'summary'  => ['required'],
+        'kwn_port' => ['integer'],
+        'pers'     => ['integer'],
+        'sap'      => ['integer'],
+    ];
+
+    public function __construct(string $summary, string $description, bool $parse)
     {
         $this->setKWN($summary);
         $this->setPers($summary);
         $this->setSummary($summary);
+        $this->setDescription($description, $parse);
     }
 
     public function getTitel(): string
@@ -38,6 +57,26 @@ abstract class Aanvraag
         }
 
         return $titel;
+    }
+
+    public function setSAP(string $sap): void
+    {
+        $sap = (int) preg_replace('/\D/', '', $sap);
+        $this->sap = !empty($sap) ? $sap : null;
+    }
+
+    public function isValid(ValidatorFactory $validatorFactory, ?array &$errors = []): bool
+    {
+        $validator = $validatorFactory->create($this->toArray(), $this->rules);
+
+        return $validator->isValid($errors);
+    }
+
+    public function hasDescription(): bool
+    {
+        return !is_null($this->sap)
+            || !empty($this->description)
+            || !empty($this->contactpersoon);
     }
 
     protected function setKWN(string $summary): void
@@ -65,5 +104,45 @@ abstract class Aanvraag
         $summary = preg_split('/\s*\(\d+ pers\./', $summary)[0];
 
         $this->summary = $summary;
+    }
+
+    protected function parseDescription(string $description): void
+    {
+        $description = preg_split('/^Persoonlijk[\s\r\n]*/mi', $description ?? '');
+        $description = count($description) > 1
+                                ? $description[1] : $description[0];
+
+        preg_match('/Contactpersoon: (.*)[\r\n]*/mi', $description, $match);
+        if (isset($match[1])) {
+            $this->contactpersoon = $match[1];
+        }
+
+        preg_match('/SAP-nummer: (.*)[\s\r\n]*/mi', $description, $match);
+        if (isset($match[1])) {
+            $this->setSap($match[1]);
+        }
+
+        preg_match(
+            '/Bijzonderheden:[\s\r\n]*(.*)[\s\r\n]*$/mis',
+            $description,
+            $match
+        );
+        if (isset($match[1])) {
+            $this->description = $match[1];
+        }
+    }
+
+    protected function setDescription(string $description, bool $parse): void
+    {
+        if ($parse) {
+            $this->parseDescription($description);
+        } else {
+            $this->description = $description;
+        }
+    }
+
+    protected function toArray(): array
+    {
+        return get_object_vars($this);
     }
 }

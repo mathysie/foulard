@@ -6,6 +6,7 @@ namespace app\controllers;
 
 use foulard\google\GoogleAuthenticationException;
 use mako\http\routing\Controller;
+use mako\view\View;
 
 abstract class BaseController extends Controller
 {
@@ -28,8 +29,20 @@ abstract class BaseController extends Controller
         $this->session->putFlash('errors', $errors);
     }
 
-    protected function getFieldErrors(): array
+    protected function getFieldErrors(View &$view): void
     {
-        return $this->session->getFlash('errors', []);
+        $errors = $this->session->getFlash('errors', []);
+        $view->assign('errors', $errors);
+    }
+
+    protected function passSuccess(): void
+    {
+        $this->session->putFlash('success', true);
+    }
+
+    protected function getSuccess(View &$view): void
+    {
+        $success = $this->session->getFlash('success', false);
+        $view->assign('success', $success);
     }
 }

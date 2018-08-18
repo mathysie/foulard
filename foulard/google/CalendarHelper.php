@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace foulard\google;
 
+use foulard\calendar\CalendarParser;
+use foulard\calendar\events\AanvraagEvent;
 use foulard\datetime\FoulardDateTime;
 use Google_Client;
 use Google_Service_Calendar;
-use Google_Service_Calendar_Calendar;
+use Google_Service_Calendar_Event;
+use Google_Service_Exception;
 use mako\config\Config;
+use mako\http\exceptions\RequestException;
 
 class CalendarHelper
 {
@@ -21,6 +25,9 @@ class CalendarHelper
     /** @var string */
     protected $calendar_id;
 
+    /** @var CalendarParser */
+    protected $calendarParser;
+
     /** @var Config */
     protected $config;
 
@@ -30,17 +37,34 @@ class CalendarHelper
           'singleEvents' => true,
     ];
 
-    public function __construct(Config $config)
+    public function __construct(Config $config, CalendarParser $calendarParser)
     {
         $this->config = $config;
+        $this->calendarParser = $calendarParser;
 
         $this->client = $this->createClient();
         $this->service = new Google_Service_Calendar($this->client);
         $this->calendar_id = $this->config->get('calendar.calendarID');
     }
 
-    public function getEvents(FoulardDateTime $start, FoulardDateTime $end, array $params = []): array
+    public function getAanvraagEvent(string $id): AanvraagEvent
     {
+        $event = $this->getEvent($id);
+        $aanvraag = $this->calendarParser->parseEvent($event);
+
+        if (is_a($aanvraag, AanvraagEvent::class)) {
+            return $aanvraag;
+        } else {
+            throw new RequestException(400, 'Event is geen AanvraagEvent');
+        }
+    }
+
+    public function getEvents(
+        FoulardDateTime $start,
+        FoulardDateTime $end,
+        array $params = [],
+        string $event_class = ''
+    ): array {
         // Print the next 10 events on the user's calendar.
         $this->optParams = array_merge(
             $this->optParams,
@@ -56,22 +80,34 @@ class CalendarHelper
         );
         $events = $results->getItems();
 
-        return $events ?? [];
+        return $this->calendarParser->parseEvents(
+            $events ?? [],
+            $event_class
+        );
     }
 
-    public function getService(): Google_Service_Calendar
+    public function updateEvent(Google_Service_Calendar_Event $event): void
     {
-        return $this->service;
+        $this->service->events->update(
+            $this->calendar_id,
+            $event->id,
+            $event
+        );
     }
 
-    public function getClient(): Google_Client
+    protected function getEvent(string $id): Google_Service_Calendar_Event
     {
-        return $this->client;
-    }
+        try {
+            $event = $this->service->events->get($this->calendar_id, $id);
+        } catch (Google_Service_Exception $e) {
+            throw new RequestException(
+                $e->getCode(),
+                $e->getMessage(),
+                $e->getPrevious()
+            );
+        }
 
-    public function getCalendar(): Google_Service_Calendar_Calendar
-    {
-        return $this->service->calendars->get($this->calendar_id);
+        return $event;
     }
 
     protected function createClient(): Google_Client
@@ -84,7 +120,6 @@ class CalendarHelper
 
         // Load previously authorized credentials from a file.
         $credentialsPath = 'foulard/google/token.json';
-        $accessToken = json_decode(file_get_contents($credentialsPath), true);
         if (file_exists($credentialsPath)) {
             $accessToken = json_decode(file_get_contents($credentialsPath), true);
         } else {

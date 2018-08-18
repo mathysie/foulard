@@ -53,6 +53,12 @@ return
      */
     'overrides' => [
         'fieldnames' => [
+            'kwn_port'    => 'KWN porties',
+            'kwn'         => 'KWN',
+            'pers'        => 'aantal personen',
+            'summary'     => 'omschrijving',
+            'description' => 'bijzonderheden',
+            'sap'         => 'SAP-nummer',
         ],
         'messages' => [
         ],

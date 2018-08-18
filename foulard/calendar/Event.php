@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace foulard\calendar;
 
+use foulard\google\CalendarHelper;
 use Google_Service_Calendar_Event;
 use mako\application\Application;
+use mako\config\Config;
 
 abstract class Event
 {
@@ -24,11 +26,23 @@ abstract class Event
      */
     protected $calendarParser;
 
+    /**
+     * @var CalendarHelper
+     */
+    protected $calendarHelper;
+
+    /**
+     * @var Config
+     */
+    protected $config;
+
     public function __construct(Google_Service_Calendar_Event $event)
     {
         $this->event = $event;
 
         $container = Application::instance()->getContainer();
         $this->calendarParser = $container->get(CalendarParser::class);
+        $this->calendarHelper = $container->get(CalendarHelper::class);
+        $this->config = $container->get(Config::class);
     }
 }
