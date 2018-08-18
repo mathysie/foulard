@@ -91,7 +91,7 @@
                     <div class="col-sm">
                         <div class="form-group">
                             <label for="pers-{$index}">Aantal personen</label>
-                            <input type="number" class="form-control" id="pers-{$index}" name="pers-{$index}" value="{$aanvraag->pers|escape}" placeholder="# pers.">
+                            <input type="number" class="form-control" id="pers-{$index}" name="pers-{$index}" value="{$aanvraag->pers|escape}" placeholder="# pers." step="10">
                         </div>
                     </div>
                     <div class="col-sm">
