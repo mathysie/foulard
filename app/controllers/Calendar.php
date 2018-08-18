@@ -50,7 +50,9 @@ class Calendar extends BaseController
         $aanvraag_event->starttijd = $_POST['starttijd'];
         $aanvraag_event->einddatum = $_POST['einddatum'];
         $aanvraag_event->eindtijd = $_POST['eindtijd'];
-        $aanvraag_event->tappers = explode(', ', $_POST['tappers']);
+        if (!empty($_POST['tappers'])) {
+            $aanvraag_event->tappers = explode(', ', $_POST['tappers']);
+        }
         $aanvraag_event->tap_min = (int) $_POST['tap_min'];
 
         if (!empty($_POST['startdatum']) && !empty($_POST['starttijd'])) {
