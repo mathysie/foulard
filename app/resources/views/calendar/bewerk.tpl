@@ -43,7 +43,7 @@
                     </div>
                     <div class="col-auto">
                         <label for="tap-min">Minimum</label>
-                        <input type="number" class="form-control" id="tap-min" name="tap_min" value="{$aanvraag_event->tap_min}">
+                        <input type="number" class="form-control" id="tap-min" name="tap_min" value="{$aanvraag_event->tap_min|escape}">
                     </div>
                 </div>
             </div>
@@ -51,24 +51,24 @@
             {foreach $aanvraag_event->aanvragen as $aanvraag name=foo}
             {assign var="index" value=$smarty.foreach.foo.index}
             <div class="form-group">
-                <h2 id="aanvraag-{$index}">Aanvraag '{$aanvraag->summary}'</h2>
+                <h2 id="aanvraag-{$index}">Aanvraag '{$aanvraag->summary|escape}'</h2>
                 <div class="form-group">
                     <label for="summary-{$index}">Omschrijving</label>
-                    <input type="text" class="form-control" id="summary-{$index}" name="summary-{$index}" value="{$aanvraag->summary}" placeholder="Aanvraag">
+                    <input type="text" class="form-control" id="summary-{$index}" name="summary-{$index}" value="{$aanvraag->summary|escape}" placeholder="Aanvraag">
                 </div>
                 <div class="form-group row">
                     <label for="aanvrager-{$index}" class="col-auto col-form-label">Aanvrager:</label>
                     <div class="col">
-                        <input type="text" class="form-control-plaintext" id="aanvrager-{$index}" value="{$aanvraag::AANVRAGER}" readonly>
+                        <input type="text" class="form-control-plaintext" id="aanvrager-{$index}" value="{$aanvraag::AANVRAGER|escape}" readonly>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="contactpersoon-{$index}">Contactpersoon</label>
-                    <input type="text" class="form-control" id="contactpersoon-{$index}" name="contactpersoon-{$index}" value="{$aanvraag->contactpersoon}" placeholder="contactpersoon">
+                    <input type="text" class="form-control" id="contactpersoon-{$index}" name="contactpersoon-{$index}" value="{$aanvraag->contactpersoon|escape}" placeholder="contactpersoon">
                 </div>
                 <div class="form-group">
                     <label for="sap-{$index}">SAP-nummer</label>
-                    <input type="number" class="form-control" id="sap-{$index}" name="sap-{$index}" value="{$aanvraag->sap}" placeholder="SAP-nummer">
+                    <input type="number" class="form-control" id="sap-{$index}" name="sap-{$index}" value="{$aanvraag->sap|escape}" placeholder="SAP-nummer">
                 </div>
                 <div class="form-row">
                     <div class="col-sm">
@@ -91,13 +91,13 @@
                     <div class="col-sm">
                         <div class="form-group">
                             <label for="pers-{$index}">Aantal personen</label>
-                            <input type="number" class="form-control" id="pers-{$index}" name="pers-{$index}" value="{$aanvraag->pers}" placeholder="# pers.">
+                            <input type="number" class="form-control" id="pers-{$index}" name="pers-{$index}" value="{$aanvraag->pers|escape}" placeholder="# pers.">
                         </div>
                     </div>
                     <div class="col-sm">
                         <div class="form-group">
                             <label for="kwn-port-{$index}">Aantal porties KWN</label>
-                            <input type="number" class="form-control" id="kwn-port-{$index}" name="kwn-port-{$index}" value="{$aanvraag->kwn_port}" placeholder="# porties">
+                            <input type="number" class="form-control" id="kwn-port-{$index}" name="kwn-port-{$index}" value="{$aanvraag->kwn_port|escape}" placeholder="# porties">
                         </div>
                     </div>
                 </div>

@@ -36,9 +36,9 @@
             <td class="{if $count > 1}align-middle{/if}" rowspan="{$count}">{$date|escape}</td>
         {foreach $aanvraag_event->aanvragen as $aanvraag name=foo}
             <td>{$aanvraag->summary|escape}</td>
-            <td class="d-none d-md-table-cell"><span class="badge badge-pill badge-success">{$aanvraag::AANVRAGER}</span></td>
+            <td class="d-none d-md-table-cell"><span class="badge badge-pill badge-success">{$aanvraag::AANVRAGER|escape}</span></td>
             <td class="d-none d-lg-table-cell">{if $aanvraag->kwn}Ja{/if}</td>
-            <td class="d-none d-lg-table-cell">{if !empty($aanvraag->pers)}{$aanvraag->pers}{/if}</td>
+            <td class="d-none d-lg-table-cell">{if !empty($aanvraag->pers)}{$aanvraag->pers|escape}{/if}</td>
             {if $smarty.foreach.foo.index == 0}
             <td class="{if $count > 1}align-middle{/if} d-none d-lg-table-cell {if count($aanvraag_event->tappers) >= $aanvraag_event->tap_min}table-success{else}table-danger{/if}" rowspan="{$count}">
                 {$aanvraag_event->getTappers()|escape}
