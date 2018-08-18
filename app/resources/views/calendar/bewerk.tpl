@@ -2,6 +2,10 @@
 
 {block pagetitle}<h1>'{$aanvraag_event->getAanvragenLijst()|escape}' bewerken</h1>{/block}
 
+{block head append}
+<script type="text/javascript" src="/assets/js/calendar/bewerk.js"></script>
+{/block}
+
 {block content append}
 <div class="row">
     <div class="col-12 col-lg-8">
@@ -73,16 +77,16 @@
                 <div class="form-row">
                     <div class="col-sm">
                         <div class="form-group">
-                            <label for="kwn-{$index}">Met KWN</label>
+                            <label for="kwn-bij-{$index}">Met KWN</label>
                             <div class="form-check">
-                                <input type="radio" class="form-check-input" id="kwn-{$index}-ja" name="kwn-{$index}" value="1" {if $aanvraag->kwn}checked{/if}>
-                                <label class="form-check-label" for="kwn-{$index}-ja">
+                                <input type="radio" class="form-check-input" id="kwn-ja-{$index}" name="kwn-bij-{$index}" value="1" {if $aanvraag->kwn}checked{/if}>
+                                <label class="form-check-label" for="kwn-ja-{$index}">
                                     Ja
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input type="radio" class="form-check-input" id="kwn-{$index}-nee" name="kwn-{$index}" value="0" {if !$aanvraag->kwn}checked{/if}>
-                                <label class="form-check-label" for="kwn-{$index}-nee">
+                                <input type="radio" class="form-check-input" id="kwn-nee-{$index}" name="kwn-bij-{$index}" value="0" {if !$aanvraag->kwn}checked{/if}>
+                                <label class="form-check-label" for="kwn-nee-{$index}">
                                     Nee
                                 </label>
                             </div>
@@ -97,7 +101,7 @@
                     <div class="col-sm">
                         <div class="form-group">
                             <label for="kwn-port-{$index}">Aantal porties KWN</label>
-                            <input type="number" class="form-control" id="kwn-port-{$index}" name="kwn-port-{$index}" value="{$aanvraag->kwn_port|escape}" placeholder="# porties">
+                            <input type="number" class="form-control" id="kwn-port-{$index}" name="kwn-port-{$index}" value="{$aanvraag->kwn_port|escape}" placeholder="# porties" {if !$aanvraag->kwn}readonly{/if}>
                         </div>
                     </div>
                 </div>

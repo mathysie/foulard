@@ -81,7 +81,7 @@ class Calendar extends BaseController
                     false
                 );
             }
-            $aanvraag->kwn = (bool) $_POST["kwn-{$i}"];
+            $aanvraag->kwn = (bool) $_POST["kwn-bij-{$i}"];
             $aanvraag->kwn_port = (int) $_POST["kwn-port-{$i}"];
             $aanvraag->contactpersoon = $_POST["contactpersoon-{$i}"];
             $aanvraag->setSAP($_POST["sap-{$i}"]);
