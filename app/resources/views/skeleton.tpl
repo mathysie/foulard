@@ -7,9 +7,9 @@
         {block head}{/block}
     </head>
     <body>
+        <header>
         {capture 'active'}{block active}{/block}{/capture}
-        <div class="container">
-            <nav class="navbar navbar-expand-md navbar-light bg-light border rounded">
+            <nav class="navbar navbar-expand-md navbar-light bg-light border fixed-top">
                 <a class="navbar-brand" href="/">
                     <img src="/assets/img/logo.svg" width="30" height="30">
                     &nbsp;Foulard
@@ -25,8 +25,10 @@
                     </div>
                 </div>
             </nav>
+        </header>
+        <main class="container pt-3 my-5">
             {block content}
             {/block}
-        </div>
+        </main>
     </body>
 </html>
