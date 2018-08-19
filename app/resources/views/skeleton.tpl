@@ -30,5 +30,16 @@
             {block content}
             {/block}
         </main>
+        <footer class="footer fixed-bottom">
+            {capture 'actions_left'}{block actions_left}{/block}{/capture}
+            {capture 'actions_right'}{block actions_right}{/block}{/capture}
+
+            {if !empty($smarty.capture.actions_left) || !empty($smarty.capture.actions_right)}
+            <div class="container">
+                <span class="actions pull-left">{$smarty.capture.actions_left}</span>
+                <span class="actions pull-right">{$smarty.capture.actions_right}</span>
+            </div>
+            {/if}
+        </footer>
     </body>
 </html>

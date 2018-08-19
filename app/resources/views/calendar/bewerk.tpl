@@ -13,7 +13,7 @@
 {block content append}
 <div class="row">
     <div class="col-12 col-lg-8">
-        <form method="post">
+        <form method="post" id="aanvraag-event-bewerk">
             <div class="form-group">
                 <div class="form-row">
                     <div class="col-6">
@@ -116,8 +116,11 @@
                 </div>
             </div>
             {/foreach}
-            <button class="btn btn-success" type="submit"><i class="far fa-save"></i>&nbsp;Opslaan</button>
         </form>
     </div>
 </div>
+{/block}
+
+{block actions_left}
+<button class="btn btn-success" type="submit" form="aanvraag-event-bewerk"><i class="far fa-save"></i>&nbsp;Opslaan</button>
 {/block}
