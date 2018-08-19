@@ -76,7 +76,8 @@ abstract class Aanvraag
     {
         return !is_null($this->sap)
             || !empty($this->description)
-            || !empty($this->contactpersoon);
+            || !empty($this->contactpersoon)
+            || $this instanceof PersoonlijkAanvraag;
     }
 
     protected function setKWN(string $summary): void

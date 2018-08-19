@@ -7,6 +7,7 @@ namespace foulard\calendar\events;
 use foulard\calendar\aanvragen\borrels\AegirBorrel;
 use foulard\calendar\aanvragen\borrels\RegulierBorrel;
 use foulard\calendar\aanvragen\borrels\TappersBedankBorrel;
+use foulard\calendar\aanvragen\PersoonlijkAanvraag;
 use foulard\calendar\Event;
 use foulard\datetime\FoulardDateTime;
 use foulard\datetime\GoogleDateTime;
