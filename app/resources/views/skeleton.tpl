@@ -41,5 +41,8 @@
             </div>
             {/if}
         </footer>
+
+        {include '_scripts.tpl'}
+        {block scripts}{/block}
     </body>
 </html>

@@ -2,7 +2,7 @@
 
 {block pagetitle}<h1>'{$aanvraag_event->getAanvragenLijst()|escape}' bewerken</h1>{/block}
 
-{block head append}
+{block scripts append}
 <script type="text/javascript" src="/assets/js/calendar/bewerk.js"></script>
 {/block}
 
