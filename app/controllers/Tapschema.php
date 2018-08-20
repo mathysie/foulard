@@ -84,7 +84,8 @@ class Tapschema extends BaseController
         foreach ($eventlijst as $event) {
             if ($event instanceof AanvraagEvent) {
                 $tappers = array_merge($tappers, $event->tappers);
-                $tap_min = $event->tap_min;
+                $tap_min = $event->tap_min > $tap_min ? $event->tap_min
+                            : $tap_min;
                 $this->editAanvragenLijst(
                     $aanvragenlijst,
                     $overige_borrels,
