@@ -127,8 +127,7 @@
                 </div>
                 <div class="form-group">
                     <label for="description-{$index}">Bijzonderheden</label>
-                    <textarea class="form-control" name="description-{$index}" id="description-{$index}" placeholder="Bijzonderheden" aria-describedby="bijzonderhedenHelp">{$aanvraag->description|escape}</textarea>
-                    <small class="form-text" id="bijzonderhedenHelp">Zet 'Persoonlijk' op de bovenste regel als de aanvraag een persoonlijke aanvraag moet zijn.</small>
+                    <textarea class="form-control" name="description-{$index}" id="description-{$index}" placeholder="Bijzonderheden">{$aanvraag->description|escape}</textarea>
                 </div>
             </div>
             {/foreach}
