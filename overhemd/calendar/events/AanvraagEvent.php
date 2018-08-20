@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace foulard\calendar\events;
+namespace overhemd\calendar\events;
 
-use foulard\calendar\aanvragen\borrels\AegirBorrel;
-use foulard\calendar\aanvragen\borrels\RegulierBorrel;
-use foulard\calendar\aanvragen\borrels\TappersBedankBorrel;
-use foulard\calendar\aanvragen\PersoonlijkAanvraag;
-use foulard\calendar\Event;
-use foulard\datetime\FoulardDateTime;
-use foulard\datetime\GoogleDateTime;
+use overhemd\calendar\aanvragen\borrels\AegirBorrel;
+use overhemd\calendar\aanvragen\borrels\RegulierBorrel;
+use overhemd\calendar\aanvragen\borrels\TappersBedankBorrel;
+use overhemd\calendar\aanvragen\PersoonlijkAanvraag;
+use overhemd\calendar\Event;
+use overhemd\datetime\OverhemdDateTime;
+use overhemd\datetime\GoogleDateTime;
 use Google_Service_Calendar_Event;
 use mako\validator\Validator;
 use mako\validator\ValidatorFactory;
@@ -23,7 +23,7 @@ class AanvraagEvent extends Event
     /** @var int */
     public $tap_min;
 
-    /** @var FoulardDateTime */
+    /** @var OverhemdDateTime */
     public $start;
 
     /** @var string */
@@ -32,7 +32,7 @@ class AanvraagEvent extends Event
     /** @var string */
     public $starttijd;
 
-    /** @var FoulardDateTime */
+    /** @var OverhemdDateTime */
     public $eind;
 
     /** @var string */
@@ -116,7 +116,7 @@ class AanvraagEvent extends Event
             [
                 Validator::rule(
                     'after',
-                    FoulardDateTime::FORMAT_YMD_TIME,
+                    OverhemdDateTime::FORMAT_YMD_TIME,
                     $this->start->formatYMDTime()
                 ),
             ],

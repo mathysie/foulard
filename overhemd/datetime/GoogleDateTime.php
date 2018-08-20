@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace foulard\datetime;
+namespace overhemd\datetime;
 
 use DateTimeZone;
 use Google_Service_Calendar_EventDateTime;
 
-class GoogleDateTime extends FoulardDateTime
+class GoogleDateTime extends OverhemdDateTime
 {
     public function __construct(Google_Service_Calendar_EventDateTime $datetime)
     {

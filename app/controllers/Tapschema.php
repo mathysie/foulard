@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace app\controllers;
 
 use DateInterval;
-use foulard\calendar\events\AanvraagEvent;
-use foulard\calendar\events\aanvragen\borrels\AegirBorrel;
-use foulard\calendar\events\aanvragen\borrels\TappersBedankBorrel;
-use foulard\calendar\events\SchoonmaakEvent;
-use foulard\datetime\FoulardDateTime;
+use overhemd\calendar\events\AanvraagEvent;
+use overhemd\calendar\events\aanvragen\borrels\AegirBorrel;
+use overhemd\calendar\events\aanvragen\borrels\TappersBedankBorrel;
+use overhemd\calendar\events\SchoonmaakEvent;
+use overhemd\datetime\OverhemdDateTime;
 
 class Tapschema extends BaseController
 {
@@ -34,9 +34,9 @@ class Tapschema extends BaseController
         return $view->render();
     }
 
-    protected function getStart(int $offset): FoulardDateTime
+    protected function getStart(int $offset): OverhemdDateTime
     {
-        $start = new FoulardDateTime('next Monday');
+        $start = new OverhemdDateTime('next Monday');
 
         if ($offset > 0) {
             $start->add(new DateInterval("P{$offset}W"));
@@ -48,11 +48,11 @@ class Tapschema extends BaseController
         return $start;
     }
 
-    protected function getEnd(FoulardDateTime $start): FoulardDateTime
+    protected function getEnd(OverhemdDateTime $start): OverhemdDateTime
     {
-        return new FoulardDateTime(sprintf(
+        return new OverhemdDateTime(sprintf(
             '%d Sundays after %s',
-            $this->config->get('foulard.tapmail.weken'),
+            $this->config->get('overhemd.tapmail.weken'),
             $start->formatYMD()
         ));
     }
@@ -67,11 +67,11 @@ class Tapschema extends BaseController
 
     protected function insertScheiding(): string
     {
-        return sprintf("%s\n\n", $this->config->get('foulard.tapmail.scheiding'));
+        return sprintf("%s\n\n", $this->config->get('overhemd.tapmail.scheiding'));
     }
 
     protected function parseAanvragen(
-        FoulardDateTime $datum,
+        OverhemdDateTime $datum,
         array $eventlijst,
         string &$schoonmakers
     ): string {
@@ -126,7 +126,7 @@ class Tapschema extends BaseController
         }
     }
 
-    protected function maakTapOverzicht(array $events, FoulardDateTime $start): string
+    protected function maakTapOverzicht(array $events, OverhemdDateTime $start): string
     {
         $overzicht = '';
         $weeknummer = $start->formatWeek();
@@ -134,7 +134,7 @@ class Tapschema extends BaseController
 
         $overzicht .= $this->insertScheiding();
         foreach ($events as $datum => $eventlijst) {
-            $datum = new FoulardDateTime($datum);
+            $datum = new OverhemdDateTime($datum);
             if ($datum->formatWeek() !== $weeknummer) {
                 $overzicht .= $this->insertSchoonmaak($schoonmakers);
                 $overzicht .= $this->insertScheiding();
@@ -148,14 +148,14 @@ class Tapschema extends BaseController
         return $overzicht;
     }
 
-    protected function maakTapMail(array $events, FoulardDateTime $start): string
+    protected function maakTapMail(array $events, OverhemdDateTime $start): string
     {
         $tapmail = sprintf(
             "%s\n\n%s\n\n%s\n\n%s\n\n",
-            $this->config->get('foulard.tapmail.aanhef'),
-            $this->config->get('foulard.tapmail.vulling'),
-            $this->config->get('foulard.tapmail.afsluiting'),
-            $this->config->get('foulard.tapmail.secretaris')
+            $this->config->get('overhemd.tapmail.aanhef'),
+            $this->config->get('overhemd.tapmail.vulling'),
+            $this->config->get('overhemd.tapmail.afsluiting'),
+            $this->config->get('overhemd.tapmail.secretaris')
         );
 
         $tapmail .= $this->maakTapOverzicht($events, $start);

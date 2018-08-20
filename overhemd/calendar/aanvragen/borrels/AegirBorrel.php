@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace foulard\calendar\aanvragen\borrels;
+namespace overhemd\calendar\aanvragen\borrels;
 
-use foulard\calendar\aanvragen\DLFAanvraag;
+use overhemd\calendar\aanvragen\DLFAanvraag;
 
 class AegirBorrel extends DLFAanvraag
 {

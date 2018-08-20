@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace foulard\datetime;
+namespace overhemd\datetime;
 
 use DateTime;
 use Google_Service_Calendar_EventDateTime;
 
-class FoulardDateTime extends DateTime
+class OverhemdDateTime extends DateTime
 {
     const FORMAT_GOOGLE = DateTime::RFC3339;
     const FORMAT_YMD = 'Y-m-d';

@@ -15,7 +15,7 @@ composer.lock
 
 # Opslag
 app/storage
-foulard.db
+overhemd.db
 
 # Cache van php-cs-fixer
 .php_cs.cache

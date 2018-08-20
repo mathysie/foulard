@@ -2,23 +2,23 @@
 
 declare(strict_types=1);
 
-namespace foulard\calendar;
+namespace overhemd\calendar;
 
-use foulard\calendar\aanvragen\Aanvraag;
-use foulard\calendar\aanvragen\DLFAanvraag;
-use foulard\calendar\aanvragen\FooBarAanvraag;
-use foulard\calendar\aanvragen\ISSCAanvraag;
-use foulard\calendar\aanvragen\LIACSAanvraag;
-use foulard\calendar\aanvragen\MIAanvraag;
-use foulard\calendar\aanvragen\OverigeAanvraag;
-use foulard\calendar\aanvragen\PersoonlijkAanvraag;
-use foulard\calendar\aanvragen\RINOAanvraag;
-use foulard\calendar\aanvragen\SBBAanvraag;
-use foulard\calendar\events\AanvraagEvent;
-use foulard\calendar\events\OverigEvent;
-use foulard\calendar\events\SchoonmaakEvent;
-use foulard\calendar\events\VergaderingEvent;
-use foulard\datetime\GoogleDateTime;
+use overhemd\calendar\aanvragen\Aanvraag;
+use overhemd\calendar\aanvragen\DLFAanvraag;
+use overhemd\calendar\aanvragen\FooBarAanvraag;
+use overhemd\calendar\aanvragen\ISSCAanvraag;
+use overhemd\calendar\aanvragen\LIACSAanvraag;
+use overhemd\calendar\aanvragen\MIAanvraag;
+use overhemd\calendar\aanvragen\OverigeAanvraag;
+use overhemd\calendar\aanvragen\PersoonlijkAanvraag;
+use overhemd\calendar\aanvragen\RINOAanvraag;
+use overhemd\calendar\aanvragen\SBBAanvraag;
+use overhemd\calendar\events\AanvraagEvent;
+use overhemd\calendar\events\OverigEvent;
+use overhemd\calendar\events\SchoonmaakEvent;
+use overhemd\calendar\events\VergaderingEvent;
+use overhemd\datetime\GoogleDateTime;
 use Google_Service_Calendar_Event;
 
 class CalendarParser

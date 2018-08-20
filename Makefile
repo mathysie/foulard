@@ -2,7 +2,7 @@ COMPOSER=composer
 
 RM=rm -rf
 
-DB=foulard.db
+DB=overhemd.db
 SQLITE=sqlite3
 
 CSSDIR=public/assets/css

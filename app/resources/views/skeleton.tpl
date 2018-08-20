@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="nl">
     <head>
-        <title>{block title}FooBar{/block} - Foulard</title>
+        <title>{block title}FooBar{/block} - Overhemd</title>
         {include '_head.tpl'}
 
         {block head}{/block}
@@ -12,7 +12,7 @@
             <nav class="navbar navbar-expand-md navbar-light bg-light border fixed-top">
                 <a class="navbar-brand" href="/">
                     <img src="/assets/img/logo.svg" width="30" height="30">
-                    &nbsp;Foulard
+                    &nbsp;Overhemd
                 </a>
                 <span class="badge badge-pill badge-danger mr-2 px-2 py-1">Debug</span>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarDropdown" aria-controls="navbarDropdown" aria-expanded="false">

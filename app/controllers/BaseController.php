@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace app\controllers;
 
-use foulard\google\GoogleAuthenticationException;
+use overhemd\google\GoogleAuthenticationException;
 use mako\http\routing\Controller;
 use mako\view\View;
 

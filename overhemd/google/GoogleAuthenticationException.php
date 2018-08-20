@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace foulard\google;
+namespace overhemd\google;
 
 use mako\application\Application;
 use mako\http\exceptions\RequestException;

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace foulard\calendar;
+namespace overhemd\calendar;
 
-use foulard\google\CalendarHelper;
+use overhemd\google\CalendarHelper;
 use Google_Service_Calendar_Event;
 use mako\application\Application;
 use mako\config\Config;

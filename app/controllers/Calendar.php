@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace app\controllers;
 
-use foulard\calendar\events\AanvraagEvent;
-use foulard\datetime\FoulardDateTime;
+use overhemd\calendar\events\AanvraagEvent;
+use overhemd\datetime\OverhemdDateTime;
 use mako\http\response\senders\Redirect;
 
 class Calendar extends BaseController
@@ -56,14 +56,14 @@ class Calendar extends BaseController
         $aanvraag_event->tap_min = (int) $_POST['tap_min'];
 
         if (!empty($_POST['startdatum']) && !empty($_POST['starttijd'])) {
-            $aanvraag_event->start = new FoulardDateTime(
+            $aanvraag_event->start = new OverhemdDateTime(
                 sprintf('%s %s', $_POST['startdatum'], $_POST['starttijd'])
             );
         } else {
             $aanvraag_event->start = null;
         }
         if (!empty($_POST['einddatum']) && !empty($_POST['eindtijd'])) {
-            $aanvraag_event->eind = new FoulardDateTime(
+            $aanvraag_event->eind = new OverhemdDateTime(
                 sprintf('%s %s', $_POST['einddatum'], $_POST['eindtijd'])
             );
         } else {
@@ -120,21 +120,21 @@ class Calendar extends BaseController
         );
     }
 
-    protected function getStart(): FoulardDateTime
+    protected function getStart(): OverhemdDateTime
     {
         if (isset($_GET['start'])) {
-            return new FoulardDateTime($_GET['start']);
+            return new OverhemdDateTime($_GET['start']);
         } else {
-            return new FoulardDateTime();
+            return new OverhemdDateTime();
         }
     }
 
-    protected function getEinde(FoulardDateTime $start): FoulardDateTime
+    protected function getEinde(OverhemdDateTime $start): OverhemdDateTime
     {
         if (isset($_GET['einde'])) {
-            return new FoulardDateTime($_GET['einde']);
+            return new OverhemdDateTime($_GET['einde']);
         } else {
-            return new FoulardDateTime("{$start} + 2 months");
+            return new OverhemdDateTime("{$start} + 2 months");
         }
     }
 }

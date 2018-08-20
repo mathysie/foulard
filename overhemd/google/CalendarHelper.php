@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace foulard\google;
+namespace overhemd\google;
 
-use foulard\calendar\CalendarParser;
-use foulard\calendar\events\AanvraagEvent;
-use foulard\datetime\FoulardDateTime;
+use overhemd\calendar\CalendarParser;
+use overhemd\calendar\events\AanvraagEvent;
+use overhemd\datetime\OverhemdDateTime;
 use Google_Client;
 use Google_Service_Calendar;
 use Google_Service_Calendar_Event;
@@ -60,8 +60,8 @@ class CalendarHelper
     }
 
     public function getEvents(
-        FoulardDateTime $start,
-        FoulardDateTime $end,
+        OverhemdDateTime $start,
+        OverhemdDateTime $end,
         array $params = [],
         string $event_class = ''
     ): array {
@@ -113,13 +113,13 @@ class CalendarHelper
     protected function createClient(): Google_Client
     {
         $client = new Google_Client();
-        $client->setApplicationName('Foulard');
+        $client->setApplicationName('Overhemd');
         $client->setScopes(Google_Service_Calendar::CALENDAR);
-        $client->setAuthConfig('foulard/google/credentials.json');
+        $client->setAuthConfig('overhemd/google/credentials.json');
         $client->setAccessType('offline');
 
         // Load previously authorized credentials from a file.
-        $credentialsPath = 'foulard/google/token.json';
+        $credentialsPath = 'overhemd/google/token.json';
         if (file_exists($credentialsPath)) {
             $accessToken = json_decode(file_get_contents($credentialsPath), true);
         } else {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace foulard\calendar\aanvragen;
+namespace overhemd\calendar\aanvragen;
 
 class LIACSAanvraag extends Aanvraag
 {

@@ -1,8 +1,8 @@
 {
-	"name": "mathysie/foulard",
-	"description": "FooBar Ondersteunende Utility t.b.v. Laven, Alcohol en Reuze Drankjes",
+	"name": "mathysie/overhemd",
+	"description": "Ontdekking Voor Extra Redelijke Hulp En Meer Drinken",
 	"keywords": [
-		"foulard",
+		"overhemd",
 		"FooBar"
 	],
 	"license": "BSD-3-Clause",
@@ -15,7 +15,7 @@
 	"autoload": {
 		"psr-4": {
 			"app\\": "app",
-			"foulard\\": "foulard"
+			"overhemd\\": "overhemd"
 		}
 	},
 	"require": {

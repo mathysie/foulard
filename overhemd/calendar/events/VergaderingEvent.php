@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace foulard\calendar\events;
+namespace overhemd\calendar\events;
 
-use foulard\calendar\Event;
+use overhemd\calendar\Event;
 use Google_Service_Calendar_Event;
 
 class VergaderingEvent extends Event
