@@ -14,7 +14,6 @@ composer.phar
 composer.lock
 
 # Opslag
-app/storage
 overhemd.db
 
 # Cache van php-cs-fixer
