@@ -70,6 +70,22 @@
                         <input type="text" class="form-control-plaintext" id="aanvrager-{$index}" value="{$aanvraag::AANVRAGER|escape}" readonly>
                     </div>
                 </div>
+                {if $aanvraag::AANVRAGER == 'Persoonlijk'}
+                <div class="form-group">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="overig-{$index}" name="overig-{$index}">
+                        <label for="overig-{$index}" class="form-check-label">Maak dit een overige aanvraag</label>
+                    </div>
+                </div>
+                {/if}
+                {if $aanvraag::AANVRAGER == 'Overig'}
+                <div class="form-group">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="persoonlijk-{$index}" name="persoonlijk-{$index}">
+                        <label for="persoonlijk-{$index}" class="form-check-label">Maak dit een persoonlijke aanvraag</label>
+                    </div>
+                </div>
+                {/if}
                 <div class="form-group">
                     <label for="contactpersoon-{$index}">Contactpersoon</label>
                     <input type="text" class="form-control" id="contactpersoon-{$index}" name="contactpersoon-{$index}" value="{$aanvraag->contactpersoon|escape}" placeholder="contactpersoon">

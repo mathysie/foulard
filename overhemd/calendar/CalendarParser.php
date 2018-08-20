@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace overhemd\calendar;
 
+use Google_Service_Calendar_Event;
 use overhemd\calendar\aanvragen\Aanvraag;
 use overhemd\calendar\aanvragen\DLFAanvraag;
 use overhemd\calendar\aanvragen\FooBarAanvraag;
@@ -19,7 +20,6 @@ use overhemd\calendar\events\OverigEvent;
 use overhemd\calendar\events\SchoonmaakEvent;
 use overhemd\calendar\events\VergaderingEvent;
 use overhemd\datetime\GoogleDateTime;
-use Google_Service_Calendar_Event;
 
 class CalendarParser
 {
@@ -67,8 +67,13 @@ class CalendarParser
     public function parseAanvraag(
         string $aanvraag,
         string $description,
-        bool $parse
+        bool $parse,
+        bool $persoonlijk = false
     ): Aanvraag {
+        if ($persoonlijk) {
+            return new PersoonlijkAanvraag($aanvraag, $description, $parse);
+        }
+
         $pattern = '/(' . implode('|', $this->aanvraag_hints) . ')/i';
         preg_match($pattern, $aanvraag, $match);
 

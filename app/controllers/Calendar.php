@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace app\controllers;
 
+use mako\http\exceptions\MethodNotAllowedException;
+use mako\http\response\senders\Redirect;
+use overhemd\calendar\aanvragen\OverigeAanvraag;
+use overhemd\calendar\aanvragen\PersoonlijkAanvraag;
 use overhemd\calendar\events\AanvraagEvent;
 use overhemd\datetime\OverhemdDateTime;
-use mako\http\response\senders\Redirect;
 
 class Calendar extends BaseController
 {
@@ -72,15 +75,41 @@ class Calendar extends BaseController
 
         for ($i = 0; $i < count($aanvraag_event->aanvragen); ++$i) {
             $aanvraag = $aanvraag_event->aanvragen[$i];
+            $persoonlijk = $aanvraag instanceof PersoonlijkAanvraag;
+
+            if ($_POST["persoonlijk-{$i}"] ?? false) {
+                if (!($aanvraag instanceof OverigeAanvraag)) {
+                    throw new MethodNotAllowedException(
+                        [],
+                        'Aanvraag moet OverigeAanvraag zijn.'
+                    );
+                }
+
+                $persoonlijk = true;
+            }
+
+            if ($_POST["overig-{$i}"] ?? false) {
+                if (!($aanvraag instanceof PersoonlijkAanvraag)) {
+                    throw new MethodNotAllowedException(
+                        [],
+                        'Aanvraag moet PersoonlijkAanvraag zijn.'
+                    );
+                }
+
+                $persoonlijk = false;
+            }
 
             // Als summary of description gewijzigd worden, dan kan het type
             // aanvraag anders zijn.
             if ($aanvraag->summary != $_POST["summary-{$i}"]
-                || $aanvraag->description != $_POST["description-{$i}"]) {
+                || $aanvraag->description != $_POST["description-{$i}"]
+                || $persoonlijk != ($aanvraag instanceof PersoonlijkAanvraag)
+            ) {
                 $aanvraag = $this->calendarParser->parseAanvraag(
                     $_POST["summary-{$i}"],
                     $_POST["description-{$i}"],
-                    false
+                    false,
+                    $persoonlijk
                 );
             }
             $aanvraag->kwn = (bool) $_POST["kwn-bij-{$i}"];
