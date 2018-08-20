@@ -159,7 +159,7 @@ class Tapschema extends BaseController
             $this->config->get('overhemd.tapmail.secretaris')
         );
 
-        $tapmail .= $this->maakTapOverzicht($events, $start);
+        $tapmail .= trim($this->maakTapOverzicht($events, $start));
 
         return $tapmail;
     }
