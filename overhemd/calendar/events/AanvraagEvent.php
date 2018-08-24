@@ -267,7 +267,10 @@ class AanvraagEvent extends Event
 
     protected function parseEventDescription(?string $description, string $aanvraag): string
     {
-        $pattern = '/[\s\r\n]*Borrel \'?(.*)\'?:[\s\r\n]+/mi';
+        $pattern = sprintf(
+            '/[\s\r\n]*%s \'(.*)\':[\s\r\n]+/mi',
+            $this->config->get('overhemd.aanvraag.text.borrel')
+        );
         preg_match_all($pattern, $description ?? '', $matches);
 
         foreach ($matches[1] as $key => $match) {
@@ -276,7 +279,7 @@ class AanvraagEvent extends Event
             }
         }
 
-        return $description ?? '';
+        return '';
     }
 
     protected function toArray(): array
