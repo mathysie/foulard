@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace overhemd\calendar\events;
 
+use Google_Service_Calendar_Event;
+use mako\validator\Validator;
+use mako\validator\ValidatorFactory;
 use overhemd\calendar\aanvragen\borrels\AegirBorrel;
 use overhemd\calendar\aanvragen\borrels\RegulierBorrel;
 use overhemd\calendar\aanvragen\borrels\TappersBedankBorrel;
 use overhemd\calendar\aanvragen\PersoonlijkAanvraag;
 use overhemd\calendar\Event;
-use overhemd\datetime\OverhemdDateTime;
 use overhemd\datetime\GoogleDateTime;
-use Google_Service_Calendar_Event;
-use mako\validator\Validator;
-use mako\validator\ValidatorFactory;
+use overhemd\datetime\OverhemdDateTime;
 
 class AanvraagEvent extends Event
 {
@@ -162,24 +162,31 @@ class AanvraagEvent extends Event
         $description = '';
         $aanvragen_description = [];
 
-        if ($this->tap_min != $this->config->get('aanvraag.default.tap-min')) {
-            $description .= sprintf("Minimum aantal tappers: %d\n\n", $this->tap_min);
+        if ($this->tap_min !=
+                $this->config->get('overhemd.aanvraag.default.tap-min')) {
+            $description .= sprintf("%s: %d\n\n",
+                $this->config->get('overhemd.aanvraag.text.tap-min'),
+                $this->tap_min);
         }
 
         foreach ($this->aanvragen as $key => $aanvraag) {
             if ($aanvraag->hasDescription()) {
                 $aanvragen_description[$key] = sprintf(
-                    "Borrel '%s':\n",
+                    "%s '%s':\n",
+                    $this->config->get('overhemd.aanvraag.text.borrel'),
                     $aanvraag->summary
                 );
 
                 if ($aanvraag instanceof PersoonlijkAanvraag) {
-                    $aanvragen_description[$key] .= "Persoonlijk\n";
+                    $aanvragen_description[$key] .=
+                        $this->config->get('overhemd.aanvraag.text.persoonlijk')
+                        . "\n";
                 }
 
                 if (!empty($aanvraag->contactpersoon)) {
                     $aanvragen_description[$key] .= sprintf(
-                        "Contactpersoon: %s\n",
+                        "%s: %s\n",
+                        $this->config->get('overhemd.aanvraag.text.contact'),
                         $aanvraag->contactpersoon
                     );
                 }
@@ -187,14 +194,16 @@ class AanvraagEvent extends Event
                 if (!is_null($aanvraag->sap)) {
                     var_dump($aanvraag->sap);
                     $aanvragen_description[$key] .= sprintf(
-                        "SAP-nummer: %d\n",
+                        "%s: %d\n",
+                        $this->config->get('overhemd.aanvraag.text.sap'),
                         $aanvraag->sap
                     );
                 }
 
                 if (!empty($aanvraag->description)) {
                     $aanvragen_description[$key] .= sprintf(
-                        "Bijzonderheden:\n%s",
+                        "%s:\n%s",
+                        $this->config->get('overhemd.aanvraag.text.bijzonder'),
                         $aanvraag->description
                     );
                 }
@@ -221,53 +230,41 @@ class AanvraagEvent extends Event
             $aanvraag
         );
 
-        switch ($match[1] ?? '') {
-            case 'Ægirborrel':
-                $this->aanvragen[] = new AegirBorrel(
-                    $aanvraag,
-                    $description,
-                    true
-                );
-                break;
-
-            case 'Regulier':
-                $this->aanvragen[] = new RegulierBorrel(
-                    $aanvraag,
-                    $description,
-                    true
-                );
-                break;
-
-            case 'Tappersbedankborrel':
-                $this->aanvragen[] = new TappersBedankBorrel(
-                    $aanvraag,
-                    $description,
-                    true
-                );
-                break;
-
-            default:
-                $this->aanvragen[] = $this->calendarParser->parseAanvraag(
-                    $aanvraag,
-                    $description,
-                    true
-                );
+        if (array_key_exists($match[1] ?? null, $this->borrels)) {
+            $this->aanvragen[] = new $this->borrels[$match[1]](
+                $aanvraag,
+                $description,
+                true
+            );
+        } else {
+            $this->aanvragen[] = $this->calendarParser->parseAanvraag(
+                $aanvraag,
+                $description,
+                true
+            );
         }
     }
 
     protected function setTapMin(?string $description): void
     {
-        $pattern = '/^Minimum aantal tappers: (\d+)[\s\r\n]*/mi';
+        $pattern = sprintf(
+            '/^%s: (\d+)[\s\r\n]*/mi',
+            $this->config->get('overhemd.aanvraag.text.tap-min')
+        );
+
         if (preg_match($pattern, $description ?? '', $match)) {
             $this->tap_min = $match[1];
         } else {
-            $this->tap_min = $this->config->get('aanvraag.default.tap-min');
+            $this->tap_min = $this->config->get('overhemd.aanvraag.default.tap-min');
         }
     }
 
     protected function parseEventDescription(?string $description, string $aanvraag): string
     {
-        $pattern = '/[\s\r\n]*Borrel \'?(.*)\'?:[\s\r\n]+/mi';
+        $pattern = sprintf(
+            '/[\s\r\n]*%s \'(.*)\':[\s\r\n]+/mi',
+            $this->config->get('overhemd.aanvraag.text.borrel')
+        );
         preg_match_all($pattern, $description ?? '', $matches);
 
         foreach ($matches[1] as $key => $match) {
@@ -276,7 +273,7 @@ class AanvraagEvent extends Event
             }
         }
 
-        return $description ?? '';
+        return '';
     }
 
     protected function toArray(): array

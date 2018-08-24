@@ -17,7 +17,7 @@ class GoogleDateTime extends OverhemdDateTime
             $this->modify($datetime->date);
         } elseif (!empty($datetime->dateTime)) {
             $this->modify($datetime->dateTime);
-            $timeZone = $datetime->timeZone ?? 'Europe/Amsterdam';
+            $timeZone = $datetime->timeZone ?? date_default_timezone_get();
             $this->setTimezone(new DateTimeZone($timeZone));
         }
     }

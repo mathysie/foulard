@@ -163,7 +163,11 @@ class Calendar extends BaseController
         if (isset($_GET['einde'])) {
             return new OverhemdDateTime($_GET['einde']);
         } else {
-            return new OverhemdDateTime("{$start} + 2 months");
+            return new OverhemdDateTime(sprintf(
+                '%s + %s',
+                (string) $start,
+                $this->config->get('overhemd.calendar.defaults.einde')
+            ));
         }
     }
 }
