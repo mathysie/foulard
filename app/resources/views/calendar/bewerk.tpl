@@ -46,13 +46,17 @@
                 <div class="form-row">
                     <div class="col">
                         <label for="tappers">Tappers</label>
-                        <input type="text" class="form-control" id="tappers" name="tappers" value="{$aanvraag_event->getTappers()|escape}" aria-describedby="tappersHelp">
+                        <input type="text" class="form-control" id="tappers" name="tappers" value="{$aanvraag_event->getTappers()|escape}" placeholder="Tapper 1, Tapper 2, ..." aria-describedby="tappersHelp">
                         <small class="form-text" id="tappersHelp">Scheid de namen van tappers met een komma (,).</small>
                     </div>
                     <div class="col-auto">
                         <label for="tap-min">Minimum</label>
                         <input type="number" class="form-control" id="tap-min" name="tap_min" value="{$aanvraag_event->tap_min|escape}">
                     </div>
+                </div>
+                <div class="form-group">
+                    <label for="description">Omschrijving</label>
+                    <textarea class="form-control" id="description" name="description" rows="{substr_count($aanvraag_event->event->description, "\n") + 1}" disabled>{$aanvraag_event->event->description}</textarea>
                 </div>
             </div>
 
