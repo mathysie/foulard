@@ -25,7 +25,7 @@ class CalendarParser
 {
     protected $event_hints = [
         'FooBarvergadering',
-        'O: ',
+        'Overig: ',
         'S: ',
     ];
 
@@ -128,7 +128,7 @@ class CalendarParser
             case 'FooBarvergadering':
                 return new VergaderingEvent($event);
 
-            case 'O: ':
+            case 'Overig: ':
                 return new OverigEvent($event);
 
             case 'S: ':
