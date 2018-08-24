@@ -24,19 +24,19 @@ use overhemd\datetime\GoogleDateTime;
 class CalendarParser
 {
     protected $event_hints = [
-        'FooBarvergadering',
-        'Overig: ',
-        'S: ',
+        'FooBarvergadering' => VergaderingEvent::class,
+        'Overig: '          => OverigEvent::class,
+        'S: '               => SchoonmaakEvent::class,
     ];
 
     protected $aanvraag_hints = [
-        DLFAanvraag::AANVRAGER,
-        FooBarAanvraag::AANVRAGER,
-        ISSCAanvraag::AANVRAGER,
-        LIACSAanvraag::AANVRAGER,
-        MIAanvraag::AANVRAGER,
-        RINOAanvraag::AANVRAGER,
-        SBBAanvraag::AANVRAGER,
+        DLFAanvraag::AANVRAGER    => DLFAanvraag::class,
+        FooBarAanvraag::AANVRAGER => FooBarAanvraag::class,
+        ISSCAanvraag::AANVRAGER   => ISSCAanvraag::class,
+        LIACSAanvraag::AANVRAGER  => LIACSAanvraag::class,
+        MIAanvraag::AANVRAGER     => MIAanvraag::class,
+        RINOAanvraag::AANVRAGER   => RINOAanvraag::class,
+        SBBAanvraag::AANVRAGER    => SBBAanvraag::class,
     ];
 
     /**
@@ -74,7 +74,10 @@ class CalendarParser
             return new PersoonlijkAanvraag($aanvraag, $description, $parse);
         }
 
-        $pattern = '/(' . implode('|', $this->aanvraag_hints) . ')/i';
+        $pattern = sprintf(
+            '/(%s)/i',
+            implode('|', array_keys($this->aanvraag_hints))
+        );
         preg_match($pattern, $aanvraag, $match);
 
         if (empty($match)) {
@@ -82,33 +85,14 @@ class CalendarParser
             preg_match($pattern, $description ?? '', $match);
         }
 
-        switch (strtolower($match[1] ?? '')) {
-            case strtolower(DLFAanvraag::AANVRAGER):
-                return new DLFAanvraag($aanvraag, $description, $parse);
-
-            case strtolower(FooBarAanvraag::AANVRAGER):
-                return new FooBarAanvraag($aanvraag, $description, $parse);
-
-            case strtolower(ISSCAanvraag::AANVRAGER):
-                return new ISSCAanvraag($aanvraag, $description, $parse);
-
-            case strtolower(LIACSAanvraag::AANVRAGER):
-                return new LIACSAanvraag($aanvraag, $description, $parse);
-
-            case strtolower(MIAanvraag::AANVRAGER):
-                return new MIAanvraag($aanvraag, $description, $parse);
-
-            case strtolower(PersoonlijkAanvraag::AANVRAGER):
-                return new PersoonlijkAanvraag($aanvraag, $description, $parse);
-
-            case strtolower(RINOAanvraag::AANVRAGER):
-                return new RINOAanvraag($aanvraag, $description, $parse);
-
-            case strtolower(SBBAanvraag::AANVRAGER):
-                return new SBBAanvraag($aanvraag, $description, $parse);
-
-            default:
-                return new OverigeAanvraag($aanvraag, $description, $parse);
+        if (array_key_exists($match[1] ?? null, $this->aanvraag_hints)) {
+            return new $this->aanvraag_hints[$match[1]](
+                $aanvraag,
+                $description,
+                $parse
+            );
+        } else {
+            return new OverigeAanvraag($aanvraag, $description, $parse);
         }
     }
 
@@ -121,21 +105,13 @@ class CalendarParser
      */
     public function parseEvent(Google_Service_Calendar_Event $event): Event
     {
-        $pattern = '/(' . implode('|', $this->event_hints) . ')/A';
+        $pattern = '/(' . implode('|', array_keys($this->event_hints)) . ')/A';
         preg_match($pattern, $event->summary, $match);
 
-        switch ($match[1] ?? '') {
-            case 'FooBarvergadering':
-                return new VergaderingEvent($event);
-
-            case 'Overig: ':
-                return new OverigEvent($event);
-
-            case 'S: ':
-                return new SchoonmaakEvent($event);
-
-            default:
-                return new AanvraagEvent($event);
+        if (array_key_exists($match[1] ?? null, $this->event_hints)) {
+            return new $this->event_hints[$match[1]]($event);
+        } else {
+            return new AanvraagEvent($event);
         }
     }
 }
