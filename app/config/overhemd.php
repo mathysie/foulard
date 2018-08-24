@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 return [
-    'tapmail'  => require 'overhemd/tapmail.php',
+    'aanvraag' => require 'overhemd/aanvraag.php',
     'calendar' => require 'overhemd/calendar.php',
+    'tapmail'  => require 'overhemd/tapmail.php',
 ];

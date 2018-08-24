@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace overhemd\calendar\aanvragen;
 
+use mako\application\Application;
+use mako\config\Config;
 use mako\validator\ValidatorFactory;
 
 abstract class Aanvraag
@@ -31,6 +33,11 @@ abstract class Aanvraag
     /** @var int|null */
     public $sap;
 
+    /**
+     * @var Config
+     */
+    protected $config;
+
     protected $rules = [
         'summary'  => ['required'],
         'kwn_port' => ['integer'],
@@ -40,6 +47,9 @@ abstract class Aanvraag
 
     public function __construct(string $summary, string $description, bool $parse)
     {
+        $container = Application::instance()->getContainer();
+        $this->config = $container->get(Config::class);
+
         $this->setKWN($summary);
         $this->setPers($summary);
         $this->setSummary($summary);
@@ -113,18 +123,30 @@ abstract class Aanvraag
         $description = count($description) > 1
                                 ? $description[1] : $description[0];
 
-        preg_match('/Contactpersoon: (.*)[\r\n]*/mi', $description, $match);
+        $pattern = sprintf(
+            '/%s: (.*)[\r\n]*/mi',
+            $this->config->get('overhemd.aanvraag.text.contact')
+        );
+        preg_match($pattern, $description, $match);
         if (isset($match[1])) {
             $this->contactpersoon = $match[1];
         }
 
-        preg_match('/SAP-nummer: (.*)[\s\r\n]*/mi', $description, $match);
+        $pattern = sprintf(
+            '/%s: (.*)[\s\r\n]*/mi',
+            $this->config->get('overhemd.aanvraag.text.sap')
+        );
+        preg_match($pattern, $description, $match);
         if (isset($match[1])) {
             $this->setSap($match[1]);
         }
 
+        $pattern = sprintf(
+            '/%s:[\s\r\n]*(.*)[\s\r\n]*$/mis',
+            $this->config->get('overhemd.aanvraag.text.bijzonder')
+        );
         preg_match(
-            '/Bijzonderheden:[\s\r\n]*(.*)[\s\r\n]*$/mis',
+            $pattern,
             $description,
             $match
         );
