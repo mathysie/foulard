@@ -36,7 +36,10 @@ class Tapschema extends BaseController
 
     protected function getStart(int $offset): OverhemdDateTime
     {
-        $start = new OverhemdDateTime('next Monday');
+        $start = new OverhemdDateTime(sprintf(
+            'next %s',
+            $this->config->get('overhemd.tapmail.begindag')
+        ));
 
         if ($offset > 0) {
             $start->add(new DateInterval("P{$offset}W"));
@@ -51,15 +54,20 @@ class Tapschema extends BaseController
     protected function getEnd(OverhemdDateTime $start): OverhemdDateTime
     {
         return new OverhemdDateTime(sprintf(
-            '%d Sundays after %s',
+            '%d %ss after %s',
             $this->config->get('overhemd.tapmail.weken'),
+            $this->config->get('overhemd.tapmail.einddag'),
             $start->formatYMD()
         ));
     }
 
     protected function insertSchoonmaak(string &$schoonmakers): string
     {
-        $schoonmaak = sprintf("Schoonmaak: %s\n", $schoonmakers);
+        $schoonmaak = sprintf(
+            "%s %s\n",
+            $this->config->get('overhemd.tapmail.schoonmaak'),
+            $schoonmakers
+        );
         $schoonmakers = '';
 
         return $schoonmaak;
@@ -98,7 +106,7 @@ class Tapschema extends BaseController
 
         if (!empty($aanvragenlijst)) {
             if (count($tappers) < $tap_min) {
-                $tappers[] = 'wie?';
+                $tappers[] = $this->config->get('overhemd.tapmail.wie');
             }
             $tekst = sprintf(
                 "%s: %s - %s\n\n",
@@ -117,7 +125,8 @@ class Tapschema extends BaseController
         AanvraagEvent $event
     ): void {
         foreach ($event->aanvragen as $aanvraag) {
-            if ($aanvraag instanceof AegirBorrel || $aanvraag instanceof TappersBedankBorrel) {
+            if ($aanvraag instanceof AegirBorrel
+                || $aanvraag instanceof TappersBedankBorrel) {
                 $overige_borrels[] = $aanvraag->getTitel();
             } elseif ($aanvraag instanceof RegulierBorrel) {
                 array_push($aanvragenlijst, $aanvraag->getTitel());
@@ -127,8 +136,10 @@ class Tapschema extends BaseController
         }
     }
 
-    protected function maakTapOverzicht(array $events, OverhemdDateTime $start): string
-    {
+    protected function maakTapOverzicht(
+        array $events,
+        OverhemdDateTime $start
+    ): string {
         $overzicht = '';
         $weeknummer = $start->formatWeek();
         $schoonmakers = '';
