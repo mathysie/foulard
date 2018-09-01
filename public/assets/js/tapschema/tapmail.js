@@ -9,4 +9,3 @@ tinymce.init({
         });
     }
 });
-
