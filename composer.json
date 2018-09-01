@@ -24,7 +24,8 @@
 		"bertptrs/marty": "^5.2",
 		"twbs/bootstrap": "^4.1",
 		"components/jquery": "^3.3",
-		"google/apiclient": "^2.0"
+		"google/apiclient": "^2.0",
+		"tinymce/tinymce": "^4.8"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
@@ -43,7 +44,8 @@
 			"ln -fs ../../../vendor/components/jquery/jquery.slim.min.js public/assets/js/jquery.slim.min.js",
 			"ln -fs ../../../vendor/components/jquery/jquery.slim.min.map public/assets/js/jquery.slim.min.map",
 			"",
-			"ln -fs ../../node_modules/@fortawesome/fontawesome-free/webfonts public/assets/webfonts"
+			"ln -fs ../../node_modules/@fortawesome/fontawesome-free/webfonts public/assets/webfonts",
+			"ln -fs ../../../vendor/tinymce/tinymce public/assets/tinymce/tinymce"
 		]
 	},
 	"require-dev": {

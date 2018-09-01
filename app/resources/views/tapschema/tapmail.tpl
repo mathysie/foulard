@@ -4,6 +4,11 @@
 
 {block title}Tapschema{/block}
 
+{block scripts append}
+<script type="text/javascript" src="/assets/tinymce/tinymce/tinymce.min.js"></script>
+<script type="text/javascript" src="/assets/js/tapschema/tapmail.js"></script>
+{/block}
+
 {block pagetitle}<h1>Tapschema</h1>{/block}
 
 {block content append}
@@ -19,5 +24,5 @@
 <h2>Onderwerp</h2>
 <textarea class="w-100" rows="1" readonly>Tapschema t/m {$end->formatOnderwerp()|escape}</textarea>
 <h2>Inhoud</h2>
-<textarea class="w-100" rows="{$rows}" readonly>{$tapmail|escape}</textarea>
+<textarea id="tapmail">{$tapmail}</textarea>
 {/block}
