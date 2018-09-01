@@ -11,7 +11,7 @@ return [
     'vulling'    => 'INSERT TEKST',
     'afsluiting' => 'Ik hoor graag wanneer je kan tappen,',
     'secretaris' => 'Mathijs',
-    'scheiding'  => '-------',
-    'schoonmaak' => 'Schoonmaak:',
-    'wie'        => 'wie?',
+    'scheiding'  => '<hr />',
+    'schoonmaak' => 'Schoonmaak',
+    'wie'        => '<strong>wie?</strong>',
 ];

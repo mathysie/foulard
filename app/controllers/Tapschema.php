@@ -64,7 +64,7 @@ class Tapschema extends BaseController
     protected function insertSchoonmaak(string &$schoonmakers): string
     {
         $schoonmaak = sprintf(
-            "%s %s\n",
+            '<p><em>%s</em>: %s</p>',
             $this->config->get('overhemd.tapmail.schoonmaak'),
             $schoonmakers
         );
@@ -75,7 +75,7 @@ class Tapschema extends BaseController
 
     protected function insertScheiding(): string
     {
-        return sprintf("%s\n\n", $this->config->get('overhemd.tapmail.scheiding'));
+        return sprintf('%s', $this->config->get('overhemd.tapmail.scheiding'));
     }
 
     protected function parseAanvragen(
@@ -109,7 +109,7 @@ class Tapschema extends BaseController
                 $tappers[] = $this->config->get('overhemd.tapmail.wie');
             }
             $tekst = sprintf(
-                "%s: %s - %s\n\n",
+                '<p><strong>%s</strong>: %s - %s</p>',
                 $datum->formatTapmail(),
                 implode(' + ', $aanvragenlijst),
                 implode(', ', $tappers)
@@ -163,7 +163,7 @@ class Tapschema extends BaseController
     protected function maakTapMail(array $events, OverhemdDateTime $start): string
     {
         $tapmail = sprintf(
-            "%s\n\n%s\n\n%s\n\n%s\n\n",
+            '<p>%s</p><p>%s</p>%s<p>%s</p>',
             $this->config->get('overhemd.tapmail.aanhef'),
             $this->config->get('overhemd.tapmail.vulling'),
             $this->config->get('overhemd.tapmail.afsluiting'),
