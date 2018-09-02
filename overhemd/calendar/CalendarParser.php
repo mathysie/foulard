@@ -30,13 +30,14 @@ class CalendarParser
     ];
 
     protected $aanvraag_hints = [
-        DLFAanvraag::AANVRAGER    => DLFAanvraag::class,
-        FooBarAanvraag::AANVRAGER => FooBarAanvraag::class,
-        ISSCAanvraag::AANVRAGER   => ISSCAanvraag::class,
-        LIACSAanvraag::AANVRAGER  => LIACSAanvraag::class,
-        MIAanvraag::AANVRAGER     => MIAanvraag::class,
-        RINOAanvraag::AANVRAGER   => RINOAanvraag::class,
-        SBBAanvraag::AANVRAGER    => SBBAanvraag::class,
+        DLFAanvraag::AANVRAGER         => DLFAanvraag::class,
+        FooBarAanvraag::AANVRAGER      => FooBarAanvraag::class,
+        ISSCAanvraag::AANVRAGER        => ISSCAanvraag::class,
+        LIACSAanvraag::AANVRAGER       => LIACSAanvraag::class,
+        MIAanvraag::AANVRAGER          => MIAanvraag::class,
+        PersoonlijkAanvraag::AANVRAGER => PersoonlijkAanvraag::class,
+        RINOAanvraag::AANVRAGER        => RINOAanvraag::class,
+        SBBAanvraag::AANVRAGER         => SBBAanvraag::class,
     ];
 
     /**

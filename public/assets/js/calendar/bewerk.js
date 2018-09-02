@@ -13,3 +13,22 @@ $(function () {
         }
     });
 });
+
+tinymce.init({
+    selector: '#description',
+    menubar: false,
+    toolbar: false,
+    setup: function (ed) {
+        ed.on('init', function () {
+            tinymce.get('description').getBody().setAttribute('contenteditable', false);
+        });
+    }
+});
+
+tinymce.init({
+    selector: '.tinymce',
+    menubar: false,
+    plugins: 'code lists',
+    toolbar: 'undo redo | bold italic | bullist numlist | code removeformat',
+    forced_root_block: false
+});
