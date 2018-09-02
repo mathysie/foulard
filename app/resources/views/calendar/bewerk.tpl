@@ -3,6 +3,7 @@
 {block pagetitle}<h1>'{$aanvraag_event->getAanvragenLijst()|escape}' bewerken</h1>{/block}
 
 {block scripts append}
+<script type="text/javascript" src="/assets/tinymce/tinymce/tinymce.min.js"></script>
 <script type="text/javascript" src="/assets/js/calendar/bewerk.js"></script>
 {/block}
 
@@ -56,7 +57,7 @@
                 </div>
                 <div class="form-group">
                     <label for="description">Omschrijving</label>
-                    <textarea class="form-control" id="description" name="description" rows="{substr_count($aanvraag_event->event->description, "\n") + 1}" disabled>{$aanvraag_event->event->description}</textarea>
+                    <textarea id="description">{$aanvraag_event->event->description}</textarea>
                 </div>
             </div>
 
@@ -131,7 +132,7 @@
                 </div>
                 <div class="form-group">
                     <label for="description-{$index}">Bijzonderheden</label>
-                    <textarea class="form-control" name="description-{$index}" id="description-{$index}" placeholder="Bijzonderheden">{$aanvraag->description|escape}</textarea>
+                    <textarea class="tinymce" name="description-{$index}" id="description-{$index}" placeholder="Bijzonderheden">{$aanvraag->description}</textarea>
                 </div>
             </div>
             {/foreach}
