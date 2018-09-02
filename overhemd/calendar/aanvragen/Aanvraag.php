@@ -119,12 +119,8 @@ abstract class Aanvraag
 
     protected function parseDescription(string $description): void
     {
-        $description = preg_split('/^Persoonlijk[\s\r\n]*/mi', $description ?? '');
-        $description = count($description) > 1
-                                ? $description[1] : $description[0];
-
         $pattern = sprintf(
-            '/%s: (.*)[\r\n]*/mi',
+            '/(?:<b>)?%s(?:<\/b>)?: ([\w ]+)/i',
             $this->config->get('overhemd.aanvraag.text.contact')
         );
         preg_match($pattern, $description, $match);
@@ -133,7 +129,7 @@ abstract class Aanvraag
         }
 
         $pattern = sprintf(
-            '/%s: (.*)[\s\r\n]*/mi',
+            '/(?:<b>)?%s(?:<\/b>)?: ([\d-\.\s]+)(?:<br>)?/i',
             $this->config->get('overhemd.aanvraag.text.sap')
         );
         preg_match($pattern, $description, $match);
@@ -142,7 +138,7 @@ abstract class Aanvraag
         }
 
         $pattern = sprintf(
-            '/%s:[\s\r\n]*(.*)[\s\r\n]*$/mis',
+            '/(?:<b>)?%s(?:<\/b>)?:\s*(?:<br(?: \/)?>)*(.*)(?:<br>)*$/i',
             $this->config->get('overhemd.aanvraag.text.bijzonder')
         );
         preg_match(

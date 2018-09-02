@@ -164,7 +164,7 @@ class AanvraagEvent extends Event
 
         if ($this->tap_min !=
                 $this->config->get('overhemd.aanvraag.default.tap-min')) {
-            $description .= sprintf("%s: %d\n\n",
+            $description .= sprintf('%s: %d<br><br>',
                 $this->config->get('overhemd.aanvraag.text.tap-min'),
                 $this->tap_min);
         }
@@ -172,29 +172,27 @@ class AanvraagEvent extends Event
         foreach ($this->aanvragen as $key => $aanvraag) {
             if ($aanvraag->hasDescription()) {
                 $aanvragen_description[$key] = sprintf(
-                    "%s '%s':\n",
+                    "<i>%s '%s'</i>",
                     $this->config->get('overhemd.aanvraag.text.borrel'),
                     $aanvraag->summary
                 );
 
                 if ($aanvraag instanceof PersoonlijkAanvraag) {
-                    $aanvragen_description[$key] .=
-                        $this->config->get('overhemd.aanvraag.text.persoonlijk')
-                        . "\n";
+                    $aanvragen_description[$key] .= '<br>' .
+                        $this->config->get('overhemd.aanvraag.text.persoonlijk');
                 }
 
                 if (!empty($aanvraag->contactpersoon)) {
                     $aanvragen_description[$key] .= sprintf(
-                        "%s: %s\n",
+                        '<br><b>%s</b>: %s',
                         $this->config->get('overhemd.aanvraag.text.contact'),
                         $aanvraag->contactpersoon
                     );
                 }
 
                 if (!is_null($aanvraag->sap)) {
-                    var_dump($aanvraag->sap);
                     $aanvragen_description[$key] .= sprintf(
-                        "%s: %d\n",
+                        '<br><b>%s</b>: %d',
                         $this->config->get('overhemd.aanvraag.text.sap'),
                         $aanvraag->sap
                     );
@@ -202,7 +200,7 @@ class AanvraagEvent extends Event
 
                 if (!empty($aanvraag->description)) {
                     $aanvragen_description[$key] .= sprintf(
-                        "%s:\n%s",
+                        '<br><b>%s</b>:<br>%s',
                         $this->config->get('overhemd.aanvraag.text.bijzonder'),
                         $aanvraag->description
                     );
@@ -210,7 +208,7 @@ class AanvraagEvent extends Event
             }
         }
 
-        $description .= implode("\n\n", $aanvragen_description);
+        $description .= implode('<br><br>', $aanvragen_description);
 
         return trim($description);
     }
@@ -262,7 +260,7 @@ class AanvraagEvent extends Event
     protected function parseEventDescription(?string $description, string $aanvraag): string
     {
         $pattern = sprintf(
-            '/[\s\r\n]*%s \'(.*)\':[\s\r\n]+/mi',
+            '/<i>%s \'(.*)\'<\/i>(?:<br>)+/i',
             $this->config->get('overhemd.aanvraag.text.borrel')
         );
         preg_match_all($pattern, $description ?? '', $matches);
