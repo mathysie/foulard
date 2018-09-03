@@ -7,7 +7,7 @@
         {block head}{/block}
     </head>
     <body>
-        <header>
+        <header class="container">
         {capture 'active'}{block active}{/block}{/capture}
             <nav class="navbar navbar-expand-md navbar-light bg-light border fixed-top">
                 <a class="navbar-brand" href="/">
