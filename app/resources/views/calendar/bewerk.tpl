@@ -11,6 +11,11 @@
 {$aanvraag_event->event->summary|escape} bewerken
 {/block}
 
+{block breadcrumbs}
+<li class="breadcrumb-item"><a href="{route route='calendar.overzicht'}">Overzicht</a></li>
+<li class="breadcrumb-item active" aria-current="page">{$aanvraag_event->event->summary|escape} bewerken</li>
+{/block}
+
 {block content append}
 <div class="row">
     <div class="col-12 col-lg-8">

@@ -4,6 +4,10 @@
 
 {block title}Tapschema{/block}
 
+{block breadcrumbs}
+<li class="breadcrumb-item active" aria-current="page">Tapschema</li>
+{/block}
+
 {block scripts append}
 <script type="text/javascript" src="/assets/tinymce/tinymce/tinymce.min.js"></script>
 <script type="text/javascript" src="/assets/js/tapschema/tapmail.js"></script>
