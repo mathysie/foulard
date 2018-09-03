@@ -9,7 +9,7 @@
     <body>
         <header class="container">
         {capture 'active'}{block active}{/block}{/capture}
-            <nav class="navbar navbar-expand-md navbar-light bg-light border fixed-top">
+            <nav class="navbar navbar-expand-md navbar-light bg-light border">
                 <a class="navbar-brand" href="/">
                     <img src="/assets/img/logo.svg" width="30" height="30">
                     &nbsp;Overhemd
@@ -25,8 +25,13 @@
                     </div>
                 </div>
             </nav>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    {block breadcrumbs}{/block}
+                </ol>
+            </nav>
         </header>
-        <main class="container pt-3 my-5">
+        <main class="container">
             {block content}
             {/block}
         </main>
