@@ -2,6 +2,10 @@
 
 {block pagetitle}<h1>Calendar</h1>{/block}
 
+{block breadcrumbs}
+<li class="breadcrumb-item active" aria-current="page">Overzicht</li>
+{/block}
+
 {block content append}
 <form method="get" role="form">
     <div class="form-row">
