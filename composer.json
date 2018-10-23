@@ -18,6 +18,12 @@
 			"overhemd\\": "overhemd"
 		}
 	},
+	"repositories": [
+		{
+			"type": "vcs",
+			"url":  "ict@dlfdmz.liacs.nl:nuno-api.git"
+		}
+	],
 	"require": {
 		"php": ">=7.0.0",
 		"mako/framework": "5.5.*",
@@ -25,7 +31,8 @@
 		"twbs/bootstrap": "^4.1",
 		"components/jquery": "^3.3",
 		"google/apiclient": "^2.0",
-		"tinymce/tinymce": "^4.8"
+		"tinymce/tinymce": "^4.8",
+		"dlf/nuno-api": "^4.0.0"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
