@@ -9,6 +9,7 @@
     <body>
         <header class="container">
         {capture 'active'}{block active}{/block}{/capture}
+        {me}
             <nav class="navbar navbar-expand-md navbar-light bg-light border">
                 <a class="navbar-brand" href="/">
                     <img src="/assets/img/logo.svg" width="30" height="30">
@@ -24,6 +25,9 @@
                         <a class="nav-item nav-link {if $smarty.capture.active=='calendar'}active{/if}" href="{route route='calendar.overzicht'}">Calendar</a>
                     </div>
                 </div>
+                {if $me !== null}
+                <a class="btn btn-primary btn-sm" href="{route route='logout'}"><i class="fas fa-sign-out-alt"></i>&nbsp;Uitloggen</a>
+                {/if}
             </nav>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
