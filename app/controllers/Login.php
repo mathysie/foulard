@@ -63,4 +63,15 @@ class Login extends BaseController
             return $this->redirectResponse('login.ask');
         }
     }
+
+    public function logout()
+    {
+        if (!$this->nuno->isLoggedIn()) {
+            return $this->redirectResponse($this->request->referer());
+        }
+
+        $this->nuno->logout();
+
+        return $this->redirectResponse($this->request->referer());
+    }
 }
