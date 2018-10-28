@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace app\controllers;
 
+use mako\http\response\senders\Redirect;
 use nuno\exception\auth\InvalidCredentialsException;
 use nuno\exception\InvalidStateException;
 use nuno\exception\MembershipFeeException;
@@ -32,7 +33,7 @@ class Login extends BaseController
         return $view->render();
     }
 
-    public function processLogin()
+    public function processLogin(): Redirect
     {
         $gebruikersnaam = $_POST['gebruikersnaam'];
         $wachtwoord = $_POST['wachtwoord'];
@@ -71,7 +72,7 @@ class Login extends BaseController
         }
     }
 
-    public function logout()
+    public function logout(): Redirect
     {
         if (!$this->nuno->isLoggedIn()) {
             return $this->redirectResponse($this->request->referer());
