@@ -86,6 +86,14 @@ class CalendarHelper
         );
     }
 
+    public function deleteEvent(string $id): void
+    {
+        $this->service->events->delete(
+            $this->calendar_id,
+            $id
+        );
+    }
+
     public function insertEvent(Google_Service_Calendar_Event $event): void
     {
         $this->service->events->insert(

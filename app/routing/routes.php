@@ -32,6 +32,7 @@ $routes->group(
         $routes->get('/bewerk/{id}', 'Calendar::bewerkAanvraag', 'calendar.bewerk.aanvraag');
         $routes->post('/bewerk/{id}', 'Calendar::updateAanvraag', 'calendar.update.aanvraag');
         $routes->post('/nieuw/', 'Calendar::nieuweAanvraag', 'calendar.nieuw');
+        $routes->post('/verwijder/{id}', 'Calendar::verwijderAanvraag', 'calendar.verwijder.aanvraag');
     }
 );
 

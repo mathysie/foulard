@@ -186,6 +186,16 @@ class Calendar extends BaseController
         );
     }
 
+    public function verwijderAanvraag($id): Redirect
+    {
+        $aanvraagEvent = $this->calendarHelper->getAanvraagEvent($id);
+        $this->calendarHelper->deleteEvent($aanvraagEvent->event->getId());
+
+        $this->passSuccess();
+
+        return $this->redirectResponse('calendar.overzicht');
+    }
+
     protected function getStart(): OverhemdDateTime
     {
         if (isset($_GET['start'])) {
