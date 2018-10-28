@@ -7,6 +7,7 @@ namespace app\controllers;
 use nuno\exception\auth\InvalidCredentialsException;
 use nuno\exception\InvalidStateException;
 use nuno\exception\MembershipFeeException;
+use Throwable;
 
 class Login extends BaseController
 {
@@ -59,6 +60,12 @@ class Login extends BaseController
             } else {
                 $this->passFieldErrors(['Iets is fout gegaan. Blame het ICT.']);
             }
+
+            return $this->redirectResponse('login.ask');
+        } catch (Throwable $e) {
+            // Stack trace contains username/password, so avoid logging that.
+            $this->logger->error(sprintf('Caught %s: %s', get_class($e), $e->getMessage()));
+            $this->passFieldErrors(['Iets is fout gegaan. Blame het ICT.']);
 
             return $this->redirectResponse('login.ask');
         }
