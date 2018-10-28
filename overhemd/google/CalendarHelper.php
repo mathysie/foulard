@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace overhemd\google;
 
-use overhemd\calendar\CalendarParser;
-use overhemd\calendar\events\AanvraagEvent;
-use overhemd\datetime\OverhemdDateTime;
 use Google_Client;
 use Google_Service_Calendar;
 use Google_Service_Calendar_Event;
 use Google_Service_Exception;
 use mako\config\Config;
 use mako\http\exceptions\RequestException;
+use overhemd\calendar\CalendarParser;
+use overhemd\calendar\events\AanvraagEvent;
+use overhemd\datetime\OverhemdDateTime;
 
 class CalendarHelper
 {
@@ -83,6 +83,14 @@ class CalendarHelper
         return $this->calendarParser->parseEvents(
             $events ?? [],
             $event_class
+        );
+    }
+
+    public function insertEvent(Google_Service_Calendar_Event $event): void
+    {
+        $this->service->events->insert(
+            $this->calendar_id,
+            $event
         );
     }
 

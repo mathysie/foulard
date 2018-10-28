@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace app\controllers;
 
+use Google_Service_Calendar_Event;
 use mako\http\exceptions\MethodNotAllowedException;
 use mako\http\response\senders\Redirect;
 use overhemd\calendar\aanvragen\OverigeAanvraag;
@@ -29,6 +30,9 @@ class Calendar extends BaseController
         $view->assign('einde', $einde);
         $view->assign('events', $events);
 
+        $this->getFieldErrors($view);
+        $this->getSuccess($view);
+
         return $view->render();
     }
 
@@ -43,6 +47,39 @@ class Calendar extends BaseController
         $this->getSuccess($view);
 
         return $view->render();
+    }
+
+    public function nieuweAanvraag(): Redirect
+    {
+        $event = new Google_Service_Calendar_Event();
+
+        if (!empty($_POST['startdatum']) && !empty($_POST['starttijd'])) {
+            $start = new OverhemdDateTime(
+                sprintf('%s %s', $_POST['startdatum'], $_POST['starttijd'])
+            );
+        } else {
+            $start = null;
+        }
+        if (!empty($_POST['einddatum']) && !empty($_POST['eindtijd'])) {
+            $eind = new OverhemdDateTime(
+                sprintf('%s %s', $_POST['einddatum'], $_POST['eindtijd'])
+            );
+        } else {
+            $eind = null;
+        }
+
+        if (null === $start || null === $eind) {
+            $this->passFieldErrors(['Start- of eindmoment incorrect ingevuld.']);
+        }
+
+        $event->setSummary($_POST['summary']);
+        $event->setStart($start->getGoogleDateTime());
+        $event->setEnd($start->getGoogleDateTime());
+
+        $this->calendarHelper->insertEvent($event);
+        $this->passSuccess();
+
+        return $this->redirectResponse('calendar.overzicht');
     }
 
     public function updateAanvraag(string $id): Redirect
