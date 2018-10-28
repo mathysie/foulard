@@ -42,34 +42,24 @@ class Login extends BaseController
         $this->session->putFlash('returnUrl', $returnUrl);
 
         try {
-            if ($this->nuno->login($gebruikersnaam, $wachtwoord)) {
-                return $this->redirectResponse($returnUrl);
-            } else {
-                return $this->redirectResponse('login.ask');
-            }
+            $this->nuno->login($gebruikersnaam, $wachtwoord);
         } catch (InvalidCredentialsException $e) {
             $this->passFieldErrors(['Ongeldige gebruikersnaam of wachtwoord']);
-
-            return $this->redirectResponse('login.ask');
         } catch (MembershipFeeException $e) {
             $this->passFieldErrors(['Je moet nog contributie betalen']);
-
-            return $this->redirectResponse('login.ask');
         } catch (InvalidStateException $e) {
             if ('User is already logged in.' == $e->getMessage()) {
                 $this->passFieldErrors(['Je bent al ingelogd']);
             } else {
                 $this->passFieldErrors(['Iets is fout gegaan. Blame het ICT.']);
             }
-
-            return $this->redirectResponse('login.ask');
         } catch (Throwable $e) {
             // Stack trace contains username/password, so avoid logging that.
             $this->logger->error(sprintf('Caught %s: %s', get_class($e), $e->getMessage()));
             $this->passFieldErrors(['Iets is fout gegaan. Blame het ICT.']);
-
-            return $this->redirectResponse('login.ask');
         }
+
+        return $this->redirectResponse('login.ask');
     }
 
     public function logout(): Redirect
