@@ -101,11 +101,37 @@
             </td>
             <td class="{if $count_aanvragen > 1}align-middle{/if}" rowspan="{$count_aanvragen}">
                 <a class="btn btn-outline-primary" href="{route route='calendar.bewerk.aanvraag' id=$aanvraag_event->event->id}"><i class="far fa-edit"></i>&nbsp;Bewerk</a>
+                <div class="d-none d-md-inline-flex">
+                    <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#bevestig-modal-{$aanvraag_event->event->id}">
+                        <i class="far fa-calendar-times"></i>
+                    </button>
+                </div>
             </td>
             {/if}
         </tr>
         <tr>
         {/foreach}
+        <div class="modal fade" id="bevestig-modal-{$aanvraag_event->event->id}" tabindex="-1" role="dialog" aria-labelledby="modal-{$aanvraag_event->event->id}" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modal-{$aanvraag_event->event->id}">Aanvraag '{$aanvraag_event->event->summary|escape}' verwijderen?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                       Weet je zeker dat je '{$aanvraag_event->event->summary|escape}' wilt verwijderen?
+                     </div>
+                    <div class="modal-footer">
+                        <form method="post" role="form" action="{route route='calendar.verwijder.aanvraag' id=$aanvraag_event->event->id}">
+                            <button type="button" class="btn btn-success" data-dismiss="modal"><i class="fas fa-beer"></i>&nbsp;Nee</button>
+                            <button type="submit" class="btn btn-danger"><i class="fas fa-coffee"></i>&nbsp;Ja</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
         {/foreach}
         </tr>
         {/foreach}
