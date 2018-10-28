@@ -153,11 +153,8 @@
                 </div>
                 {/foreach}
             </div>
+            <button class="btn btn-success my-2" type="submit"><i class="far fa-save"></i>&nbsp;Opslaan</button>
         </form>
     </div>
 </div>
-{/block}
-
-{block actions_left}
-<button class="btn btn-success" type="submit" form="aanvraag-event-bewerk"><i class="far fa-save"></i>&nbsp;Opslaan</button>
 {/block}
