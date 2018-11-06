@@ -25,7 +25,7 @@
 		}
 	],
 	"require": {
-		"php": ">=7.0.0",
+		"php": ">=7.2.0",
 		"mako/framework": "5.5.*",
 		"bertptrs/marty": "^5.2",
 		"twbs/bootstrap": "^4.1",
