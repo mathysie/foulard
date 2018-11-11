@@ -16,8 +16,6 @@ use nuno\NunoClient;
 
 class AuthorizationMiddleware extends Middleware
 {
-    const DB = 'Dagelijks Bestuur van de FooBarcommissie';
-
     protected $nuno;
 
     protected $urlBuilder;
@@ -60,6 +58,6 @@ class AuthorizationMiddleware extends Middleware
 
     protected function verify(FeltUser $me): bool
     {
-        return in_array(self::DB, $me->commissies);
+        return array_key_exists('foobardb', $me->commissies);
     }
 }
