@@ -29,3 +29,9 @@ server: all
 
 server-public: all
 	$(REACTOR) server --port=$(PORT) --address=0.0.0.0
+
+felt-db:
+	# make -C ../felt newdb-psql
+	echo "INSERT INTO commissies (naam, langenaam) VALUES ('foobardb', 'Het DB');" | psql
+	$(eval COMMISSIE_ID=$(shell echo "SELECT id FROM commissies WHERE naam='foobardb';"| psql -tA))
+	echo "INSERT INTO commissies_personen VALUES (1, $(COMMISSIE_ID));" | psql
