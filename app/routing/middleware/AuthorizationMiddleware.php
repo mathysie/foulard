@@ -49,7 +49,9 @@ class AuthorizationMiddleware extends Middleware
             return $response;
         }
 
-        if (!$this->verify($this->nuno->me())) {
+        $user = $this->nuno->me();
+
+        if (!$this->verify($user)) {
             throw new RequestException(403, 'Onvoldoende rechten.');
         }
 
