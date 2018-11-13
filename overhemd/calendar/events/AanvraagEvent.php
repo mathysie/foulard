@@ -274,10 +274,7 @@ class AanvraagEvent extends Event
             return '';
         }
 
-        $pattern = sprintf(
-            '/<i>%s \'(.*)\'<\/i>(?:<br>)+/i',
-            $this->config->get('overhemd.aanvraag.text.borrel')
-        );
+        $pattern = $this->descriptionHelper->getPattern('aanvragen');
         preg_match_all($pattern, $description, $matches);
 
         foreach ($matches[1] as $key => $match) {
