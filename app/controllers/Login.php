@@ -65,11 +65,11 @@ class Login extends BaseController
     public function logout(): Redirect
     {
         if (!$this->nuno->isLoggedIn()) {
-            return $this->redirectResponse($this->request->referer());
+            return $this->redirectResponse($this->request->referer('/'));
         }
 
         $this->nuno->logout();
 
-        return $this->redirectResponse($this->request->referer());
+        return $this->redirectResponse($this->request->referer('/'));
     }
 }
