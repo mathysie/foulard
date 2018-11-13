@@ -259,11 +259,15 @@ class AanvraagEvent extends Event
 
     protected function parseEventDescription(?string $description, string $aanvraag): string
     {
+        if (is_null($description)) {
+            return '';
+        }
+
         $pattern = sprintf(
             '/<i>%s \'(.*)\'<\/i>(?:<br>)+/i',
             $this->config->get('overhemd.aanvraag.text.borrel')
         );
-        preg_match_all($pattern, $description ?? '', $matches);
+        preg_match_all($pattern, $description, $matches);
 
         foreach ($matches[1] as $key => $match) {
             if (preg_match("/{$match}/i", $aanvraag)) {
