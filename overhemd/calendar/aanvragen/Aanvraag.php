@@ -119,28 +119,19 @@ abstract class Aanvraag
 
     protected function parseDescription(string $description): void
     {
-        $pattern = sprintf(
-            '/(?:<b>)?%s(?:<\/b>)?: ([\w ]+)/i',
-            $this->config->get('overhemd.aanvraag.text.contact')
-        );
+        $pattern = $this->event->descriptionHelper->getPattern('contact');
         preg_match($pattern, $description, $match);
         if (isset($match[1])) {
             $this->contactpersoon = $match[1];
         }
 
-        $pattern = sprintf(
-            '/(?:<b>)?%s(?:<\/b>)?: ([\d-\.\s]+)(?:<br>)?/i',
-            $this->config->get('overhemd.aanvraag.text.sap')
-        );
+        $pattern = $this->event->descriptionHelper->getPattern('sap');
         preg_match($pattern, $description, $match);
         if (isset($match[1])) {
             $this->setSap($match[1]);
         }
 
-        $pattern = sprintf(
-            '/(?:<b>)?%s(?:<\/b>)?:\s*(?:<br(?: \/)?>)*(.*)(?:<br>)*$/i',
-            $this->config->get('overhemd.aanvraag.text.bijzonder')
-        );
+        $pattern = $this->event->descriptionHelper->getPattern('bijzonder');
         preg_match(
             $pattern,
             $description,

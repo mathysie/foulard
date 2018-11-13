@@ -21,6 +21,21 @@ class DescriptionHelper
             'text'   => '/%s \'([\w- ]*)\'[\r\n\s]+/i',
             'config' => 'overhemd.aanvraag.text.borrel',
         ],
+        'contact' => [
+            'html'   => '/(?:<b>)?%s(?:<\/b>)?: ([\w- ]+)/i',
+            'text'   => '/%s: ([\w- ]+)/i',
+            'config' => 'overhemd.aanvraag.text.contact',
+        ],
+        'sap' => [
+            'html'   => '/(?:<b>)?%s(?:<\/b>)?: ([\d-\.\s]+)(?:<br>)?/i',
+            'text'   => '/%s: ([\d-\.\s]+)[\r\n\s]?/i',
+            'config' => 'overhemd.aanvraag.text.sap',
+        ],
+        'bijzonder' => [
+            'html'   => '/(?:<b>)?%s(?:<\/b>)?:\s*(?:<br(?: \/)?>)*(.*)(?:<br>)*$/i',
+            'text'   => '/%s:[\s\r\n]*(.*)[\s\r\n]*$/i',
+            'config' => 'overhemd.aanvraag.text.bijzonder',
+        ],
     ];
 
     public function __construct(Config $config, ?string $description)
