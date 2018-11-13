@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace overhemd\calendar;
 
-use overhemd\google\CalendarHelper;
 use Google_Service_Calendar_Event;
 use mako\application\Application;
 use mako\config\Config;
+use overhemd\google\CalendarHelper;
 
 abstract class Event
 {

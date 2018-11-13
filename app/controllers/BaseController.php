@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace app\controllers;
 
-use overhemd\google\GoogleAuthenticationException;
 use mako\http\routing\Controller;
 use mako\view\View;
+use overhemd\google\GoogleAuthenticationException;
 
 abstract class BaseController extends Controller
 {

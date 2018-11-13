@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace overhemd\calendar\events;
 
-use overhemd\calendar\Event;
 use Google_Service_Calendar_Event;
+use overhemd\calendar\Event;
 
 class SchoonmaakEvent extends Event
 {
