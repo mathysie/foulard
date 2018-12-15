@@ -7,6 +7,7 @@ namespace overhemd\calendar\aanvragen;
 use mako\application\Application;
 use mako\config\Config;
 use mako\validator\ValidatorFactory;
+use overhemd\calendar\helpers\DescriptionHelper;
 
 abstract class Aanvraag
 {
@@ -33,6 +34,9 @@ abstract class Aanvraag
     /** @var int|null */
     public $sap;
 
+    /** @var descriptionHelper */
+    protected $descriptionHelper;
+
     /**
      * @var Config
      */
@@ -49,6 +53,10 @@ abstract class Aanvraag
     {
         $container = Application::instance()->getContainer();
         $this->config = $container->get(Config::class);
+        $this->descriptionHelper = new DescriptionHelper(
+            $this->config,
+            $description
+        );
 
         $this->setKWN($summary);
         $this->setPers($summary);
@@ -119,19 +127,19 @@ abstract class Aanvraag
 
     protected function parseDescription(string $description): void
     {
-        $pattern = $this->event->descriptionHelper->getPattern('contact');
+        $pattern = $this->descriptionHelper->getPattern('contact');
         preg_match($pattern, $description, $match);
         if (isset($match[1])) {
             $this->contactpersoon = $match[1];
         }
 
-        $pattern = $this->event->descriptionHelper->getPattern('sap');
+        $pattern = $this->descriptionHelper->getPattern('sap');
         preg_match($pattern, $description, $match);
         if (isset($match[1])) {
             $this->setSap($match[1]);
         }
 
-        $pattern = $this->event->descriptionHelper->getPattern('bijzonder');
+        $pattern = $this->descriptionHelper->getPattern('bijzonder');
         preg_match(
             $pattern,
             $description,
