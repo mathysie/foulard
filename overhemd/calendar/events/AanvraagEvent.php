@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace overhemd\calendar\events;
 
 use Google_Service_Calendar_Event;
+use mako\application\Application;
 use mako\validator\Validator;
 use mako\validator\ValidatorFactory;
 use overhemd\calendar\aanvragen\borrels\AegirBorrel;
@@ -12,6 +13,7 @@ use overhemd\calendar\aanvragen\borrels\RegulierBorrel;
 use overhemd\calendar\aanvragen\borrels\TappersBedankBorrel;
 use overhemd\calendar\aanvragen\PersoonlijkAanvraag;
 use overhemd\calendar\Event;
+use overhemd\calendar\helpers\DescriptionHelper;
 use overhemd\datetime\GoogleDateTime;
 use overhemd\datetime\OverhemdDateTime;
 
@@ -50,6 +52,9 @@ class AanvraagEvent extends Event
         'Tappersbedankborrel' => TappersBedankBorrel::class,
     ];
 
+    /** @var DescriptionHelper */
+    protected $descriptionHelper;
+
     /** @var array */
     protected $rules = [
         'tap_min'    => ['integer'],
@@ -65,6 +70,12 @@ class AanvraagEvent extends Event
         Google_Service_Calendar_Event $event
     ) {
         parent::__construct($event);
+
+        $container = Application::instance()->getContainer();
+        $this->descriptionHelper = new DescriptionHelper(
+            $this->config,
+            $this->event->getDescription()
+        );
 
         $this->type = 'aanvraag';
         $this->setTappers($event->summary);
@@ -259,11 +270,12 @@ class AanvraagEvent extends Event
 
     protected function parseEventDescription(?string $description, string $aanvraag): string
     {
-        $pattern = sprintf(
-            '/<i>%s \'(.*)\'<\/i>(?:<br>)+/i',
-            $this->config->get('overhemd.aanvraag.text.borrel')
-        );
-        preg_match_all($pattern, $description ?? '', $matches);
+        if (is_null($description)) {
+            return '';
+        }
+
+        $pattern = $this->descriptionHelper->getPattern('aanvragen');
+        preg_match_all($pattern, $description, $matches);
 
         foreach ($matches[1] as $key => $match) {
             if (preg_match("/{$match}/i", $aanvraag)) {
