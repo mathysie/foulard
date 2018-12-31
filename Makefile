@@ -32,6 +32,7 @@ server-public: all
 
 felt-db:
 	make -C ../felt newdb-psql
-	echo "INSERT INTO commissies (naam, langenaam) VALUES ('foobardb', 'Het DB');" | psql
+	echo "INSERT INTO commissies (naam, langenaam, langenaam_en) VALUES ('foobardb', 'Het DB', 'DB');" | psql
+	sleep 1
 	$(eval COMMISSIE_ID=$(shell echo "SELECT id FROM commissies WHERE naam='foobardb';"| psql -tA))
 	echo "INSERT INTO commissies_personen VALUES (1, $(COMMISSIE_ID));" | psql
