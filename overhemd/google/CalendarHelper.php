@@ -130,11 +130,11 @@ class CalendarHelper
     {
         $client = new Google_Client();
         $client->setApplicationName('Overhemd');
-        $client->setScopes(Google_Service_Calendar::CALENDAR);
+        $client->setScopes(Google_Service_Calendar::CALENDAR_EVENTS);
 
         $credentialsPath = 'overhemd/google/credentials.json';
         if (file_exists($credentialsPath)) {
-            $client->setAuthConfig('overhemd/google/credentials.json');
+            $client->setAuthConfig($credentialsPath);
         } else {
             throw new GoogleAuthenticationException();
         }
@@ -142,7 +142,7 @@ class CalendarHelper
 
         // Load previously authorized credentials from a file.
         $tokenPath = 'overhemd/google/token.json';
-        if (file_exists($credentialsPath)) {
+        if (file_exists($tokenPath)) {
             $accessToken = json_decode(file_get_contents($tokenPath), true);
         } else {
             throw new GoogleAuthenticationException();
@@ -153,7 +153,7 @@ class CalendarHelper
         if ($client->isAccessTokenExpired()) {
             $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
             file_put_contents(
-                $credentialsPath,
+                $tokenPath,
                 json_encode($client->getAccessToken())
             );
         }
