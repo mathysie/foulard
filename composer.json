@@ -26,7 +26,7 @@
 	],
 	"require": {
 		"php": ">=7.2.0",
-		"mako/framework": "5.5.*",
+		"mako/framework": "5.7.*",
 		"bertptrs/marty": "^5.2",
 		"twbs/bootstrap": "^4.1",
 		"components/jquery": "^3.3",
