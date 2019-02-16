@@ -8,6 +8,7 @@ use DateInterval;
 use overhemd\calendar\events\AanvraagEvent;
 use overhemd\calendar\events\aanvragen\borrels\AegirBorrel;
 use overhemd\calendar\events\aanvragen\borrels\TappersBedankBorrel;
+use overhemd\calendar\events\aanvragen\borrels\TaraBorrel;
 use overhemd\calendar\events\SchoonmaakEvent;
 use overhemd\datetime\OverhemdDateTime;
 
@@ -126,6 +127,7 @@ class Tapschema extends BaseController
     ): void {
         foreach ($event->aanvragen as $aanvraag) {
             if ($aanvraag instanceof AegirBorrel
+                || $aanvraag instanceof TaraBorrel
                 || $aanvraag instanceof TappersBedankBorrel) {
                 $overige_borrels[] = $aanvraag->getTitel();
             } elseif ($aanvraag instanceof RegulierBorrel) {

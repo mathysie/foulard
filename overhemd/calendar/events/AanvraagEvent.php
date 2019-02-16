@@ -11,6 +11,7 @@ use mako\validator\ValidatorFactory;
 use overhemd\calendar\aanvragen\borrels\AegirBorrel;
 use overhemd\calendar\aanvragen\borrels\RegulierBorrel;
 use overhemd\calendar\aanvragen\borrels\TappersBedankBorrel;
+use overhemd\calendar\aanvragen\borrels\TaraBorrel;
 use overhemd\calendar\aanvragen\PersoonlijkAanvraag;
 use overhemd\calendar\Event;
 use overhemd\calendar\helpers\DescriptionHelper;
@@ -50,6 +51,7 @@ class AanvraagEvent extends Event
         'Ægirborrel'          => AegirBorrel::class,
         'Regulier'            => RegulierBorrel::class,
         'Tappersbedankborrel' => TappersBedankBorrel::class,
+        'Taraborrel'          => TaraBorrel::class,
     ];
 
     /** @var DescriptionHelper */
